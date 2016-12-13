@@ -1,0 +1,25 @@
+#!/bin/bash
+# midnight reset of all gpio pins, and clears the job queue.
+echo "$0" >> /var/log/pisystem.log
+gpio -g write 14 1
+echo "$(date +%D-%T) - pin 14 (Heating) turned off" >> /var/log/pisystem.log
+sleep 0.5
+gpio -g write 15 1
+echo "$(date +%D-%T) - pin 15 (Hot Water) turned off" >> /var/log/pisystem.log
+sleep 0.5
+gpio -g write 23 1
+echo "$(date +%D-%T) - pin 23 (Box Latch) turned off" >> /var/log/pisystem.log
+sleep 0.5
+gpio -g write 24 1
+echo "$(date +%D-%T) - pin 24 (Gate Latch) turned off" >> /var/log/pisystem.log
+
+for i in $(sudo atq | cut -f 1); do atrm $i; done
+echo "$(date +%D-%T) - Queue cleared" >> /var/log/pisystem.log
+
+
+echo `date +%D` >> /var/log/water.log
+echo `date +%D`>> /var/log/heat.log
+echo `date +%D` >> /var/log/webui.log
+echo `date +%D` >> /var/log/pisystem.log
+
+

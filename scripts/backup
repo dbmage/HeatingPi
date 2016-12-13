@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cp -r /var/www/* /media/sdbackup/www/
+cp -r /scripts/* /media/sdbackup/scripts/
+cp -r /home/joe/crons/* /media/sdbackup/crons/
+cp /var/pp*.php /media/sdbackup/
+
+dpkg --get-selections > /home/joe/Package.list
+cp -R /etc/apt/sources.list* /home/joe/
+sudo apt-key exportall > /home/joe/Repo.keys
+
+scp /home/joe/Package.list alien:/media/dad/
+scp /home/joe/sources.list alien:/media/dad/
+scp /home/joe/Repo.keys  alien:/media/dad/
+scp -r /var/www/ alien:/media/dad/
+scp -r /scripts/ alien:/media/dad/
+scp -r /home/joe/crons alien:/media/dad/
+scp /var/pp*.php alien:/media/dad/

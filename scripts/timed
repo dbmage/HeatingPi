@@ -1,0 +1,49 @@
+#!/bin/bash
+# $1 is the number
+# $2 is the time format (hours, minutes etc)
+# $3 is the script that called this one
+echo "$0 started - $(date +%D-%T)" >> /var/www/log
+new=$(date -d +"$1 $2" +"%H:%M")
+check=$(date +"%H:%M" )
+user=$(whoami)
+echo "$0 - $user Timed script $check" >> /var/www/log
+echo "$0 - $1 $2 $3" >> /var/www/log
+if [ -z $1 ] || [ -z $2 ]; then
+	echo "$0 - No data input" >> /var/www/log
+	exit 1
+fi
+
+if [ $3 == "water" ]; then
+	que="r"
+	element="Hot Water"
+	txt="onw"
+	nque="r"
+	echo "$0 - water accepted $check" >> /var/www/log
+elif [ $3 == "heat" ]; then
+	que="g"
+	element="Heating"
+	txt="onh"
+	nque="g"
+	echo "$0 - heat accepted $check" >> /var/www/log
+else
+	echo "$0 - No match found $check" >> /var/www/log
+	exit 1
+fi
+
+atqc=$(sudo atq -q $que | grep ${new:0:3})
+
+if [ ! -z "$atqc" ]; then
+	echo "$0 - clashes found $atqc $check" >> /var/www/log
+	sudo atrm ${atqc:0:3}
+	at $new -q $nque < "/scripts/jobs/${3}off.txt"
+	echo "" > /var/www/${txt}.txt | at $new
+	echo "$0 - The $element is on until: $new" > /var/www/${txt}.txt
+	exit 0
+else
+	echo "$0 - data input, attempting to create job" >> /var/www/log
+	at $new -q $nque < "/scripts/jobs/${3}off.txt"
+	echo "" > /var/www/${txt}.txt | at $new
+	echo "$0 - The $element is on until: $new" > /var/www/${txt}.txt
+fi
+
+exit 0

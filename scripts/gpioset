@@ -1,0 +1,23 @@
+echo 14 > /sys/class/gpio/export
+echo 15 > /sys/class/gpio/export
+echo 18 > /sys/class/gpio/export
+echo 23 > /sys/class/gpio/export
+echo 24 > /sys/class/gpio/export
+
+gpio -g mode 14 out
+gpio -g mode 15 out
+gpio -g mode 18 out
+gpio -g mode 23 out
+gpio -g mode 24 out
+
+gpio -g write 14 1
+gpio -g write 15 1
+gpio -g write 18 1
+gpio -g write 23 1
+gpio -g write 24 1
+
+chmod -R +x /sys/class/gpio/
+sleep 600
+service ntp stop
+ntpdate ntp1.isp.sky.com
+

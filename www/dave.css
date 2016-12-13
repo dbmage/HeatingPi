@@ -1,0 +1,86 @@
+body
+{
+background-color: black;
+color: white;
+font-size: 20px;
+max-width: 350px;
+}
+
+a
+{
+  color: #A0A0A0;
+  text-decoration: none;
+}
+
+.admin
+{
+float: right;
+}
+
+.box, .gate
+{
+font-size: 15px;
+width: 70px;
+}
+
+.login
+{
+position: fixed;
+right: 20px;
+top: 15px;
+width: 260px;
+height: 150px;
+}
+
+h3.pw,d.pw
+{
+display: inline;
+padding-right: 10px;
+}
+
+input
+{
+width: 90px;
+height: 60px;
+font-size: 18px;
+white-space: normal;
+margin-bottom: 10px;
+}
+
+.schedule
+{
+padding-right: 5px;
+}
+
+.timebox, button
+{
+height: 40px;
+width: 70px;
+}
+
+.pw
+{
+width: 120px;
+height: 40px;
+}
+
+.therm
+{
+word-wrap: break-word;
+width: 130px;
+}
+
+d
+{
+padding-right: 10px;
+}
+
+c
+{
+clear: right;
+}
+
+.nopad
+{
+margin: 0px;
+}

@@ -1,0 +1,97 @@
+#!/bin/bash
+
+who=$(whoami)
+db="timer"
+user="root"
+pass="yst94*"
+DOW=$(date +%A)
+DAM=$(date +%d%m%y)
+readarray bank < /scripts/bankholidays
+
+if [ $(date +%I) != 00 ]; then
+# Clear job queue
+	for ii in $(sudo atq -q w | cut -f 1); do atrm $ii; done
+	for ii in $(sudo atq -q r | cut -f 1); do atrm $ii; done
+	for ii in $(sudo atq -q h | cut -f 1); do atrm $ii; done
+	for ii in $(sudo atq -q g | cut -f 1); do atrm $ii; done
+fi
+echo "$0" >> /var/log/pisystem.log
+
+if [ $(date +%I) = 00 ]; then
+# Check if today is a bank holiday
+	for j in "${bank[@]}"
+	do
+	        if [ $DAM = $j ]; then
+	                table="Set10"
+			if [ $(date +%e) = 1 ]; then
+			        MAILDATE="$(date +%e)st"
+			elif [ $(date +%e) = 2 ]; then
+			        MAILDATE="$(date +%e)nd"
+			elif [ $(date +%e) = 3 ]; then
+			        MAILDATE="$(date +%e)rd"
+			else
+		        	MAILDATE="$(date +%e)th"
+			fi
+        	fi
+	done
+fi
+if [ "$table" != "Set10" ]; then
+        table=$(cat /var/www/active)
+fi
+echo "$(date +%D-%T) - $table" >> /var/log/pisystem.log
+
+#schedule=$(echo "SELECT * from $table WHERE DAY = '$DOW'" | mysql $db -u $user -p$pass)
+for a in CHON1 CHON2 CHON3 CHON4 CHON5
+do
+i=$(mysql -u $user -p$pass $db -se "select $a from $table where DAY = '$DOW'" | cut -f2)
+	if [ -z $i ]; then
+		echo "" > /dev/null
+	else
+		at $i -q h < "/scripts/jobs/heaton.txt"
+	fi
+	echo "$(date +%D-%T) - $a - $i" >> /var/log/pisystem.log
+#read answer
+done
+
+for a in CHOFF1 CHOFF2 CHOFF3 CHOFF4 CHOFF5
+do
+i=$(mysql $db -u $user -p$pass -se "select $a from $table where DAY = '$DOW'" | cut -f2)
+	if [ -z $i ]; then
+		echo "" > /dev/null
+	else
+		at $i -q g < "/scripts/jobs/heatoff.txt"
+	fi
+	echo "$(date +%D-%T) - $a - $i" >> /var/log/pisystem.log
+done
+
+
+
+
+for i in HWON1 HWON2 HWON3 HWON4
+do
+a=$(mysql $db -u $user -p$pass -se "select $i from $table where DAY = '$DOW'" | cut -f2)
+	if [ -z $a ]; then
+		echo "" > /dev/null
+	else
+		at $a -q w < "/scripts/jobs/wateron.txt"
+	fi
+	echo "$(date +%D-%T) - $i - $a" >> /var/log/pisystem.log
+done
+
+for i in HWOFF1 HWOFF2 HWOFF3 HWOFF4
+do
+a=$(mysql $db -u $user -p$pass -se "select $i from $table where DAY = '$DOW'" | cut -f2)
+	if [ -z $a ]; then
+		echo "" > /dev/null
+	else
+		at $a -q r < "/scripts/jobs/wateroff.txt"
+	fi
+	echo "$(date +%D-%T) - $i - $a" >> /var/log/pisystem.log
+done
+
+if [ "$who" != "www-data" ]; then
+	for i in 02 04 06 08 10 12 14 16 18 20 22 00
+	do
+		at $i:10 -q z < "/scripts/jobs/ethps.txt"
+	done
+fi

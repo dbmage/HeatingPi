@@ -1,0 +1,35 @@
+#!/bin/bash
+timer1=$(date +"%I" -d "+$1 Hours")
+new=$(date +"%I")
+
+#echo $timer1
+#echo $new
+while [ $new -le $timer1 ]
+do
+job=$(atq -q $2 | grep ${new}: | cut -c 1-2 | wc -l)
+if [ -z $job ]; then
+return
+
+else
+i="1"
+#echo "starting job while loop"
+
+
+while [ $i -le $job ]; do
+#echo "start of job while"
+find=$(atq -q $2 | grep ${new}: | sed -n 1p | cut -c 1-2)
+#echo $find
+atrm $find
+#echo "atrm $find "
+#echo "at job removal done"
+i=$(($i+1))
+#echo "end of job while"
+done
+fi
+
+
+#echo "ending original loop"
+new=$(($new+1))
+#echo "$new"
+#echo ""
+done

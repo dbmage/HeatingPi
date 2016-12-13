@@ -1,0 +1,62 @@
+#!/bin/bash
+
+state=$1
+timer=$2
+user=$(whoami)
+user=${user^}
+tcheck=$(date +%T | cut -c 1-3)
+
+if [ $user = "www-data" ]; then
+user="the Webserver"
+fi
+
+if [ -z $state ]; then
+	exit 1
+
+elif [ $state == "on" ] && [ -z $timer ]; then
+	echo "Run by $user with state "$1" at $(date +%T)" >> /var/log/water.log
+	echo "" >> /var/log/water.log
+	echo "" > /var/www/onw.txt
+	echo "on" > /var/www/water.txt
+	gpio -g write 15 0
+	check=$(atq -q r | grep ^$tcheck | wc -l)
+	if [ $check -gt 0 ]; then
+		atrm $(atq -q r | cut -f1)
+	fi
+	exit 0
+
+elif [ $state == "on" ] && [ $timer -gt 0 ]; then
+	echo "Run by $user with state "$1" & timer "$2" at $(date +%T)" >> /var/log/water.log
+	echo "" >> /var/log/water.log
+        if [ $timer -lt "25" ] && [ $timer -gt "0" ]; then
+        	frame="hours"
+        else
+	        frame="minutes"
+        fi
+	time=$(date -d "+$timer $frame" +"%T")
+	/bin/bash /scripts/timed $timer $frame water
+	gpio -g write 15 0
+	echo "on" > /var/www/water.txt
+	echo "The Hot Water is on until: $time" > /var/www/onw.txt
+        check=$(atq -q r | grep ^$tcheck | wc -l)
+        if [ $check -gt 0 ]; then
+                atrm $(atq -q r | cut -f1)
+        fi
+	exit 0
+
+elif [ $state == "off" ]; then
+	echo "Run by $user with state "$1" at $(date +%T)" >> /var/log/water.log
+	echo "" >> /var/log/water.log
+	echo "" > /var/www/onw.txt
+	echo "off" > /var/www/water.txt
+	gpio -g write 15 1
+	check=$(atq -q w | grep ^$tcheck | wc -l)
+	if [ $check -gt 0 ]; then
+		atrm $(atq -q w | cut -f1)
+	fi
+	exit 0
+
+else
+	exit 1
+
+fi

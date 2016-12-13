@@ -1,0 +1,37 @@
+#!/bin/bash
+
+for i in $*
+do
+
+check=$(cat /sys/class/gpio/gpio$i/value)
+
+if [ $check = "1" ]; then
+action=0
+state="on"
+else
+action=1
+state="off"
+fi
+
+gpio -g write $i $action
+
+#echo "$i is $state"
+
+if [ $i == 23 ] || [ $i == 24 ]; then
+sleep 5
+check=$(cat /sys/class/gpio/gpio$i/value)
+
+if [ $check = "1" ]; then
+action=0
+state="on"
+else
+action=1
+state="off"
+fi
+
+gpio -g write $i $action
+#echo "$i is $state"
+
+fi
+done
+

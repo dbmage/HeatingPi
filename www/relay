@@ -1,0 +1,33 @@
+#!/bin/bash
+
+check=$(cat /sys/class/gpio/gpio$1/value)
+echo "RELAY script - ran with number $1" >> /var/www/log
+if [ $check = "1" ]; then
+action=0
+state="on"
+else
+action=1
+state="off"
+fi
+echo "RELAY script - $action" >> /var/www/log
+gpio -g write $1 $action
+
+echo "$1 is $state"  >> /var/www/log
+
+if [ $1 == 23 ] || [ $1 == 24 ]; then
+sleep 5
+check=$(cat /sys/class/gpio/gpio$1/value)
+echo "sleep done" >> /var/www/log
+if [ $check = "1" ]; then
+action=0
+state="on"
+else
+action=1
+state="off"
+fi
+
+gpio -g write $1 $action
+echo "$1 is $state"  >> /var/www/log
+
+fi
+
