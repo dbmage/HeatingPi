@@ -3,7 +3,7 @@ whoami=$(whoami)
 dir=$(pwd | rev | cut -d "/" -f1 | rev)
 a=1
 ip=$(ifconfig eth0 | grep 'inet addr' | cut -d":" -f2 | cut -d" " -f1 | awk '{ print $1 }')
-if [ $1 && $1 == "-nonpi" ]; then
+if [ $1 ] && [ $1 == "-nonpi" ]; then
     arch=1
 else
     arch=$(uname -m | grep arm | wc -c)
@@ -11,7 +11,7 @@ fi
 
 if [ $whoami != "root" ]; then ## check runnning as root
         echo "Please run as root"
-	exit 1
+        exit 1
 fi
 if [ $dir != "scripts" ]; then ## confirm correct folder
     echo "Cannot find required files"
@@ -35,7 +35,7 @@ else
 fi
 ##
 
-funtion setpassword{ ## Get password for heating control user ##
+function setpassword { ## Get password for heating control user ##
     while [[ $a == "1" ]]; do
         echo -n "Please enter a password for the heating control user: "
         read -s firstpw
@@ -51,17 +51,6 @@ funtion setpassword{ ## Get password for heating control user ##
 }
 
 function copyingstuff {
-    echo "Do you require hot water control?"
-    echo "(If you are unsure select no)"
-    echo -n "Yes/No (N)"
-    read answer
-    if [ $answer = "" || $answer =~ "n|N|No|no|NO" ]; then
-        rm www/index1w.php
-        mv www/index1h.php www/index1.php
-    else
-        rm www/index1h.php
-        mv www/index1w.php www/index1.php
-    fi
     echo -e "\nCopying files..."
     ( cp -r scripts/ /scripts/ && cp -r www/ /var/ && cp *.php /var/ ) || { echo "Copying failed" && echo $FUNCNAME > ./.progress && exit 1; }
     echo "done"
@@ -122,7 +111,4 @@ function ipset {
     fi
 }
 
-echo "
-
-
-
+echo -e "Complete!\nYou can now access the control page by going to \"http://$ip/\" on your phone/laptop/tablet etc\n"
