@@ -91,6 +91,19 @@ function copyingstuff {
     addusertopi
 }
 
+function whatuse {
+    echo -n "Will you be using the system for heating only or hot water too? (h/hw) [h]"
+    read usage
+    if [[ $usage eq "" || $usage eq "h" ]]; then
+        mv www/index1h.php www/index1.php
+    else if [[ $usage eq "hw" ]]; then
+        mv www/index1hw.php www/index1.php
+    else
+        echo "Incorrect answer... QUITTING!" && echo $FUNCNAME > ./.progress && exit 1
+    fi
+    copyingstuff
+}
+
 function setpassword { ## Get password for heating control user ##
     while [[ $a == "1" ]]; do
         echo -n "Please enter a password for the heating control user: "
@@ -103,7 +116,7 @@ function setpassword { ## Get password for heating control user ##
         fi
     done
     sed -i "s/PASSWORDGOESHERE/$firstpw/g" pp*.php
-    copyingstuff
+    whatuse
 }
 
 ## Main function ##
