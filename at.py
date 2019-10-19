@@ -14,7 +14,8 @@ def runOsCmd(command,cmdin=None):
             out.stdin.write(cmdin.encode())
         output,errors = out.communicate()
         if errors:
-            return errors
+            # Log errors here
+            return False
         return output
     except:
         return False
@@ -41,20 +42,20 @@ def getJobsList(queue):
 
 def addJob(jobtime, queue, command):
     status = runOsCmd(['at', jobtime, "-q%s" % (queue)], cmdin=command)
-    if not status:
+    if isinstance(status, bool):
         return False
     return status.decode('utf-8').split('\n')[1].split(' ')[1]
 
 def addJobFromFile(jobtime, queue, file):
     filecontents = open(file).read()
     status = runOsCmd(['at', jobtime, "-q%s" % (queue)], cmdin=filecontents)
-    if not status:
+    if isinstance(status, bool):
         return False
     return status.decode('utf-8').split('\n')[1].split(' ')[1]
 
 def removeJob(jobid):
     status = runOsCmd(['atrm', jobid])
-    if not status:
+    if isinstance(status, bool):
         return False
     return True
 
