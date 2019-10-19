@@ -30,4 +30,3 @@ gpio -g write $1 $action
 echo "$1 is $state"  >> /var/www/log
 
 fi
-
