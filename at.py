@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 def getJobsList(queue):
-    out = subprocess.Popen(['wc', '-l', 'my_text_file.txt'],
+    out = subprocess.Popen(['atq', "-q%s" % (queue)],
            stdout=subprocess.PIPE,
            stderr=subprocess.STDOUT)
     output,errors = out.communicate()
