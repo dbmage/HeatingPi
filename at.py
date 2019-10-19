@@ -2,13 +2,16 @@ import os
 import sys
 import subprocess
 
-def runOsCmd(command):
+def runOsCmd(command,cmdin=None):
     if not isinstance(command, list):
         return False
     try:
         out = subprocess.Popen(command,
+               stdin=subprocess.PIPE,
                stdout=subprocess.PIPE,
                stderr=subprocess.STDOUT)
+        if cmdin != None:
+            out.stdin.write(cmdin.encode())
         output,errors = out.communicate()
         if errors:
             return errors
@@ -36,17 +39,18 @@ def getJobsList(queue):
         }
     return jobs
 
-# def addJob(jobtime, queue, command):
-#     status = runOsCmd(['at', jobtime, "-q%s" % (queue), "-c %s" % (command)])
-#     if not status:
-#         return False
-#     return True
-
-def addJobFromFile(jobtime, queue, file):
-    status = runOsCmd(['at', jobtime, "-q%s" % (queue), '<',  file])
+def addJob(jobtime, queue, command):
+    status = runOsCmd(['at', jobtime, "-q%s" % (queue)], stdin=command)
     if not status:
         return False
-    return True
+    return status.decode('utf-8').split('\n')[1].split(' ')[1]
+
+def addJobFromFile(jobtime, queue, file):
+    filecontents = open(file).read()
+    status = runOsCmd(['at', jobtime, "-q%s" % (queue)], cmdin=filecontents)
+    if not status:
+        return False
+    return status.decode('utf-8').split('\n')[1].split(' ')[1]
 
 def removeJob(jobid):
     status = runOsCmd(['atrm', jobid])
