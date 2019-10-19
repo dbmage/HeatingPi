@@ -9,5 +9,5 @@ opposite setting.
 The webUI is written in php and <i>shell_exec</i>'s the scripts to perform the required task. The UI is currently set to asks for 
 a password set by the user, it can be set to check whether the connection is local or remote and not ask for the password locally.
 
-The simple is currently very simple, but it works and is very customisable. It is being used and is "<i>upgraded</i>" as and when one of
+The system is currently very simple, but it works and is very customisable. It is being used and is "<i>upgraded</i>" as and when one of
 the two users think of an upgrade to the system.
