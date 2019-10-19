@@ -40,7 +40,7 @@ def getJobsList(queue):
     return jobs
 
 def addJob(jobtime, queue, command):
-    status = runOsCmd(['at', jobtime, "-q%s" % (queue)], stdin=command)
+    status = runOsCmd(['at', jobtime, "-q%s" % (queue)], cmdin=command)
     if not status:
         return False
     return status.decode('utf-8').split('\n')[1].split(' ')[1]
