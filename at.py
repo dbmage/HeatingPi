@@ -9,7 +9,23 @@ def getJobsList(queue):
     output,errors = out.communicate()
     if errors:
         return errors
-    return output
+    jobs = {}
+    jobqueue = output.decode('utf-8').split('\n')
+    for job in jobqueue:
+        if len(job) < 1:
+            continue
+        job = job.replace('\t', ' ')
+        jobid, jobday, jobmonth, jobdate, jobtime, jobyear, jobqueue, jobuser = job.split(' ')
+        jobs[jobid] = {
+            'time' : jobtime,
+            'day' : jobday,
+            'date' : jobdate,
+            'month' : jobmonth,
+            'year' : jobyear,
+            'queue' : jobqueue,
+            'user' : jobuser
+        }
+    return jobs
 
 def addJob(jobtime,queue, command):
     return True
