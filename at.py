@@ -2,13 +2,22 @@ import os
 import sys
 import subprocess
 
+def runOsCmd(command):
+    if not isinstance(command, list):
+        return False
+    try:
+        out = subprocess.Popen(command,
+               stdout=subprocess.PIPE,
+               stderr=subprocess.STDOUT)
+        output,errors = out.communicate()
+        if errors:
+            return errors
+        return output
+    except:
+        return False
+
 def getJobsList(queue):
-    out = subprocess.Popen(['atq', "-q%s" % (queue)],
-           stdout=subprocess.PIPE,
-           stderr=subprocess.STDOUT)
-    output,errors = out.communicate()
-    if errors:
-        return errors
+    output = runOsCmd(['atq', "-q%s" % (queue)])
     jobs = {}
     jobqueue = output.decode('utf-8').split('\n')
     for job in jobqueue:
@@ -27,16 +36,25 @@ def getJobsList(queue):
         }
     return jobs
 
-def addJob(jobtime,queue, command):
+def addJob(jobtime, queue, command):
+    status = runOsCmd(['at', jobtime, "-q%s" % (queue), "-c %s" % (command)])
+    if not status:
+        return False
     return True
 
 def addJobFromFile(jobtime, queue, file):
+    status = runOsCmd(['at', jobtime, "-q%s" % (queue), file])
+    if not status:
+        return False
     return True
 
-def removeJob(queue, jobid):
+def removeJob(jobid):
+    status = runOsCmd(['atrm', jobid])
+    if not status:
+        return False
     return True
 
 def clearJobs(queue):
     jobs = getJobsList(queue)
     for job in jobs:
-        removeJob(queue, job['id'])
+        removeJob(job)
