@@ -36,14 +36,14 @@ def getJobsList(queue):
         }
     return jobs
 
-def addJob(jobtime, queue, command):
-    status = runOsCmd(['at', jobtime, "-q%s" % (queue), "-c %s" % (command)])
-    if not status:
-        return False
-    return True
+# def addJob(jobtime, queue, command):
+#     status = runOsCmd(['at', jobtime, "-q%s" % (queue), "-c %s" % (command)])
+#     if not status:
+#         return False
+#     return True
 
 def addJobFromFile(jobtime, queue, file):
-    status = runOsCmd(['at', jobtime, "-q%s" % (queue), file])
+    status = runOsCmd(['at', jobtime, "-q%s" % (queue), '<',  file])
     if not status:
         return False
     return True
