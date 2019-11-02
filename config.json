@@ -1,5 +1,6 @@
 {
     "pinmode" : "BCM",
+    "bankholidays" : false,
     "db" : {
         "host" : "127.0.0.1",
         "db" : "timer",
@@ -23,6 +24,23 @@
             "on" : [ "HWON1", "HWON2", "HWON3", "HWON4", "HWON5" ],
             "off" : [ "HWOFF1", "HWOFF2", "HWOFF3", "HWOFF4", "HWOFF5" ]
         }
+    },
+    "queues" : {
+        "heating" : {
+            "on" : "h",
+            "off" : "g"
+        },
+        "water" : {
+            "on" : "w",
+            "off" : "r"
+        }
+    },
+    "commands" : {
+        "on" : "curl 127.0.0.1:5000/on",
+        "off" : "curl 127.0.0.1:5000/off"
+    },
+    "weatherapi" : {
+        "url" : "http://api.apixu.com/v1/forecast.json?key=034324e08c9e47e7811155453170409&q=ig11"
     },
     "pins" : {
         "active" : [
@@ -130,22 +148,5 @@
                 "off" : "LOW"
             }
         }
-    },
-    "queues" : {
-        "heating" : {
-            "on" : "h",
-            "off" : "g"
-        },
-        "water" : {
-            "on" : "w",
-            "off" : "r"
-        }
-    },
-    "commands" : {
-        "on" : "curl 127.0.0.1:5000/on",
-        "off" : "curl 127.0.0.1:5000/off"
-    },
-    "weatherapi" : {
-        "url" : "http://api.apixu.com/v1/forecast.json?key=034324e08c9e47e7811155453170409&q=ig11"
     }
 }
