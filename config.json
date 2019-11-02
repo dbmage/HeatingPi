@@ -84,6 +84,22 @@
             "redled" : "reversebinary",
             "greenled" : "reversebinary"
         },
+        "defaultsetting" : {
+            "light" : "off",
+            "fan" : "off",
+            "halfvalve" : "off",
+            "fullvalve" : "off",
+            "heating" : "off",
+            "water" : "off",
+            "door" : "on",
+            "cardreaderMOSI" : "NONE",
+            "cardreaderMISO" : "NONE",
+            "cardreaderSDA" : "NONE",
+            "cardreaderSCK" : "NONE",
+            "cardreaderRST" :"NONE",
+            "redled" : "on",
+            "greenled" : "off"
+        }
         "freepins" : [
             1,
             12,
