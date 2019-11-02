@@ -21,9 +21,10 @@ def runOsCmd(command,cmdin=None):
         return False
 
 def getJobsList(queue):
-    output = runOsCmd(['atq', "-q%s" % (queue)])
+    # tab between jobid and day of week, 2 spaces between month and day of month if day is single digit
+    output = runOsCmd(['atq', "-q%s" % (queue)]).decode('utf-8').replace('\t', ' ').replace('  ', ' ')
     jobs = {}
-    jobqueue = output.decode('utf-8').split('\n')
+    jobqueue = output.split('\n')
     for job in jobqueue:
         if len(job) < 1:
             continue
