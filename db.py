@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import pymysql as mysql
-#import functions
+import functions
 user = config['db']['user']
 password = getPassword(config['db']['pass'])
 host = config['db']['host']
