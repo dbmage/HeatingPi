@@ -1,12 +1,16 @@
 #!/usr/bin/python3
-
-from bottle import route, run
-import sys
 import os
+import sys
+import json
 import requests
 import RPi.GPIO as GPIO
-import json
+from base64 import b64encode, b64decode
+from bottle import route, run
+global my_cwd = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(my_cwd)
+import db
+import at as atq
+from functions import *
 
-sys.path.append('/usr/sbin/heating/')
-config = json.loads(open('/usr/sbin/heating/config.json').read())
+global config = json.loads(open("%s/config.json" % (my_cwd)).read())
 print(config)
