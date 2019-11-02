@@ -56,6 +56,8 @@ def on(function):
     pin = config['pins']['function'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
     GPIO.output(pin, GPIO.state)
+    if function not in config['queues']:
+        return
     checkTime(config['queues'][function]['off'])
     return
 
@@ -63,6 +65,8 @@ def off(function):
     pin = config['pins']['function'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['off'])
     GPIO.output(pin, GPIO.state)
+    if function not in config['queues']:
+        return
     checkTime(config['queues'][function]['on'])
     return
 
@@ -70,13 +74,15 @@ def timed(function, duration):
     pin = config['pins']['function'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
     command = "%s/%s" % (config['commands']['off'], function)
-    onqueue = config['queues'][function]['on']
-    offqueue = config['queues'][function]['off']
     if 0 < duration < 25:
         duration = duration * 60
     now = datetime.now()
     offtime = now - timedelta(seconds=now.second) - timedelta(microseconds=now.microsecond) + timedelta(minutes=duration)
     offjobid = atq.addJob(offtime, queue, command)
+    if function not in config['queues']:
+        return
+    onqueue = config['queues'][function]['on']
+    offqueue = config['queues'][function]['off']
     queuejobs = atq.getJobsList(onqueue)
     for jobid in queuejobs:
         job = queuejobs[jobid]
