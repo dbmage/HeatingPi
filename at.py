@@ -42,14 +42,14 @@ def getJobsList(queue):
     return jobs
 
 def addJob(jobtime, queue, command):
-    status = runOsCmd(['at', jobtime, "-q%s" % (queue)], cmdin=command)
+    status = runOsCmd(['at', jobtime.split(':')[:2], "-q%s" % (queue)], cmdin=command)
     if isinstance(status, bool):
         return False
     return status.decode('utf-8').split('\n')[1].split(' ')[1]
 
 def addJobFromFile(jobtime, queue, file):
     filecontents = open(file).read()
-    status = runOsCmd(['at', jobtime, "-q%s" % (queue)], cmdin=filecontents)
+    status = runOsCmd(['at', jobtime.split(':')[:2], "-q%s" % (queue)], cmdin=filecontents)
     if isinstance(status, bool):
         return False
     return status.decode('utf-8').split('\n')[1].split(' ')[1]
