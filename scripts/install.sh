@@ -34,10 +34,10 @@ function ipset {
     echo "Setting HeatingPi IP..."
     if [[ $ip =~ "0\." ]]; then
         cp ipzero.txt /etc/network/interfaces
-        $ip = "192.168.0.100"
+        ip = "192.168.0.100"
     elif [[ $ip =~ "1\." ]]; then
         cp ipone.txt /et/network/interfaces
-        $ip = "192.168.1.100"
+        ip = "192.168.1.100"
     else
         echo "Unable to detect IP address scheme"
         echo "Setting IP to DHCP"
@@ -94,9 +94,9 @@ function copyingstuff {
 function whatuse {
     echo -n "Will you be using the system for heating only or hot water too? (h/hw) [h]"
     read usage
-    if [[ $usage eq "" || $usage eq "h" ]]; then
+    if [[ $usage == "" || $usage == "h" ]]; then
         mv www/index1h.php www/index1.php
-    else if [[ $usage eq "hw" ]]; then
+    else if [[ $usage == "hw" ]]; then
         mv www/index1hw.php www/index1.php
     else
         echo "Incorrect answer... QUITTING!" && echo $FUNCNAME > ./.progress && exit 1
