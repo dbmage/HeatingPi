@@ -14,7 +14,7 @@ then
         return
     fi
 fi
-if [ ! command -v python3 &>/dev/null ]
+if [ `command -v python3 | wc -l` -lt 1 ]
 then
     answer = 'y'
     if $1 != '-y'; then
@@ -33,7 +33,7 @@ then
         return
     fi
 fi
-if [ ! command -v pip3 &> /dev/null ]
+if [ `command -v pip3 | wc -l` -lt 1 ]
 then
     answer = 'y'
     if $1 != '-y'; then
