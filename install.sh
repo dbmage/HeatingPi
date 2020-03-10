@@ -6,9 +6,11 @@ PINK="\e[35m"
 YELLOW="\e[33m"
 GREEN="\e[32m"
 RED="\e[31m"
-WARN="\t[ \e[33mWARN\e[39m ]\n"
-OK="\t[  \e[32mOK\e[39m  ]\n"
-FAIL="\t[ \e[31mFAIL\e[39m ]\n"
+WARN="\t[ \e[33mWARN\e[39m ]"
+OK="\t[  \e[32mOK\e[39m  ]"
+FAIL="\t[ \e[31mFAIL\e[39m ]"
+FAIL="\t[\e[31mFAILED\e[39m]"
+
 echo -en "\e[35mUser\e[39m"
 if [ user != 'pi' ] && [[ $arch == *"arm"* ]];
 then
@@ -112,12 +114,12 @@ then
             continue
         fi
         echo "Installing $module"
-        sudo pip3 install $module && echo -e "\t\e[35mpip\e[39m\t[  \e[32mOK\e[39m  ]\n" || echo -e "\t\e[35mpip\e[39m\t[\e[31mFAILED\e[39m]\n"
+        sudo pip3 install $module && echo -e "\t\e[35mpip\e[39m\t$OK" || echo -e "\t\e[35mpip\e[39m\t$FAILED"
         if [ $? == 0 ];
         then
             continue
         fi
-        sudo apt-get install python3-$module && echo -e "\tapt\t[  \e[32mOK\e[39m  ]\n" || echo -e "\tapt\t[\e[31mFAILED\e[39m]\n"
+        sudo apt-get install python3-$module && echo -e "\t\e[35mapt\e[39m\t$OK" || echo -e "\t\e[35mapt\e[39m\t$FAILED"
         if [ $? == 0 ];
         then
             continue
