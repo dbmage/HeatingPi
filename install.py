@@ -20,7 +20,7 @@ if not os.path.isdir(newlocation):
 filecopy = subprocess.Popen(['cp', '*', newlocation],
     stdin=subprocess.PIPE,
     stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT)
+    stderr=subprocess.PIPE)
 output,errors = filecopy.communicate()
 if errors:
     print("Failed to move project to %s." % (newlocation))
