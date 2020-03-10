@@ -61,7 +61,7 @@ do
         continue
     fi
     echo $package
-fi
+done
 echo -e "OK to continue? (y/n) [n] "
 read packanswer
 if [ $packanswer != 'y' ]
