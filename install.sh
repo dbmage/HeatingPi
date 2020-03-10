@@ -7,14 +7,13 @@ then
 fi
 if [[ $user != "root" ]];
 then
-    echo "Please enter the sudo password"
     sudoexit=`sudo echo "Yes" > /dev/null`
     if [ $? -eq 1 ]
     then
         exit 1
     fi
 fi
-if [ `command -v python3 | wc -l` -lt 1 ]
+if [ `command -v python3 | wc -l` -lt 1 ];
 then
     answer='y'
     if [[ $1 != '-y' ]]; then
@@ -22,18 +21,18 @@ then
         echo "Is it OK to install python 3? (y/n) [n]"
         read answer
     fi
-    if [ $answer == 'n' ]
+    if [ $answer == 'n' ];
     then
         exit 1
     fi
     installcode=`sudo apt-get install update && sudo apt-get install python3 python3-dev -y`
-    if [ $? -eq 1 ]
+    if [ $? -eq 1 ];
     then
         echo "Python install failed, please install manually"
         exit 1
     fi
 fi
-if [ `command -v pip3 | wc -l` -lt 1 ]
+if [ `command -v pip3 | wc -l` -lt 1 ];
 then
     answer='y'
     if [[ $1 != '-y' ]]; then
@@ -41,12 +40,12 @@ then
         echo "Is it OK to install pip? (y/n) [n]"
         read answer
     fi
-    if [ $answer == 'n' ]
+    if [ $answer == 'n' ];
     then
         exit 1
     fi
     installcode=`sudo apt-get update &> /dev/null && sudo apt-get install python3-pip -y`
-    if [ $? -eq 1 ]
+    if [ $? -eq 1 ];
     then
         echo "Pip install failed, please install manually"
         exit 1
@@ -54,7 +53,7 @@ then
 fi
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | cut -d '.' -f1 | sort | uniq`
 notinstalled=''
-echo "Installing the following required python modules"
+echo "Checking for required python modules"
 for module in $reqmods;
 do
     if [ -e $module.py ];
@@ -67,11 +66,17 @@ do
         continue
     fi
     notinstalled="$notinstalled $module"
-    echo $module
 done
-echo -e "OK to continue? (y/n) [n] "
+if [ `echo $notinstalled | wc -c` -gt 0 ];
+then
+    echo "The following python modules need to be installed:"
+    for module in $notinstalled;
+    do
+        echo $module
+    done
+    echo -e "\nOK to continue? (y/n) [n] "
 read packanswer
-if [ $packanswer != 'y' ]
+if [ $packanswer != 'y' ];
 then
     exit 1
 fi
@@ -83,19 +88,19 @@ do
         continue
     fi
     sudo pip3 install $module && echo "$module installed" || echo "$module not installed"
-    if [ $? == 0 ]
+    if [ $? == 0 ];
     then
         continue
     fi
     echo "Install failed with pip, trying install with apt"
     sudo apt-get install python3-$module && echo "$module installed" || echo "$module not installed"
-    if [ $? == 0 ]
+    if [ $? == 0 ];
     then
         continue
     fi
     echo "Failed to install $module"
 done
-if [ ! -e 'install.py' ]
+if [ ! -e 'install.py' ];
 then
     echo "Unable to find install.py, please run manually"
     echo 'python3 install.py'
