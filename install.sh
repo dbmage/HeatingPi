@@ -90,7 +90,7 @@ do
     fi
     notinstalled="$notinstalled $module"
 done
-if [ `echo $notinstalled | wc -c` -gt 0 ];
+if [ `echo -n $notinstalled | wc -c` -gt 0 ];
 then
     echo -e $WARN
     echo -e "\n\e[33mThe following python modules need to be installed:\e[39m\n"
