@@ -52,15 +52,21 @@ then
         return
     fi
 fi
-reqpacks=`cat *.py | egrep '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
+reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
+notinstalled=''
 echo "Installing the following required python modules"
-for package in $reqpacks;
+for module in $reqmods;
 do
-    if [ -e $package.py ];
+    if [ -e $module.py ];
     then
         continue
     fi
-    echo $package
+    if [ python3 -c "import $module" ];
+    then
+        continue
+    fi
+    notinstalled="$notinstalled $module"
+    echo $module
 done
 echo -e "OK to continue? (y/n) [n] "
 read packanswer
@@ -69,24 +75,24 @@ then
     return
 fi
 sudo apt-get update &> /dev/null
-for package in $reqpacks;
+for module in $notinstalled;
 do
-    if [ -e $package.py ];
+    if [ -e $module.py ];
     then
         continue
     fi
-    sudo pip3 install $package
+    sudo pip3 install $module && echo "$module installed" || echo "$module not installed"
     if [ $? == 0 ]
     then
         continue
     fi
     echo "Install failed with pip, trying install with apt"
-    sudo apt-get install python3-$package
+    sudo apt-get install python3-$module && echo "$module installed" || echo "$module not installed"
     if [ $? == 0 ]
     then
         continue
     fi
-    echo "Failed to install $package"
+    echo "Failed to install $module"
 done
 if [ ! -e 'install.py' ]
 then
