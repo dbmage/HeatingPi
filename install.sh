@@ -11,7 +11,7 @@ then
     sudoexit=`sudo echo "Yes" > /dev/null`
     if [ $? -eq 1 ]
     then
-        return
+        exit 1
     fi
 fi
 if [ `command -v python3 | wc -l` -lt 1 ]
@@ -24,13 +24,13 @@ then
     fi
     if [ $answer == 'n' ]
     then
-        return
+        exit 1
     fi
     installcode=`sudo apt-get install update && sudo apt-get install python3 python3-dev -y`
     if [ $? -eq 1 ]
     then
         echo "Python install failed, please install manually"
-        return
+        exit 1
     fi
 fi
 if [ `command -v pip3 | wc -l` -lt 1 ]
@@ -43,13 +43,13 @@ then
     fi
     if [ $answer == 'n' ]
     then
-        return
+        exit 1
     fi
     installcode=`sudo apt-get update &> /dev/null && sudo apt-get install python3-pip -y`
     if [ $? -eq 1 ]
     then
         echo "Pip install failed, please install manually"
-        return
+        exit 1
     fi
 fi
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
@@ -72,7 +72,7 @@ echo -e "OK to continue? (y/n) [n] "
 read packanswer
 if [ $packanswer != 'y' ]
 then
-    return
+    exit 1
 fi
 sudo apt-get update &> /dev/null
 for module in $notinstalled;
@@ -98,6 +98,6 @@ if [ ! -e 'install.py' ]
 then
     echo "Unable to find install.py, please run manually"
     echo 'python3 install.py'
-    return
+    exit 1
 fi
 sudo python3 install.py
