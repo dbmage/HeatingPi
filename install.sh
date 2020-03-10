@@ -45,7 +45,7 @@ then
     then
         return
     fi
-    installcode=`sudo apt-get install update && sudo apt-get install python3-pip -y`
+    installcode=`sudo apt-get update &> /dev/null && sudo apt-get install python3-pip -y`
     if [ $? -eq 1 ]
     then
         echo "Pip install failed, please install manually"
@@ -53,7 +53,7 @@ then
     fi
 fi
 reqpacks=`cat *.py | egrep '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
-echo "Installing the following required python packages"
+echo "Installing the following required python modules"
 for package in $reqpacks;
 do
     if [ -e $package.py ];
@@ -68,6 +68,7 @@ if [ $packanswer != 'y' ]
 then
     return
 fi
+sudo apt-get update &> /dev/null
 for package in $reqpacks;
 do
     if [ -e $package.py ];
