@@ -7,7 +7,7 @@ import subprocess
 
 newlocation = '/usr/local/bin/HeatingPi'
 curuser = getpass.getuser()
-if ! os.path.isdir(newlocation):
+if not os.path.isdir(newlocation):
     try:
         os.mkdir(newlocation)
     except OSError:
