@@ -1,11 +1,11 @@
 #!/bin/bash
 user=$(whoami)
 arch=$(uname -m | grep arm | wc -c)
-if [ user != 'pi' ] && [ $arch -eq 1 ]
+if [ user != 'pi' ] && [[ $arch == *"arm"* ]];
 then
     echo "This appears to be a Raspberry Pi, but you are not running this as the 'pi' user"
 fi
-if [ ($user == 'pi' -o $user != 'root') -a ($arch -eq 1) ]
+if [[ $user != "root"]];
 then
     echo "Please enter the sudo password"
     sudoexit=`sudo echo "Yes" > /dev/null`
@@ -16,12 +16,11 @@ then
 fi
 if [ ! command -v python3 &>/dev/null ]
 then
+    answer = 'y'
     if $1 != '-y'; then
         echo "This system does not have python 3 installed, but it is required"
         echo "Is it OK to install python 3? (y/n) [n]"
         read answer
-    else
-        answer = 'y'
     fi
     if [ $answer == 'n' ]
     then
@@ -36,12 +35,11 @@ then
 fi
 if [ ! command -v pip3 &> /dev/null ]
 then
+    answer = 'y'
     if $1 != '-y'; then
         echo "This system does not have pip installed, but it is required"
         echo "Is it OK to install pip? (y/n) [n]"
         read answer
-    else
-        answer = 'y'
     fi
     if [ $answer == 'n' ]
     then
