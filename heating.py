@@ -13,4 +13,6 @@ import at as atq
 from functions import *
 
 global config = json.loads(open("%s/config.json" % (my_cwd)).read())
+config['db']['db'] = "%s/%s" % ( my_cwd, config['db']['db'])
+db.connect(config['db']['db'])
 print(config)
