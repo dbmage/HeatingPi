@@ -5,7 +5,7 @@ if [ user != 'pi' ] && [[ $arch == *"arm"* ]];
 then
     echo "This appears to be a Raspberry Pi, but you are not running this as the 'pi' user"
 fi
-if [[ $user != "root"]];
+if [[ $user != "root" ]];
 then
     echo "Please enter the sudo password"
     sudoexit=`sudo echo "Yes" > /dev/null`
