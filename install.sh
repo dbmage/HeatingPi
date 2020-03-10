@@ -54,7 +54,7 @@ then
 fi
 reqpacks=`cat *.py | egrep '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 echo "Installing the following required python packages"
-for package in $rqpacks;
+for package in $reqpacks;
 do
     if [ -e $package.py ];
     then
@@ -68,7 +68,7 @@ if [ $packanswer != 'y' ]
 then
     return
 fi
-for package in $rqpacks;
+for package in $reqpacks;
 do
     if [ -e $package.py ];
     then
