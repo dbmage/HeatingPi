@@ -61,7 +61,7 @@ do
     then
         continue
     fi
-    if [ python3 -c "import $module" ];
+    if [ `python3 -c "import $module" &> /dev/null` ];
     then
         continue
     fi
