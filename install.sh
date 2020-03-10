@@ -7,7 +7,7 @@ YELLOW="\e[33m"
 GREEN="\e[32m"
 RED="\e[31m"
 WARN="\t[ \e[33mWARN\e[39m ]\n"
-OK="\t[  \e[33mOK\e[39m  ]\n"
+OK="\t[  \e[32mOK\e[39m  ]\n"
 FAIL="\t[ \e[31mFAIL\e[39m ]\n"
 echo -en "\e[35mUser\e[39m"
 if [ user != 'pi' ] && [[ $arch == *"arm"* ]];
