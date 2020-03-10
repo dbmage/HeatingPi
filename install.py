@@ -17,7 +17,7 @@ if not os.path.isdir(newlocation):
     if pwd.getpwuid(os.stat(newlocation).st_uid)[0] != curuser:
         print("%s exists, but is not owned by you (%s), please ensure you own %s" % (newlocation, curuser, newlocation))
         sys.exit(1)
-filecopy = subprocess.Popen(['cp', '*', newlocation],
+filecopy = subprocess.Popen(['cp', '-r', '*', newlocation],
     stdin=subprocess.PIPE,
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE)
