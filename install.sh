@@ -52,7 +52,7 @@ then
         exit 1
     fi
 fi
-reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
+reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | cut -d '.' -f1 | sort | uniq`
 notinstalled=''
 echo "Installing the following required python modules"
 for module in $reqmods;
