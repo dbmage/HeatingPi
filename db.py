@@ -1,16 +1,19 @@
 import os
 import sys
 import json
+import sqlite3
 import pymysql as mysql
 import functions
-user = config['db']['user']
-password = getPassword(config['db']['pass'])
-host = config['db']['host']
-database = config['db']['db']
+# user = config['db']['user']
+# password = getPassword(config['db']['pass'])
+# host = config['db']['host']
+# database = config['db']['db']
 
-def connect():
+def connect(database):
+    if os.path.exists(database) and not os.path.isfile(database):
+        return "Database provided is invalid"
     try:
-        config['db']['connection'] = mysql.connect(host, user, password, database)
+        config['db']['connection'] = sqlite3.connect(database)
         config['db']['cursor'] = config['db']['connection'].cursor()
     except mysql.Error as e:
         # log message - Error connecting to DB: e[1]
