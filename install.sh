@@ -4,6 +4,7 @@ arch=$(uname -m | grep arm | wc -c)
 if [ user != 'pi' ] && [ $arch -eq 1 ]
 then
     echo "This appears to be a Raspberry Pi, but you are not running this as the 'pi' user"
+fi
 if [ ($user == 'pi' -o $user != 'root') -a ($arch -eq 1) ]
 then
     echo "Please enter the sudo password"
