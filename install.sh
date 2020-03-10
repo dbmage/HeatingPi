@@ -86,7 +86,7 @@ do
         continue
     fi
     echo "Failed to install $package"
-fi
+done
 if [ ! -e 'install.py' ]
 then
     echo "Unable to find install.py, please run manually"
