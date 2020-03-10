@@ -17,7 +17,7 @@ fi
 if [ `command -v python3 | wc -l` -lt 1 ]
 then
     answer='y'
-    if $1 != '-y'; then
+    if [[ $1 != '-y' ]]; then
         echo "This system does not have python 3 installed, but it is required"
         echo "Is it OK to install python 3? (y/n) [n]"
         read answer
@@ -36,7 +36,7 @@ fi
 if [ `command -v pip3 | wc -l` -lt 1 ]
 then
     answer='y'
-    if $1 != '-y'; then
+    if [[ $1 != '-y' ]]; then
         echo "This system does not have pip installed, but it is required"
         echo "Is it OK to install pip? (y/n) [n]"
         read answer
