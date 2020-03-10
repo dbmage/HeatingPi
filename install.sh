@@ -135,4 +135,4 @@ then
     echo 'python3 install.py'
     exit 1
 fi
-sudo python3 install.py
+sudo python3 install.py || echo -e "\e[31mUnable to run install.py\e[33m, please run manually\e[39m"
