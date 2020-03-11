@@ -19,7 +19,7 @@ if not os.path.isdir(newlocation):
         exit(1)
 try:
     copy_tree(os.path.dirname(os.path.realpath(__file__)), newlocation)
-    print("Installed!")
+    print("Installed to %s!" % (newlocation))
 except Exception as e:
     print("Failed to move project to %s." % (newlocation))
     print("Please check the permissions of the folder")
