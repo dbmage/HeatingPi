@@ -3,7 +3,7 @@
     "bankholidays" : false,
     "db" : {
         "host" : "127.0.0.1",
-        "db" : "timer",
+        "db" : "timer.db",
         "user" : "root",
         "pass" : "eXN0OTQq"
     },
