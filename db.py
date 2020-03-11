@@ -15,7 +15,7 @@ def connect(database):
     try:
         config['db']['connection'] = sqlite3.connect(database)
         config['db']['cursor'] = config['db']['connection'].cursor()
-    except mysql.Error as e:
+    except sqlite3.Error as e:
         # log message - Error connecting to DB: e[1]
         return e[1]
     return True
