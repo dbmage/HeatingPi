@@ -7,7 +7,7 @@ from base64 import b64encode, b64decode
 from datetime import datetime, timedelta, date
 from workalendar import europe
 UnitedKingdom = europe.UnitedKingdom
-sys.path.append(my_cwd)
+#sys.path.append(my_cwd)
 import db
 import at as atq
 
