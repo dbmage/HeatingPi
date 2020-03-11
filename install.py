@@ -3,7 +3,7 @@ import os
 import pwd
 import sys
 import getpass
-from distutils import copy_tree
+from distutils.dir_util import copy_tree
 
 newlocation = '/usr/local/bin/HeatingPi'
 curuser = getpass.getuser()
