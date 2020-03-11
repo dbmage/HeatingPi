@@ -14,10 +14,10 @@ FAIL="\t[\e[31mFAILED\e[39m]"
 echo -en "\e[35mUser\e[39m"
 if [ user != 'pi' ] && [[ $arch == *"arm"* ]];
 then
-    echo -e $WARN
+    echo -e "\t\t$WARN"
     echo -e "\t\e[33mThis appears to be a Raspberry Pi, but you are not running this as the 'pi' user\e[39m"
 else
-    echo -e $OK
+    echo -e "\t\t$OK"
 fi
 if [[ $user != "root" ]];
 then
@@ -28,12 +28,12 @@ then
         echo -e $FAIL
         exit 1
     fi
-    echo -e $OK
+    echo -e "\t\t$OK"
 fi
 echo -en "\e[35mPython\e[39m"
 if [ `command -v python3 | wc -l` -lt 1 ];
 then
-    echo -e $WARN
+    echo -e "\t\t$WARN"
     answer='y'
     if [[ $1 != '-y' ]]; then
         echo -e "\t\e[33mThis system does not have python 3 installed, but it is required\e[39m"
@@ -51,12 +51,12 @@ then
         exit 1
     fi
 else
-    echo -e $OK
+    echo -e "\t\t$OK"
 fi
 echo -en "\e[35mPip\e[39m"
 if [ `command -v pip3 | wc -l` -lt 1 ];
 then
-    echo -e $WARN
+    echo -e "\t\t$WARN"
     answer='y'
     if [[ $1 != '-y' ]]; then
         echo -e "\e[33mThis system does not have pip installed, but it is required\e[39m"
@@ -74,7 +74,7 @@ then
         exit 1
     fi
 else
-    echo -e $OK
+    echo -e "\t\t$OK"
 fi
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | cut -d '.' -f1 | sort | uniq`
 notinstalled=''
