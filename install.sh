@@ -61,7 +61,7 @@ then
     answer='y'
     if [[ $1 != '-y' ]]; then
         echo -e "\t\e[33mThis system does not have pip installed, but it is required\e[39m"
-        echo -n "\tIs it OK to install pip? (y/n) [n]  "
+        echo -en "\tIs it OK to install pip? (y/n) [n]  "
         read answer
     fi
     if [ $answer == 'n' ];
