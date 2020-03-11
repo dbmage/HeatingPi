@@ -11,6 +11,7 @@ OK="\t[  \e[32mOK\e[39m  ]"
 FAIL="\t[ \e[31mFAIL\e[39m ]"
 FAIL="\t[\e[31mFAILED\e[39m]"
 
+echo "More detailed info is stored in install.log"
 echo -en "\e[35mUser\e[39m"
 if [ user != 'pi' ] && [[ $arch == *"arm"* ]];
 then
@@ -44,7 +45,7 @@ then
     then
         exit 1
     fi
-    installcode=`sudo apt-get install update && sudo apt-get install python3 python3-dev -y`
+    installcode=`sudo apt-get install update &>> install.log && sudo apt-get install python3 python3-dev -y &>> install.log`
     if [ $? -eq 1 ];
     then
         echo -e "Python install \e[31mfailed\e[39m, please install manually"
@@ -68,7 +69,7 @@ then
     then
         exit 1
     fi
-    installcode=`sudo apt-get update &> /dev/null && sudo apt-get install python3-pip -y`
+    installcode=`sudo apt-get update &>> install.log && sudo apt-get install python3-pip -y &>> install.log`
     if [ $? -eq 1 ];
     then
         echo -e "\nPip install \e[31mfailed\e[39m, please install manually"
@@ -108,7 +109,7 @@ then
     then
         exit 1
     fi
-    sudo apt-get update &> /dev/null
+    sudo apt-get update &>> install.log
     for module in $notinstalled;
     do
         if [ -e $module.py ];
@@ -116,12 +117,12 @@ then
             continue
         fi
         echo -e "\tInstalling $module"
-        sudo pip3 install $module && echo -e "\t\t\e[35mpip\e[39m\t$OK" || echo -e "\t\t\e[35mpip\e[39m\t$FAILED"
+        sudo pip3 install $module &>> install.log && echo -e "\t\t\e[35mpip\e[39m\t$OK" || echo -e "\t\t\e[35mpip\e[39m\t$FAILED"
         if [ $? == 0 ];
         then
             continue
         fi
-        sudo apt-get install python3-$module && echo -e "\t\t\e[35mapt\e[39m\t$OK" || echo -e "\t\t\e[35mapt\e[39m\t$FAILED"
+        sudo apt-get install python3-$module &>> install.log && echo -e "\t\t\e[35mapt\e[39m\t$OK" || echo -e "\t\t\e[35mapt\e[39m\t$FAILED"
         if [ $? == 0 ];
         then
             continue
