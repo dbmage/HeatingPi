@@ -11,6 +11,5 @@ from functions import *
 from base64 import b64encode, b64decode
 from bottle import route, run
 
-config['db']['db'] = "%s/%s" % ( my_cwd, config['db']['db'])
 db.connect(config['db']['db'])
 print(config)
