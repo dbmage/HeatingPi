@@ -1,6 +1,12 @@
 {
     "pinmode" : "BCM",
     "bankholidays" : false,
+    "logdir" : "/var/log/",
+    "logspecs" : {
+        "level" : "INFO",
+        "splitlines" : true,
+        "pretty" : true
+    },
     "db" : {
         "host" : "127.0.0.1",
         "db" : "timer.db",
