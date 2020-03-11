@@ -9,7 +9,7 @@ import RPi.GPIO as GPIO
 from functions import *
 from base64 import b64encode, b64decode
 from bottle import route, run
-my_cwd = path.dirname(path.realpath(__file__))
+my_cwd = os.path.dirname(os.path.realpath(__file__))
 config = json.loads(open("%s/config.json" % (my_cwd)).read())
 config['db']['db'] = "%s/%s" % ( my_cwd, config['db']['db'])
 __builtins__.my_cwd = my_cwd
