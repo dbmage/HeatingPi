@@ -3,7 +3,7 @@ import sys
 import json
 import requests
 import RPi.GPIO as GPIO
-from base64 import b64encode, b6decode
+from base64 import b64encode, b64decode
 from datetime import datetime, timedelta, date
 from workalendar import europe
 UnitedKingdom = europe.UnitedKingdom
