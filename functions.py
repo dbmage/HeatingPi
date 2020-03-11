@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import globals
 import requests
 import RPi.GPIO as GPIO
 from base64 import b64encode, b64decode

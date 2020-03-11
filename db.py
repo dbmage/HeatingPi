@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import globals
 import sqlite3
 import functions
 
