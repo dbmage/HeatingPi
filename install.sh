@@ -25,7 +25,7 @@ then
     sudoexit=`sudo echo "Yes" > /dev/null`
     if [ $? -eq 1 ]
     then
-        echo -e $FAIL
+        echo -e "\t\t$FAIL"
         exit 1
     fi
     echo -e "\t\t$OK"
@@ -50,6 +50,7 @@ then
         echo -e "Python install \e[31mfailed\e[39m, please install manually"
         exit 1
     fi
+    echo -e "\e[35mPython\e[39m\t\t$OK"
 else
     echo -e "\t\t$OK"
 fi
@@ -73,6 +74,7 @@ then
         echo -e "Pip install \e[31mfailed\e[39m, please install manually"
         exit 1
     fi
+    echo -e "\e[35mPip\e[39m\t\t$OK"
 else
     echo -e "\t\t$OK"
 fi
@@ -94,13 +96,13 @@ do
 done
 if [ `echo -n $notinstalled | wc -c` -gt 0 ];
 then
-    echo -e $WARN
-    echo -e "\n\e[33mThe following python modules need to be installed:\e[39m\n"
+    echo -e "\t$WARN"
+    echo -e "\t\e[33mThe following python modules need to be installed:\e[39m"
     for module in $notinstalled;
     do
-        echo $module
+        echo -e "\t$module"
     done
-    echo -en "\nOK to continue? (y/n) [n]  "
+    echo -en "\n\tOK to continue? (y/n) [n]  "
     read packanswer
     if [ $packanswer != 'y' ];
     then
@@ -113,20 +115,20 @@ then
         then
             continue
         fi
-        echo "Installing $module"
-        sudo pip3 install $module && echo -e "\t\e[35mpip\e[39m\t$OK" || echo -e "\t\e[35mpip\e[39m\t$FAILED"
+        echo -e "\tInstalling $module"
+        sudo pip3 install $module && echo -e "\t\t\e[35mpip\e[39m\t$OK" || echo -e "\t\t\e[35mpip\e[39m\t$FAILED"
         if [ $? == 0 ];
         then
             continue
         fi
-        sudo apt-get install python3-$module && echo -e "\t\e[35mapt\e[39m\t$OK" || echo -e "\t\e[35mapt\e[39m\t$FAILED"
+        sudo apt-get install python3-$module && echo -e "\t\t\e[35mapt\e[39m\t$OK" || echo -e "\t\t\e[35mapt\e[39m\t$FAILED"
         if [ $? == 0 ];
         then
             continue
         fi
     done
 else
-    echo -e $OK
+    echo -e "\t$OK"
 fi
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
