@@ -60,8 +60,8 @@ then
     echo -e "\t\t$WARN"
     answer='y'
     if [[ $1 != '-y' ]]; then
-        echo -e "\e[33mThis system does not have pip installed, but it is required\e[39m"
-        echo -n "Is it OK to install pip? (y/n) [n]  "
+        echo -e "\t\e[33mThis system does not have pip installed, but it is required\e[39m"
+        echo -n "\tIs it OK to install pip? (y/n) [n]  "
         read answer
     fi
     if [ $answer == 'n' ];
@@ -71,7 +71,7 @@ then
     installcode=`sudo apt-get update &> /dev/null && sudo apt-get install python3-pip -y`
     if [ $? -eq 1 ];
     then
-        echo -e "Pip install \e[31mfailed\e[39m, please install manually"
+        echo -e "\nPip install \e[31mfailed\e[39m, please install manually"
         exit 1
     fi
     echo -e "\e[35mPip\e[39m\t\t$OK"
