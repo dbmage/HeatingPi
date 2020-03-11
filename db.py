@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import sqlite3
-import pymysql as mysql
+#import pymysql as mysql
 import functions
 # user = config['db']['user']
 # password = getPassword(config['db']['pass'])
