@@ -3,7 +3,7 @@ import os
 import pwd
 import sys
 import getpass
-import subprocess
+from distutils import copy_tree
 
 newlocation = '/usr/local/bin/HeatingPi'
 curuser = getpass.getuser()
@@ -17,11 +17,9 @@ if not os.path.isdir(newlocation):
     if pwd.getpwuid(os.stat(newlocation).st_uid)[0] != curuser:
         print("%s exists, but is not owned by you (%s), please ensure you own %s" % (newlocation, curuser, newlocation))
         sys.exit(1)
-filecopy = subprocess.Popen(['cp', '-r', '*', newlocation],
-    stdin=subprocess.PIPE,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE)
-output,errors = filecopy.communicate()
-if errors:
+try:
+    copy_tree(os.path.dirname(os.path.realpath(__file__)), newlocation)
+except Exception as e:
     print("Failed to move project to %s." % (newlocation))
     print("Please check the permissions of the folder")
+    print("Error: %s" % (e))
