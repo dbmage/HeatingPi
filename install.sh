@@ -79,7 +79,7 @@ then
 else
     echo -e "\t\t$OK"
 fi
-reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | cut -d '.' -f1 | sort | uniq`
+reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 notinstalled=''
 echo -en "\e[35mPython modules\e[39m"
 for module in $reqmods;
