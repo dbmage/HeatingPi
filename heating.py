@@ -28,8 +28,8 @@ elog = logger.addFileLogger({'filename': "%s/heatingpi-error.log" % (config['log
 alog = logger.addFileLogger({'filename': "%s/heatingpi-access.log" % (config['logdir']), 'level' : logging.INFO})
 db.log = elog
 functions.log = elog
-
-## Logging
+atq.log = elog
+## Logging rquests
 def log_to_logger(fn):
     '''
     Wrap a Bottle request so that a log line is emitted after it's handled.
