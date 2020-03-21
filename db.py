@@ -11,6 +11,7 @@ def connect(database):
         config['db']['connection'] = sqlite3.connect(database)
         config['db']['cursor'] = config['db']['connection'].cursor()
     except sqlite3.Error as e:
+        log.error("Error connecting to DB: %s" % (e))
         return e
     return True
 
@@ -22,7 +23,7 @@ def executeQuery(query):
         if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
             config['db']['connection'].commit()
     except mysql.Error as e:
-        # log message - Error executing query (query): e[1]
+        log.error("Error executing query (%s): %s" % (query, e[1]))
         if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
             config['db']['connection'].rollback()
         return e
@@ -58,14 +59,14 @@ def updateData(table, column, updatedata, datafilter):
 
 def insertData(table, data):
     if not isinstance(list, data):
-        #log message - Incorrect datatype for insert: data
+        log.error("Incorrect datatype for insert: %s" % (data))
         return False
     tabledes = describeTable(table)
     headers = []
     for row in tabledes:
         header.append(row[0])
     if len(data) != len(headers):
-        #log message - Not enough values for insert - provided x need y
+        log.error("Not enough values for insert - provided %s need %s" % (len(data), len(headers))
         return False
     query = "INSERT INTO %s(%s) VALUES (%s)" % (table, ','.join(headers), ','.join(data))
     output = executeQuery(query)
