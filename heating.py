@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+
 import os
 import db
 import sys
@@ -24,26 +24,9 @@ config['logspecs']['level'] = getattr(log, config['logspecs']['level'], 'INFO')
 logger = Logger(config['logdir'], termSpecs=None, fileSpecs=config['logspecs'])
 ## Error log
 elog = logger.addFileLogger({'filename': "%s/heatingpi-error.log" % (config['logdir']), 'level' : logging.DEBUG})
-## Access log
-alog = logger.addFileLogger({'filename': "%s/heatingpi-access.log" % (config['logdir']), 'level' : logging.INFO})
 db.log = elog
 functions.log = elog
 atq.log = elog
-## Logging rquests
-def log_to_logger(fn):
-    '''
-    Wrap a Bottle request so that a log line is emitted after it's handled.
-    (This decorator can be extended to take the desired logger as a param.)
-    '''
-    @wraps(fn)
-    def apiRequest(*args, **kwargs):
-        actual_response = fn(*args, **kwargs)
-        # modify this to log exactly what you need:
-        alog.access('%s %s %s' % (request.method, request.path, response.status))
-        return actual_response
-    return apiRequest
-
-install(log_to_logger)
 
 db.connect(config['db']['db'])
 print(config)
