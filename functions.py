@@ -22,21 +22,21 @@ def checkTime(queue):
         jobdt = datetime.strptime("%s %s/%s/%s" % (job['time'], job['date'], job['month'], job['year']), '%X %d/%b/%Y')
         if jobdt >= timecheck:
             continue
-        # log message - removed job X because it is to close to the last human request
         atq.removeJob(jobid)
+        log.info("Removed job %s from queue %s because it is to close to the last human request" % (jobid, queue))
 
 def clearQueues():
     for function in config['queues']:
         for queue in config['queues'][function]:
             atq.clearJobs(config['queues'][function][queue])
-            # Log message - Cleared jobs from queue X
+            log.info("Cleared jobs from queue %s" % (queue))
 
 def setup():
     # Set Pin numbering mode
     try:
         GPIO.setmode(getattr(GPIO, config['pinmode']))
     except:
-        print("Incorrect pinmode %s" % (config['pinmode']))
+        log.error("Incorrect pinmode %s" % (config['pinmode']))
         return False
     # Stop warnings about pins being configured already
     GPIO.setwarnings(False)
@@ -47,7 +47,7 @@ def setup():
         mode = getattr(GPIO, pins['mode'][pin])
         pintype = pins['type'][pin]
         defset = getattr(GPIO, pins['types'][pins['type'][pin]][pins['defaultsetting'][pin]])
-        # Log message - initialised pin X with mode Y and state Z
+        log.info("Initialised pin %s with mode %s and state %s" % (pin, mode, defset))
         GPIO.setup(channel, GPIO.mode, initial=GPIO.defset)
 
 def setTimers():
@@ -74,7 +74,8 @@ def setTimers():
                 state= 'off'
             queue = config['queues'][function][state]
             command = config['commands'][state]
-            atq.addJob(timer, queue, command)
+            jobid = atq.addJob(timer, queue, command)
+            log.info("Added job %s to queue %s" % (jobid, queue))
 
 def resetPins():
     # Midnight failsafe - sets all pins to default setting and clears queues
@@ -85,13 +86,14 @@ def resetPins():
         pintype = pins['type'][pin]
         defset = getattr(GPIO, pins['types'][pins['type'][pin]][pins['defaultsetting'][pin]])
         GPIO.output(pins['active'][pin], GPIO.defset)
-        # Log message - set pin X to state Y
+        log.info("Set pin %s to state %s" % (pin, defset))
     clearQueues()
 
 def on(function):
     pin = config['pins']['function'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
     GPIO.output(pin, GPIO.state)
+    log.info("Set pin %s to state %s" % (pin, state))
     if function not in config['queues']:
         return
     checkTime(config['queues'][function]['off'])
@@ -101,6 +103,7 @@ def off(function):
     pin = config['pins']['function'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['off'])
     GPIO.output(pin, GPIO.state)
+    log.info("Set pin %s to state %s" % (pin, state))
     if function not in config['queues']:
         return
     checkTime(config['queues'][function]['on'])
@@ -115,23 +118,18 @@ def timed(function, duration):
     now = datetime.now()
     offtime = now - timedelta(seconds=now.second) - timedelta(microseconds=now.microsecond) + timedelta(minutes=duration)
     offjobid = atq.addJob(offtime, queue, command)
+    log.info("Added job %s to queue %s with command %s" % (offjobid, queue, command))
     if function not in config['queues']:
         return
     onqueue = config['queues'][function]['on']
     offqueue = config['queues'][function]['off']
-    queuejobs = atq.getJobsList(onqueue)
-    for jobid in queuejobs:
-        job = queuejobs[jobid]
-        jobdt = datetime.strptime("%s %s/%s/%s" % (job['time'], job['date'], job['month'], job['year']), '%X %d/%b/%Y')
-        if jobdt > offtime:
-            continue
-        atq.removeJob(jobid)
-    queuejobs = atq.getJobsList(offqueue)
-    for jobid in queuejobs:
-        job = queuejobs[jobid]
-        jobdt = datetime.strptime("%s %s/%s/%s" % (job['time'], job['date'], job['month'], job['year']), '%X %d/%b/%Y')
-        if jobdt > offtime:
-            atq.removeJob(offjobid)
-        if jobdt < offtime:
+    for queue in [ onqueue, offqueue ]:
+        queuejobs = atq.getJobsList(queue)
+        for jobid in queuejobs:
+            job = queuejobs[jobid]
+            jobdt = datetime.strptime("%s %s/%s/%s" % (job['time'], job['date'], job['month'], job['year']), '%X %d/%b/%Y')
+            if jobdt > offtime:
+                continue
             atq.removeJob(jobid)
+            log.info("Removed job %s from queue %s" % (jobid, queue))
     return
