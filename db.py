@@ -6,6 +6,7 @@ import functions
 
 def connect(database):
     if os.path.exists(database) and not os.path.isfile(database):
+        log.error("Database provided is invalid: %s" % (database))
         return "Database provided is invalid"
     try:
         config['db']['connection'] = sqlite3.connect(database)
