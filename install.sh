@@ -24,15 +24,15 @@ else
 fi
 
 echo -en "\e[35mPackages\e[39m"
-failedpackage = 0
+failedpackage=0
 for package in $(cat Package.list);
 do
-    apt install -y $package &> /dev/null && continue || $failedpackage = $package
+    apt install -y $package &> /dev/null && continue || $failedpackage = "$failedpackage $package"
 done
 if [ $failedpackage -ne 0 ];
 then
     echo -e "\t\t\t\t$FAIL"
-    echo -e "Package install $FAILED at $failedpackage"
+    echo -e "Package install $FAILED to install $failedpackage"
     exit 1
 fi
 echo -e "\t\t\t\t$OK"
