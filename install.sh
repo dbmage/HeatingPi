@@ -31,11 +31,11 @@ do
 done
 if [ $failedpackage -ne 0 ];
 then
-    echo -e "\t\t\t\t$FAIL"
+    echo -e "\t\t\t$FAIL"
     echo -e "Package install $FAILED to install $failedpackage"
     exit 1
 fi
-echo -e "\t\t\t\t$OK"
+echo -e "\t\t\t$OK"
 
 echo -en "\e[35mPython\e[39m"
 if [ `command -v python3 | wc -l` -lt 1 ];
@@ -130,7 +130,7 @@ echo -e "\t\t$OK"
 
 echo -en "\e[35mSetting permissions for heatingpi$RESET"
 echo "heatingpi" >> /etc/at.allow &&\
-echo -e "\t$OK" || echo -e "\t$FAIL" && exit 1
+echo -e "$OK" || echo -e "$FAIL" && exit 1
 
 echo -en "\e[35mCreating files\e[39m"
 touch /var/log/heatingpi-error.log &&\
