@@ -133,3 +133,7 @@ def timed(function, duration):
             atq.removeJob(jobid)
             log.info("Removed job %s from queue %s" % (jobid, queue))
     return
+
+def getPinState(pin):
+    state = GPIO.input(pin)
+   return state
