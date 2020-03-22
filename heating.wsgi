@@ -1,4 +1,3 @@
-
 import os
 import db
 import sys
@@ -10,7 +9,7 @@ import RPi.GPIO as GPIO
 from functions import *
 from lazylog import Logger
 from base64 import b64encode, b64decode
-from bottle import run, post, error, route, install, request, response, template, HTTPResponse
+from bottle import run, post, error, route, install, request, response, template, HTTPResponse, default_app
 
 ## Set global vars
 my_cwd = os.path.dirname(os.path.realpath(__file__))
@@ -29,4 +28,32 @@ functions.log = elog
 atq.log = elog
 
 db.connect(config['db']['db'])
-print(config)
+
+def retHTTP(retcode,data=None):
+    if not isinstance(retcode, int):
+        retcode = int(retcode)
+    if not data:
+        return HTTPResponse(retcode)
+    try:
+        jsondata = json.dumps(data)
+        return HTTPResponse(retcode, body=jsondata)
+    except:
+        pass
+    return HTTPResponse(retcode, body=data)
+
+def retOK(data=None):
+    return retHTTP(200, data)
+
+def retError(data=None):
+    return retHTTP(500, data)
+
+def retInvalid(data=None):
+    return retHTTP(400, data)
+
+def retDisabled(data=None):
+    return retHTTP(503, data)
+
+@route('/'):
+    return retOK('Running')
+
+application = default_app()
