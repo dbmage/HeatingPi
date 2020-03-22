@@ -26,7 +26,7 @@ fi
 echo -en "\e[35mPackages\e[39m"
  for package in $(cat Package.list);
  do
-     apt install -y $package
+     apt install -y $package &> /dev/null
  done
 echo -en "\e[35mPython\e[39m"
 if [ `command -v python3 | wc -l` -lt 1 ];
