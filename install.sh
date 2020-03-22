@@ -9,7 +9,7 @@ RED="\e[31m"
 WARN="\t[ \e[33mWARN\e[39m ]"
 OK="\t[  \e[32mOK\e[39m  ]"
 FAIL="\t[ \e[31mFAIL\e[39m ]"
-FAIL="\t[\e[31mFAILED\e[39m]"
+FAILED="\t[\e[31mFAILED\e[39m]"
 
 echo "More detailed info is stored in install.log"
 
@@ -27,34 +27,25 @@ echo -en "\e[35mPython\e[39m"
 if [ `command -v python3 | wc -l` -lt 1 ];
 then
     echo -e "\t\t$WARN"
-    answer='y'
-    if [[ $1 != '-y' ]]; then
-        echo -e "\t\e[33mThis system does not have python 3 installed, but it is required\e[39m"
-        echo "Is it OK to install python 3? (y/n) [n]"
-        read answer
-    fi
-    if [ $answer == 'n' ];
-    then
-        exit 1
-    fi
+    echo -e "\t\e[33mThis system does not have python 3 installed, but it is required$RESET"
     installcode=`sudo apt-get install update &>> install.log && sudo apt-get install python3 python3-dev -y &>> install.log`
     if [ $? -eq 1 ];
     then
-        echo -e "Python install \e[31mfailed\e[39m, please install manually"
+        echo -e "Python install $FAILED, please install manually"
         exit 1
     fi
-    echo -e "\e[35mPython\e[39m\t\t$OK"
+    echo -e "\e[35mPython$RESET\t\t$OK"
 else
     echo -e "\t\t$OK"
 fi
 
-echo -en "\e[35mPip\e[39m"
+echo -en "\e[35mPip$RESET"
 if [ `command -v pip3 | wc -l` -lt 1 ];
 then
     echo -e "\t\t$WARN"
     answer='y'
     if [[ $1 != '-y' ]]; then
-        echo -e "\t\e[33mThis system does not have pip installed, but it is required\e[39m"
+        echo -e "\t\e[33mThis system does not have pip installed, but it is required$RESET"
         echo -en "\tIs it OK to install pip? (y/n) [n]  "
         read answer
     fi
@@ -65,7 +56,7 @@ then
     installcode=`sudo apt-get update &>> install.log && sudo apt-get install python3-pip -y &>> install.log`
     if [ $? -eq 1 ];
     then
-        echo -e "\nPip install \e[31mfailed\e[39m, please install manually"
+        echo -e "\nPip install $FAILED, please install manually"
         exit 1
     fi
     echo -e "\e[35mPip\e[39m\t\t$OK"
@@ -76,7 +67,7 @@ fi
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 notinstalled=''
 
-echo -en "\e[35mPython modules\e[39m"
+echo -en "\e[35mPython modules$RESET"
 for module in $reqmods;
 do
     if [ -e $module.py ];
@@ -94,7 +85,7 @@ done
 if [ `echo -n $notinstalled | wc -c` -gt 0 ];
 then
     echo -e "\t$WARN"
-    echo -e "\t\e[33mThe following python modules need to be installed:\e[39m"
+    echo -e "\t\e[33mThe following python modules need to be installed:$RESET"
     for module in $notinstalled;
     do
         echo -e "\t$module"
@@ -113,12 +104,12 @@ then
             continue
         fi
         echo -e "\tInstalling $module"
-        sudo pip3 install $module &>> install.log && echo -e "\t\t\e[35mpip\e[39m\t$OK" || echo -e "\t\t\e[35mpip\e[39m\t$FAILED"
+        sudo pip3 install $module &>> install.log && echo -e "\t\t\e[35mpip$RESET\t$OK" || echo -e "\t\t\e[35mpip$RESET\t$FAILED"
         if [ $? == 0 ];
         then
             continue
         fi
-        sudo apt-get install python3-$module &>> install.log && echo -e "\t\t\e[35mapt\e[39m\t$OK" || echo -e "\t\t\e[35mapt\e[39m\t$FAILED"
+        sudo apt-get install python3-$module &>> install.log && echo -e "\t\t\e[35mapt$RESET\t$OK" || echo -e "\t\t\e[35mapt$RESET\t$FAILED"
         if [ $? == 0 ];
         then
             continue
@@ -127,7 +118,7 @@ then
 else
     echo -e "\t$OK"
 fi
-echo -en "\e[35mCreating heatingpi user\e[39m"
+echo -en "\e[35mCreating heatingpi user$RESET"
 if [ $(id -u heatingpi &> /dev/null/; echo $?) == 1 ];
 then
     adduser \
@@ -141,20 +132,24 @@ then
 fi
 echo -e "\t$OK"
 
-echo -en "\e[35mSetting permissions for heatingpi\e[39m"
+echo -en "\e[35mSetting permissions for heatingpi$RESET"
 echo "heatingpi" >> /etc/at.allow
 
 echo -en "\e[35mCreating files\e[39m"
-touch /var/log/heatingpi-error.log
-chown heatingpi:heatingpi /var/log/heatingpi-error.log
-chmod 664 /var/log/heatingpi-error.log
-echo "Listen 5000" >> /etc/apache2/ports.conf
+touch /var/log/heatingpi-error.log &&\
+chown heatingpi:heatingpi /var/log/heatingpi-error.log &&\
+chmod 664 /var/log/heatingpi-error.log &&\
+echo "Listen 5000" >> /etc/apache2/ports.conf &&\
+cp heating.conf /etc/apache/sites-available/ &&\
+a2ensite heating.conf &&\
+systemctl restart apache2 &> /dev/null &&\
+echo -e "\t$OK" || echo -e "\t\t$FAIL" && exit 1
 
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
 then
-    echo -e "\e[31mUnable to find install.py\e[33m, please run manually\e[39m"
+    echo -e "\e[31mUnable to find install.py\e[33m, please run manually$RESET"
     echo 'python3 install.py'
     exit 1
 fi
-sudo python3 install.py || echo -e "\e[31mUnable to run install.py\e[33m, please run manually\e[39m"
+sudo python3 install.py || echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET"
