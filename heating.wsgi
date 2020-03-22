@@ -26,8 +26,9 @@ elog = logger.addFileLogger({'filename': "%s/heatingpi-error.log" % (config['log
 db.log = elog
 functions.log = elog
 atq.log = elog
-
+## Initialise necessary things
 db.connect(config['db']['db'])
+pinSetup()
 
 def retHTTP(retcode,data=None):
     if not isinstance(retcode, int):
@@ -53,7 +54,27 @@ def retInvalid(data=None):
 def retDisabled(data=None):
     return retHTTP(503, data)
 
-@route('/'):
+@route('/test'):
     return retOK('Running')
+
+@route('/pinon/<pin>'):
+    on(pin)
+    data = {
+        "pin" : pin,
+        "state" : getPinState(pin)
+    }
+    return retOK(data)
+
+@route('/pinoff/<pin>'):
+    off(pin)
+    data = {
+        "pin" : pin,
+        "state" : getPinState(pin)
+    }
+    return retOK(data)
+
+@route('/resetpins'):
+    resetPins()
+    return retOK()
 
 application = default_app()
