@@ -138,14 +138,30 @@ echo "heatingpi" >> /etc/at.allow &&\
 echo -e "$OK" || { echo -e "$FAIL"; exit 1; }
 
 echo -en "\e[35mCreating files\e[39m"
-touch /var/log/heatingpi-error.log &&\
-chown heatingpi:heatingpi /var/log/heatingpi-error.log &&\
-chmod 664 /var/log/heatingpi-error.log &&\
-echo "Listen 5000" >> /etc/apache2/ports.conf &&\
-cp heating.conf /etc/apache2/sites-available/ &&\
-a2ensite heating.conf &> /dev/null &&\
+logfile=/var/log/heatingpi-error.log
+if [ ! -e $logfile ]
+    touch $logfile &&\
+    chown heatingpi:heatingpi $logfile &&\
+    chmod 664 $logfile &&\
+    echo -e "\t\t\t$OK" || { echo -e "\t\t\t$FAIL"; exit 1; }
+else
+    echo -e "\t\t\t$OK"
+fi
+echo -en "\e[35mApplying Apache2 config\e[39m"
+if [ `cat /etc/apache2/ports.conf | grep 'Listen 5000' | wc -l` -eq 0 ];
+then
+    echo "Listen 5000" >> /etc/apache2/ports.conf || { echo -e "\t\t$FAIL"; exit 1; }
+fi
+if [ ! -e /etc/apache2/sites-available/heating.conf ];
+then
+    cp heating.conf /etc/apache2/sites-available/ || { echo -e "\t\t$FAIL"; exit 1; }
+fi
+if [ ! -e /etc/apache2/sites-enabled/heating.conf ];
+then
+    a2ensite heating.conf &> /dev/null || { echo -e "\t\t$FAIL"; exit 1; }
+fi
 systemctl restart apache2 &> /dev/null &&\
-echo -e "\t\t\t$OK" || { echo -e "\t\t\t$FAIL"; exit 1; }
+echo -e "\t\t$OK" || { echo -e "\t\t$FAIL"; exit 1; }
 
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
@@ -154,4 +170,8 @@ then
     echo 'python3 install.py'
     exit 1
 fi
-sudo python3 install.py || echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET"
+if [ ! -e /usr/local/bin/HeatingPi/heating.wsgi ];
+then
+    sudo python3 install.py || echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET"
+fi
+chown -R heatingpi:heatingpi /usr/local/bin/HeatingPi/
