@@ -12,25 +12,17 @@ FAIL="\t[ \e[31mFAIL\e[39m ]"
 FAIL="\t[\e[31mFAILED\e[39m]"
 
 echo "More detailed info is stored in install.log"
+
 echo -en "\e[35mUser\e[39m"
-if [ user != 'pi' ] && [[ $arch == *"arm"* ]];
+if [[ $user != "root" ]];
 then
-    echo -e "\t\t$WARN"
-    echo -e "\t\e[33mThis appears to be a Raspberry Pi, but you are not running this as the 'pi' user\e[39m"
+    echo -e "\t\t$FAIL"
+    echo -e "\t\e[33mPlease run as root\e[39m"
+    exit 1
 else
     echo -e "\t\t$OK"
 fi
-if [[ $user != "root" ]];
-then
-    echo -en "\e[35mSudo\e[39m"
-    sudoexit=`sudo echo "Yes" > /dev/null`
-    if [ $? -eq 1 ]
-    then
-        echo -e "\t\t$FAIL"
-        exit 1
-    fi
-    echo -e "\t\t$OK"
-fi
+
 echo -en "\e[35mPython\e[39m"
 if [ `command -v python3 | wc -l` -lt 1 ];
 then
@@ -55,6 +47,7 @@ then
 else
     echo -e "\t\t$OK"
 fi
+
 echo -en "\e[35mPip\e[39m"
 if [ `command -v pip3 | wc -l` -lt 1 ];
 then
@@ -79,8 +72,10 @@ then
 else
     echo -e "\t\t$OK"
 fi
+
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 notinstalled=''
+
 echo -en "\e[35mPython modules\e[39m"
 for module in $reqmods;
 do
@@ -95,6 +90,7 @@ do
     fi
     notinstalled="$notinstalled $module"
 done
+
 if [ `echo -n $notinstalled | wc -c` -gt 0 ];
 then
     echo -e "\t$WARN"
@@ -131,6 +127,28 @@ then
 else
     echo -e "\t$OK"
 fi
+echo -en "\e[35mCreating heatingpi user\e[39m"
+if [ $(id -u heatingpi &> /dev/null/; echo $?) == 1 ];
+then
+    adduser \
+   --system \
+   --shell /bin/bash \
+   --gecos ‘User for managing heating control’ \
+   --group \
+   --disabled-password \
+   --home /usr/local/bin/HeatingPi \
+   heatingpi
+fi
+echo -e "\t$OK"
+
+echo -en "\e[35mSetting permissions for heatingpi\e[39m"
+echo "heatingpi" >> /etc/at.allow
+
+echo -en "\e[35mCreating files\e[39m"
+touch /var/log/heatingpi-error.log
+chown heatingpi:heatingpi /var/log/heatingpi-error.log
+chmod 664 /var/log/heatingpi-error.log
+
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
 then
