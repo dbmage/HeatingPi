@@ -31,7 +31,7 @@ def clearQueues():
             atq.clearJobs(config['queues'][function][queue])
             log.info("Cleared jobs from queue %s" % (queue))
 
-def setup():
+def pinSetup():
     # Set Pin numbering mode
     try:
         GPIO.setmode(getattr(GPIO, config['pinmode']))
