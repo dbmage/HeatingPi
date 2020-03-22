@@ -139,7 +139,8 @@ echo -e "$OK" || { echo -e "$FAIL"; exit 1; }
 
 echo -en "\e[35mCreating files\e[39m"
 logfile=/var/log/heatingpi-error.log
-if [ ! -e $logfile ]
+if [ ! -e $logfile ];
+then
     touch $logfile &&\
     chown heatingpi:heatingpi $logfile &&\
     chmod 664 $logfile &&\
