@@ -27,6 +27,10 @@ echo -en "\e[35mPackages\e[39m"
 failedpackage=0
 for package in $(cat Package.list);
 do
+    if dpkg --get-selections | grep -q "^$package[[:space:]]*install$" &> /dev/null;
+    then
+        continue
+    fi
     apt install -y $package &> /dev/null && continue || $failedpackage = "$failedpackage $package"
 done
 if [ $failedpackage -ne 0 ];
