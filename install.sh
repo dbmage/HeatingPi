@@ -138,14 +138,17 @@ echo "heatingpi" >> /etc/at.allow &&\
 echo -e "$OK" || echo -e "$FAIL" && exit 1
 
 echo -en "\e[35mCreating files\e[39m"
-touch /var/log/heatingpi-error.log &&\
-chown heatingpi:heatingpi /var/log/heatingpi-error.log &&\
-chmod 664 /var/log/heatingpi-error.log &&\
-echo "Listen 5000" >> /etc/apache2/ports.conf &&\
-cp heating.conf /etc/apache/sites-available/ &&\
-a2ensite heating.conf &&\
-systemctl restart apache2 &> /dev/null &&\
-echo -e "\t\t\t$OK" || (echo -e "\t\t\t$FAIL" && exit 1)
+echo -en "\tLog file" &&\
+    touch /var/log/heatingpi-error.log &&\
+    chown heatingpi:heatingpi /var/log/heatingpi-error.log &&\
+    chmod 664 /var/log/heatingpi-error.log &&\
+    echo -e "\t$OK" || {echo -e "\t$FAIL" && exit 1}
+echo -en "\tAdd Apache config" &&\
+    echo "Listen 5000" >> /etc/apache2/ports.conf &&\
+    cp heating.conf /etc/apache/sites-available/ &&\
+    a2ensite heating.conf &&\
+    systemctl restart apache2 &> /dev/null &&\
+    echo -e "$OK" || {echo -e "$FAIL" && exit 1}
 
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
