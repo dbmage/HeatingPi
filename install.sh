@@ -52,7 +52,7 @@ then
         echo -e "Python install $FAILED, please install manually"
         exit 1
     fi
-    echo -e "\e[35mPython$RESET\t\t\t$OK"
+    echo -e "\e[35mPython$RESET\t\t\t\t$OK"
 else
     echo -e "\t\t\t\t$OK"
 fi
@@ -68,7 +68,7 @@ then
         echo -e "\nPip install $FAILED, please install manually"
         exit 1
     fi
-    echo -e "\e[35mPip\e[39m\t\t\t$OK"
+    echo -e "\e[35mPip\e[39m\t\t\t\t$OK"
 else
     echo -e "\t\t\t\t$OK"
 fi
@@ -97,6 +97,7 @@ then
     do
         echo -e "\t$module"
     done
+    echo ""
     apt-get update &>> install.log
     for module in $notinstalled;
     do
@@ -144,7 +145,7 @@ echo "Listen 5000" >> /etc/apache2/ports.conf &&\
 cp heating.conf /etc/apache/sites-available/ &&\
 a2ensite heating.conf &&\
 systemctl restart apache2 &> /dev/null &&\
-echo -e "\t\t\t$OK" || echo -e "\t\t\t$FAIL" && exit 1
+echo -e "\t\t\t$OK" || (echo -e "\t\t\t$FAIL" && exit 1)
 
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
