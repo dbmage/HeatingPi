@@ -23,11 +23,16 @@ else
     echo -e "\t\t$OK"
 fi
 
+echo -en "\e[35mPackages\e[39m"
+ for package in $(cat Package.list);
+ do
+     apt install -y $package
+ done
 echo -en "\e[35mPython\e[39m"
 if [ `command -v python3 | wc -l` -lt 1 ];
 then
     echo -e "\t\t$WARN"
-    echo -e "\t\e[33mThis system does not have python 3 installed, but it is required$RESET"
+    echo -e "\t\e[33mThis system does not have python 3 installed, it will be installed$RESET"
     installcode=`sudo apt-get install update &>> install.log && sudo apt-get install python3 python3-dev -y &>> install.log`
     if [ $? -eq 1 ];
     then
@@ -43,16 +48,7 @@ echo -en "\e[35mPip$RESET"
 if [ `command -v pip3 | wc -l` -lt 1 ];
 then
     echo -e "\t\t$WARN"
-    answer='y'
-    if [[ $1 != '-y' ]]; then
-        echo -e "\t\e[33mThis system does not have pip installed, but it is required$RESET"
-        echo -en "\tIs it OK to install pip? (y/n) [n]  "
-        read answer
-    fi
-    if [ $answer == 'n' ];
-    then
-        exit 1
-    fi
+    echo -e "\t\e[33mThis system does not have pip installed, it will be installed$RESET"
     installcode=`sudo apt-get update &>> install.log && sudo apt-get install python3-pip -y &>> install.log`
     if [ $? -eq 1 ];
     then
