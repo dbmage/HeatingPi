@@ -119,16 +119,14 @@ else
     echo -e "\t$OK"
 fi
 echo -en "\e[35mCreating heatingpi user$RESET"
-if [ $(id -u heatingpi &> /dev/null/; echo $?) == 1 ];
+if [ $(id -u heatingpi &> /dev/null; echo $?) == 1 ];
 then
-    adduser \
-   --system \
-   --shell /bin/bash \
-   --gecos ‘User for managing heating control’ \
-   --group \
-   --disabled-password \
-   --home /usr/local/bin/HeatingPi \
-   heatingpi
+    useradd \
+    -rU \
+    -s /bin/bash \
+    -c "User for managing heating control" \
+    -d /usr/local/bin/HeatingPi \
+    heatingpi
 fi
 echo -e "\t$OK"
 
