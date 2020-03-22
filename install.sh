@@ -148,6 +148,7 @@ echo -en "\e[35mCreating files\e[39m"
 touch /var/log/heatingpi-error.log
 chown heatingpi:heatingpi /var/log/heatingpi-error.log
 chmod 664 /var/log/heatingpi-error.log
+echo "Listen 5000" >> /etc/apache2/ports.conf
 
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
