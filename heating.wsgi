@@ -54,10 +54,12 @@ def retInvalid(data=None):
 def retDisabled(data=None):
     return retHTTP(503, data)
 
-@route('/test'):
+@route('/test')
+def FUNCTION():
     return retOK('Running')
 
-@route('/pinon/<pin>'):
+@route('/pinon/<pin>')
+def FUNCTION(pin):
     on(pin)
     data = {
         "pin" : pin,
@@ -65,7 +67,8 @@ def retDisabled(data=None):
     }
     return retOK(data)
 
-@route('/pinoff/<pin>'):
+@route('/pinoff/<pin>')
+def FUNCTION(pin):
     off(pin)
     data = {
         "pin" : pin,
@@ -73,7 +76,8 @@ def retDisabled(data=None):
     }
     return retOK(data)
 
-@route('/resetpins'):
+@route('/resetpins')
+def FUNCTION():
     resetPins()
     return retOK()
 
