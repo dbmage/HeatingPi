@@ -143,7 +143,7 @@ chown heatingpi:heatingpi /var/log/heatingpi-error.log &&\
 chmod 664 /var/log/heatingpi-error.log &&\
 echo "Listen 5000" >> /etc/apache2/ports.conf &&\
 cp heating.conf /etc/apache2/sites-available/ &&\
-a2ensite heating.conf &&\
+a2ensite heating.conf &> /dev/null &&\
 systemctl restart apache2 &> /dev/null &&\
 echo -e "\t\t\t$OK" || { echo -e "\t\t\t$FAIL"; exit 1; }
 
