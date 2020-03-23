@@ -27,7 +27,7 @@ functions.log = log
 atq.log = log
 ## Initialise necessary things
 db.connect(config['db']['db'])
-pinSetup()
+functions.pinSetup()
 
 def retHTTP(retcode,data=None):
     if not isinstance(retcode, int):
