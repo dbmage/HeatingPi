@@ -7,7 +7,7 @@
         "level" : "INFO",
         "splitlines" : true,
         "pretty" : true,
-        "fmt" : "%(asctime)s %(levelname)-8s %(module)15.15s: %(message)s"
+        "fmt" : "%(asctime)s %(levelname)-8s %(module)15.15s %(func)-15s: %(message)s"
     },
     "db" : {
         "host" : "127.0.0.1",
