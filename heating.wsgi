@@ -3,10 +3,10 @@ import db
 import sys
 import json
 import requests
+import functions
 import at as atq
 import logging as log
 import RPi.GPIO as GPIO
-from functions import *
 from lazylog import Logger
 from base64 import b64encode, b64decode
 from bottle import run, post, error, route, install, request, response, template, HTTPResponse, default_app
@@ -20,12 +20,11 @@ __builtins__.config = config
 
 ## Setup logging
 config['logspecs']['level'] = getattr(log, config['logspecs']['level'], 'INFO')
-logger = Logger(config['logdir'], termSpecs=None, fileSpecs=config['logspecs'])
-## Error log
-elog = logger.addFileLogger({'filename': "%s/heatingpi-error.log" % (config['logdir']), 'level' : logging.DEBUG})
-db.log = elog
-functions.log = elog
-atq.log = elog
+Logger(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']])
+
+db.log = log
+functions.log = log
+atq.log = log
 ## Initialise necessary things
 db.connect(config['db']['db'])
 pinSetup()
