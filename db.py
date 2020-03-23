@@ -67,7 +67,7 @@ def insertData(table, data):
     for row in tabledes:
         header.append(row[0])
     if len(data) != len(headers):
-        log.error("Not enough values for insert - provided %s need %s" % (len(data), len(headers))
+        log.error("Not enough values for insert - provided %s need %s" % (len(data), len(headers)))
         return False
     query = "INSERT INTO %s(%s) VALUES (%s)" % (table, ','.join(headers), ','.join(data))
     output = executeQuery(query)
