@@ -59,25 +59,25 @@ def FUNCTION():
 
 @route('/pinon/<pin>')
 def FUNCTION(pin):
-    on(pin)
+    functions.on(pin)
     data = {
         "pin" : pin,
-        "state" : getPinState(pin)
+        "state" : functions.getPinState(pin)
     }
     return retOK(data)
 
 @route('/pinoff/<pin>')
 def FUNCTION(pin):
-    off(pin)
+    functions.off(pin)
     data = {
         "pin" : pin,
-        "state" : getPinState(pin)
+        "state" : functions.getPinState(pin)
     }
     return retOK(data)
 
 @route('/resetpins')
 def FUNCTION():
-    resetPins()
+    functions.resetPins()
     return retOK()
 
 application = default_app()
