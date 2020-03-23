@@ -136,4 +136,4 @@ def timed(function, duration):
 
 def getPinState(pin):
     state = GPIO.input(pin)
-   return state
+    return state
