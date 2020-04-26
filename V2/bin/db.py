@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import sqlite3
-import functions
+from bin import functions as hpfuncs
 
 def connect(database):
     if os.path.exists(database) and not os.path.isfile(database):
