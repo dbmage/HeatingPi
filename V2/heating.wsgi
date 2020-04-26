@@ -67,7 +67,7 @@ def retDisabled(data=None):
 ## Routes
 @route('/test')
 def FUNCTION():
-    return retOK('Running')
+    return retOK(data='Running')
 
 @route('/pinon/<pin>')
 def FUNCTION(pin):
@@ -76,7 +76,7 @@ def FUNCTION(pin):
         "pin" : pin,
         "state" : hpfuncs.getPinState(pin)
     }
-    return retOK(data)
+    return retOK(data=data)
 
 @route('/pinoff/<pin>')
 def FUNCTION(pin):
@@ -85,7 +85,7 @@ def FUNCTION(pin):
         "pin" : pin,
         "state" : hpfuncs.getPinState(pin)
     }
-    return retOK(data)
+    return retOK(data=data)
 
 @route('/resetpins')
 def FUNCTION():
