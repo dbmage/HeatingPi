@@ -84,7 +84,7 @@ reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 notinstalled=''
 for module in $reqmods;
 do
-    if [ -e $module.py ];
+    if [ -e bin/$module.py ];
     then
         continue
     fi
