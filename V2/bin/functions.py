@@ -95,9 +95,13 @@ def resetPins():
 def on(function):
     pins = config['pins']
     pin = pins['mapping'][function]
-    state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
+    type = pins['type'][function]
+    state = getattr(GPIO, pins['types'][type]['on'])
     GPIO.output(pin, state)
     log.info("Set pin %s to state %s" % (pin, state))
+    if type == 'momentary':
+        off(function)
+        return
     if function not in config['queues']:
         return
     checkTime(config['queues'][function]['off'])
@@ -106,7 +110,8 @@ def on(function):
 def off(function):
     pins = config['pins']
     pin = pins['mapping'][function]
-    state = getattr(GPIO, pins['types'][pins['type'][function]]['off'])
+    type = pins['type'][function]
+    state = getattr(GPIO, pins['types'][type]['off'])
     GPIO.output(pin, state)
     log.info("Set pin %s to state %s" % (pin, state))
     if function not in config['queues']:
@@ -148,5 +153,5 @@ def getPinState(pin):
     except:
         pass
     pins = config['pins']
-    pin = pins['mapping'][pin] 
+    pin = pins['mapping'][pin]
     return GPIO.input(pin)
