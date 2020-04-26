@@ -20,30 +20,7 @@ my_cwd = os.path.dirname(os.path.realpath(__file__))
 def FUNCTION():
     if users not in config['users']:
         return template('firstrun')
-    return retOK(data='Running')
-
-@route('/pinon/<pin>')
-def FUNCTION(pin):
-    hpfuncs.on(pin)
-    data = {
-        "pin" : pin,
-        "state" : hpfuncs.getPinState(pin)
-    }
-    return retOK(data=data)
-
-@route('/pinoff/<pin>')
-def FUNCTION(pin):
-    hpfuncs.off(pin)
-    data = {
-        "pin" : pin,
-        "state" : hpfuncs.getPinState(pin)
-    }
-    return retOK(data=data)
-
-@route('/resetpins')
-def FUNCTION():
-    hpfuncs.resetPins()
-    return retOK()
+    return template('main')
 
 ## Run WSGI
 application = default_app()
