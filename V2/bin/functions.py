@@ -141,5 +141,12 @@ def timed(function, duration):
     return
 
 def getPinState(pin):
-    state = GPIO.input(pin)
-    return state
+    if isinstance(pin, int):
+        return GPIO.input(pin)
+    try:
+        return GPIO.input(int(pin))
+    except:
+        pass
+    pins = config['pins']
+    pin = pins['mapping'][pin] 
+    return GPIO.input(pin)
