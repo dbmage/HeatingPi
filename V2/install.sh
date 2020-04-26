@@ -133,10 +133,10 @@ echo -en "\e[35mCreating heatingpi user$RESET"
 if [ $(id -u heatingpi &> /dev/null; echo $?) == 1 ];
 then
     useradd \
-    -rU \
+    -rUm \
     -s /bin/bash \
     -c "User for managing heating control" \
-    -md /usr/local/bin/HeatingPi \
+    -d /usr/local/bin/HeatingPi \
     heatingpi && \
     usermod -a -G www-data heatingpi && \
     chown heatingpi:www-data /usr/local/bin/HeatingPi && \
@@ -187,4 +187,3 @@ if [ ! -e /usr/local/bin/HeatingPi/heating.wsgi ];
 then
     sudo python3 install.py || echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET"
 fi
-chown -R heatingpi:heatingpi /usr/local/bin/HeatingPi/
