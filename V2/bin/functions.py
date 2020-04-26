@@ -10,6 +10,7 @@ UnitedKingdom = europe.UnitedKingdom
 #sys.path.append(my_cwd)
 from bin import db
 from bin import at as atq
+pins = config['pins']
 
 def getPassword(password):
     return b64decode(password).decode('utf-8')
@@ -40,7 +41,6 @@ def pinSetup():
         return False
     # Stop warnings about pins being configured already
     GPIO.setwarnings(False)
-    pins = config['pins']
     for pin in pins['active']:
         if pins['mode'][pin] is 'NONE':
             continue
