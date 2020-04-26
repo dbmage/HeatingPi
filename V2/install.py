@@ -16,6 +16,8 @@ if not os.path.isdir(newlocation):
         exit(1)
 try:
     copy_tree("%s" % (os.path.dirname(os.path.realpath(__file__))), newlocation)
+    os.remove("%s/install.*" % (newlocation))
+    os.remove("%s/Package.list" % (newlocation))
     print("Installed to %s!" % (newlocation))
 except Exception as e:
     print("Failed to move project to %s." % (newlocation))
