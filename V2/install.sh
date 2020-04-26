@@ -1,4 +1,10 @@
 #!/bin/bash
+## NOTE: For mare savvy users, you culd easily do these things yourself with
+## instructions, but this was designed to be easy to install by newbies :)
+## Feel free to poke around and run the necessities yourself. There shouldn't
+## be anything majorly intrusive, I tried to make this run ahppily without
+## affecting a current runnign system. This would ideally have all been in the
+## python script, but in case python3 is not installed, I do some of it here.
 user=$(whoami)
 arch=$(uname -m | grep arm | wc -c)
 RESET="\e[39m"
@@ -12,7 +18,7 @@ FAIL="\t[ \e[31mFAIL\e[39m ]"
 FAILED="\t[\e[31mFAILED\e[39m]"
 clear
 echo "More detailed info is stored in install.log"
-
+## Check for run as root, had issues using sudo
 echo -en "\e[35mRoot\e[39m"
 if [[ $user != "root" ]];
 then
@@ -22,7 +28,7 @@ then
 else
     echo -e "\t\t\t\t$OK"
 fi
-
+## check for and install missing packages
 echo -en "\e[35mPackages\e[39m"
 failedpackage=0
 for package in $(cat Package.list);
@@ -40,7 +46,7 @@ then
     exit 1
 fi
 echo -e "\t\t\t$OK"
-
+## check for py3, install if missing
 echo -en "\e[35mPython\e[39m"
 if [ `command -v python3 | wc -l` -lt 1 ];
 then
@@ -56,7 +62,7 @@ then
 else
     echo -e "\t\t\t\t$OK"
 fi
-
+## Check for pip and install if missing
 echo -en "\e[35mPip$RESET"
 if [ `command -v pip3 | wc -l` -lt 1 ];
 then
@@ -72,7 +78,7 @@ then
 else
     echo -e "\t\t\t\t$OK"
 fi
-
+## Same again for python modules...
 echo -en "\e[35mPython modules$RESET"
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 notinstalled=''
@@ -120,7 +126,7 @@ then
 else
     echo -e "\t\t\t$OK"
 fi
-
+## Create dedicate user
 echo -en "\e[35mCreating heatingpi user$RESET"
 if [ $(id -u heatingpi &> /dev/null; echo $?) == 1 ];
 then
@@ -132,11 +138,11 @@ then
     heatingpi
 fi
 echo -e "\t\t$OK"
-
+## Give it the required perms
 echo -en "\e[35mSetting permissions for heatingpi$RESET"
 echo "heatingpi" >> /etc/at.allow &&\
 echo -e "$OK" || { echo -e "$FAIL"; exit 1; }
-
+## Create the logfile and chown it for ease
 echo -en "\e[35mCreating files\e[39m"
 logfile=/var/log/heatingpi-error.log
 if [ ! -e $logfile ];
@@ -148,6 +154,7 @@ then
 else
     echo -e "\t\t\t$OK"
 fi
+## Add and enable apache config
 echo -en "\e[35mApplying Apache2 config\e[39m"
 if [ `cat /etc/apache2/ports.conf | grep 'Listen 5000' | wc -l` -eq 0 ];
 then
@@ -163,7 +170,7 @@ then
 fi
 systemctl restart apache2 &> /dev/null &&\
 echo -e "\t\t$OK" || { echo -e "\t\t$FAIL"; exit 1; }
-
+## Now run python script
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
 then

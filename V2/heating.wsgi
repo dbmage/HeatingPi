@@ -1,19 +1,27 @@
+## Author: Joe Ash - DBMage - https://github.com/dbmage
+## LazyLogger credit: Andreas Bontozoglou - urban-1 - https://github.com/urban-1
+## Ideas and testing: Dave Ash - daveash  - https://github.com/daveash
 import os
-import db
 import sys
 import json
 import requests
 import functions
-import at as atq
 import logging as log
 import RPi.GPIO as GPIO
 from lazylog import Logger
 from base64 import b64encode, b64decode
 from bottle import run, post, error, route, install, request, response, template, HTTPResponse, default_app
 
-## Set global vars
+## Needed for deifnitive path
 my_cwd = os.path.dirname(os.path.realpath(__file__))
-config = json.loads(open("%s/config.json" % (my_cwd)).read())
+
+## custom imports
+sys.path.append("%s/bin" % (my_cwd))
+import db
+import at as atq
+
+## Set global vars
+config = json.loads(open("%s/configconfig.json" % (my_cwd)).read())
 config['db']['db'] = "%s/%s" % ( my_cwd, config['db']['db'])
 __builtins__.my_cwd = my_cwd
 __builtins__.config = config
@@ -21,14 +29,16 @@ __builtins__.config = config
 ## Setup logging
 config['logspecs']['level'] = getattr(log, config['logspecs']['level'], 'INFO')
 Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']])
-
+## Pass logger to other modules instead ofsetting up in each one
 db.log = log
 functions.log = log
 atq.log = log
+
 ## Initialise necessary things
 db.connect(config['db']['db'])
 functions.pinSetup()
 
+## WSGI functions
 def retHTTP(retcode,data=None):
     if not isinstance(retcode, int):
         retcode = int(retcode)
@@ -53,6 +63,7 @@ def retInvalid(data=None):
 def retDisabled(data=None):
     return retHTTP(503, data)
 
+## Routes
 @route('/test')
 def FUNCTION():
     return retOK('Running')
@@ -80,4 +91,5 @@ def FUNCTION():
     functions.resetPins()
     return retOK()
 
+## Run WSGI
 application = default_app()
