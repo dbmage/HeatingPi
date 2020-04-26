@@ -3,6 +3,7 @@ import sys
 import json
 import requests
 import RPi.GPIO as GPIO
+from time import lseep
 from base64 import b64encode, b64decode
 from datetime import datetime, timedelta, date
 from workalendar import europe
@@ -100,6 +101,7 @@ def on(function):
     GPIO.output(pin, state)
     log.info("Set pin %s to state %s" % (pin, state))
     if type == 'momentary':
+        sleep(0.5)
         off(function)
         return
     if function not in config['queues']:
