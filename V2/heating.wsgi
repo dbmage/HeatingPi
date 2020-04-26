@@ -5,7 +5,6 @@ import os
 import sys
 import json
 import requests
-import functions
 import logging as log
 import RPi.GPIO as GPIO
 from lazylog import Logger
@@ -16,9 +15,11 @@ from bottle import run, post, error, route, install, request, response, template
 my_cwd = os.path.dirname(os.path.realpath(__file__))
 
 ## custom imports
-sys.path.append("%s/bin" % (my_cwd))
-import db
-import at as atq
+sys.path.append("%s" % (my_cwd))
+from bin import db
+from bin import at as atq
+## Was unaware of python dist fucntions module. Renamed to avoid clash
+from bin import fucntions as hpfuncs
 
 ## Set global vars
 config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
@@ -31,14 +32,14 @@ config['logspecs']['level'] = getattr(log, config['logspecs']['level'], 'INFO')
 Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']])
 ## Pass logger to other modules instead ofsetting up in each one
 db.log = log
-functions.log = log
+hpfuncs.log = log
 atq.log = log
 
 ## Initialise necessary things
 db.connect(config['db']['db'])
-functions.pinSetup()
+hpfuncs.pinSetup()
 
-## WSGI functions
+## WSGI hpfuncs
 def retHTTP(retcode,data=None):
     if not isinstance(retcode, int):
         retcode = int(retcode)
@@ -70,25 +71,25 @@ def FUNCTION():
 
 @route('/pinon/<pin>')
 def FUNCTION(pin):
-    functions.on(pin)
+    hpfuncs.on(pin)
     data = {
         "pin" : pin,
-        "state" : functions.getPinState(pin)
+        "state" : hpfuncs.getPinState(pin)
     }
     return retOK(data)
 
 @route('/pinoff/<pin>')
 def FUNCTION(pin):
-    functions.off(pin)
+    hpfuncs.off(pin)
     data = {
         "pin" : pin,
-        "state" : functions.getPinState(pin)
+        "state" : hpfuncs.getPinState(pin)
     }
     return retOK(data)
 
 @route('/resetpins')
 def FUNCTION():
-    functions.resetPins()
+    hpfuncs.resetPins()
     return retOK()
 
 ## Run WSGI
