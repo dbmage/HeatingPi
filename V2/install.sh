@@ -139,6 +139,7 @@ then
     -d /usr/local/bin/HeatingPi \
     heatingpi && \
     usermod -a -G www-data heatingpi && \
+    usermod -a -G gpio heatingpi && \
     chown heatingpi:www-data /usr/local/bin/HeatingPi && \
     chmod -R o-rwx /usr/local/bin/HeatingPi/
 fi
