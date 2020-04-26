@@ -137,9 +137,9 @@ then
     -s /bin/bash \
     -c "User for managing heating control" \
     -d /usr/local/bin/HeatingPi \
-    heatingpi
-    usermod -a -G www-data heatingpi
-    chown heatingpi:www-data /usr/local/bin/HeatingPi
+    heatingpi && \
+    usermod -a -G www-data heatingpi && \
+    chown heatingpi:www-data /usr/local/bin/HeatingPi && \
     chmod -R o-rwx /usr/local/bin/HeatingPi/
 fi
 echo -e "\t\t$OK"
