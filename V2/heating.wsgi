@@ -53,16 +53,16 @@ def retHTTP(retcode,data=None):
     return HTTPResponse(retcode, body=data)
 
 def retOK(data=None):
-    return retHTTP(200, data)
+    return retHTTP(200, data=data)
 
 def retError(data=None):
-    return retHTTP(500, data)
+    return retHTTP(500, data=data)
 
 def retInvalid(data=None):
-    return retHTTP(400, data)
+    return retHTTP(400, data=data)
 
 def retDisabled(data=None):
-    return retHTTP(503, data)
+    return retHTTP(503, data=data)
 
 ## Routes
 @route('/test')
