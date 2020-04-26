@@ -107,7 +107,7 @@ then
     apt-get update &>> install.log
     for module in $notinstalled;
     do
-        if [ -e $module.py ];
+        if [ -e bin/$module.py ];
         then
             continue
         fi
