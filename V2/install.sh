@@ -136,7 +136,7 @@ then
     -rU \
     -s /bin/bash \
     -c "User for managing heating control" \
-    -d /usr/local/bin/HeatingPi \
+    -md /usr/local/bin/HeatingPi \
     heatingpi && \
     usermod -a -G www-data heatingpi && \
     chown heatingpi:www-data /usr/local/bin/HeatingPi && \
