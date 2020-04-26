@@ -136,6 +136,8 @@ then
     -c "User for managing heating control" \
     -d /usr/local/bin/HeatingPi \
     heatingpi
+    usermod -a -G www-data heatingpi
+    chmod o-rwx /usr/local/bin/HeatingPi
 fi
 echo -e "\t\t$OK"
 ## Give it the required perms
@@ -148,7 +150,7 @@ logfile=/var/log/heatingpi-error.log
 if [ ! -e $logfile ];
 then
     touch $logfile &&\
-    chown heatingpi:heatingpi $logfile &&\
+    chown heatingpi:www-data $logfile &&\
     chmod 664 $logfile &&\
     echo -e "\t\t\t$OK" || { echo -e "\t\t\t$FAIL"; exit 1; }
 else
