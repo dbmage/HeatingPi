@@ -96,7 +96,7 @@ def on(function):
     pins = config['pins']
     pin = pins['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
-    GPIO.output(pin, GPIO.state)
+    GPIO.output(pin, state)
     log.info("Set pin %s to state %s" % (pin, state))
     if function not in config['queues']:
         return
@@ -107,7 +107,7 @@ def off(function):
     pins = config['pins']
     pin = pins['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['off'])
-    GPIO.output(pin, GPIO.state)
+    GPIO.output(pin, state)
     log.info("Set pin %s to state %s" % (pin, state))
     if function not in config['queues']:
         return
