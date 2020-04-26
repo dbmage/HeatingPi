@@ -19,7 +19,7 @@ sys.path.append("%s" % (my_cwd))
 from bin import db
 from bin import at as atq
 ## Was unaware of python dist fucntions module. Renamed to avoid clash
-from bin import fucntions as hpfuncs
+from bin import functions as hpfuncs
 
 ## Set global vars
 config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
