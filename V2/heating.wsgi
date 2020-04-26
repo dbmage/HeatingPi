@@ -18,7 +18,7 @@ my_cwd = os.path.dirname(os.path.realpath(__file__))
 sys.path.append("%s" % (my_cwd))
 from bin import db
 from bin import at as atq
-## Was unaware of python dist fucntions module. Renamed to avoid clash
+## Was unaware of python dist functions module. Renamed to avoid clash
 from bin import functions as hpfuncs
 
 ## Set global vars
