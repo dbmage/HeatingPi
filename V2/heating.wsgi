@@ -44,13 +44,13 @@ def retHTTP(retcode,data=None):
     if not isinstance(retcode, int):
         retcode = int(retcode)
     if not data:
-        return HTTPResponse(retcode)
+        return HTTPResponse(status=retcode)
     try:
         jsondata = json.dumps(data)
-        return HTTPResponse(retcode, body=jsondata)
+        return HTTPResponse(status=retcode, body=jsondata)
     except:
         pass
-    return HTTPResponse(retcode, body=str(data))
+    return HTTPResponse(status=retcode, body=data)
 
 def retOK(data=None):
     return retHTTP(200, data=data)
