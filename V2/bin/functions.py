@@ -10,7 +10,6 @@ UnitedKingdom = europe.UnitedKingdom
 #sys.path.append(my_cwd)
 from bin import db
 from bin import at as atq
-pins = config['pins']
 
 def getPassword(password):
     return b64decode(password).decode('utf-8')
@@ -41,6 +40,7 @@ def pinSetup():
         return False
     # Stop warnings about pins being configured already
     GPIO.setwarnings(False)
+    pins = config['pins']
     for pin in pins['active']:
         if pins['mode'][pin] is 'NONE':
             continue
@@ -81,6 +81,7 @@ def setTimers():
 
 def resetPins():
     # Midnight failsafe - sets all pins to default setting and clears queues
+    pins = config['pins']
     for pin in pins['active']:
         if pins['mode'][pin] is 'NONE':
             continue
@@ -92,7 +93,8 @@ def resetPins():
     clearQueues()
 
 def on(function):
-    pin = config['pins']['mapping'][function]
+    pins = config['pins']
+    pin = pins['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
     GPIO.output(pin, GPIO.state)
     log.info("Set pin %s to state %s" % (pin, state))
@@ -102,7 +104,8 @@ def on(function):
     return
 
 def off(function):
-    pin = config['pins']['mapping'][function]
+    pins = config['pins']
+    pin = pins['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['off'])
     GPIO.output(pin, GPIO.state)
     log.info("Set pin %s to state %s" % (pin, state))
@@ -112,7 +115,8 @@ def off(function):
     return
 
 def timed(function, duration):
-    pin = config['pins']['mapping'][function]
+    pins = config['pins']
+    pin = pins['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
     command = "%s/%s" % (config['commands']['off'], function)
     if 0 < duration < 25:
