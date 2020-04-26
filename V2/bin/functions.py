@@ -44,13 +44,14 @@ def pinSetup():
     for pin in pins['active']:
         if pins['mode'][pin] is 'NONE':
             continue
-        pin = int(pin)
-        mode = getattr(GPIO, pins['mode'][pin])
-        pintype = pins['type'][pin]
-        defset = getattr(GPIO, pins['types'][pins['type'][pin]][pins['defaultsetting'][pin]])
-        log.info("Initialised pin %s with mode %s and state %s" % (pin, mode, defset))
+            name = pin
+        pin = int(pins['mapping'][name])
+        mode = getattr(GPIO, pins['mode'][name])
+        pintype = pins['type'][name]
+        defset = getattr(GPIO, pins['types'][pins['type'][name]][pins['defaultsetting'][name]])
+        log.info("Initialised pin %s (%s) with mode %s and state %s" % (pin, name, mode, defset))
         GPIO.setup(pin, mode, initial=defset)
-
+        
 def setTimers():
     clearQueues()
     bankholidays = []
