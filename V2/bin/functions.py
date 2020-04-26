@@ -44,6 +44,7 @@ def pinSetup():
     for pin in pins['active']:
         if pins['mode'][pin] is 'NONE':
             continue
+        pin = int(pin)
         mode = getattr(GPIO, pins['mode'][pin])
         pintype = pins['type'][pin]
         defset = getattr(GPIO, pins['types'][pins['type'][pin]][pins['defaultsetting'][pin]])
