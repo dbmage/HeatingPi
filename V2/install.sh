@@ -18,6 +18,8 @@ FAIL="\t[ \e[31mFAIL\e[39m ]"
 FAILED="\t[\e[31mFAILED\e[39m]"
 clear
 echo "More detailed info is stored in install.log"
+## Git would not let me commit the chmods, so they're going here....
+chmod -R o-rwx *
 ## Check for run as root, had issues using sudo
 echo -en "\e[35mRoot\e[39m"
 if [[ $user != "root" ]];
