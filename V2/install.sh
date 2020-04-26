@@ -37,7 +37,7 @@ do
     then
         continue
     fi
-    apt install -y $package &> /dev/null && continue || $failedpackage = "$failedpackage $package"
+    apt install -y $package &> install.log && continue || $failedpackage = "$failedpackage $package"
 done
 if [ $failedpackage -ne 0 ];
 then
