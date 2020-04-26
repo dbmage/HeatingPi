@@ -15,7 +15,7 @@ if not os.path.isdir(newlocation):
         print("Please create the directory and ensure the current user %s owns it" % (curuser))
         exit(1)
 try:
-    copy_tree(os.path.dirname(os.path.realpath(__file__)), newlocation)
+    copy_tree("%s/V2" % (os.path.dirname(os.path.realpath(__file__))), newlocation)
     print("Installed to %s!" % (newlocation))
 except Exception as e:
     print("Failed to move project to %s." % (newlocation))
