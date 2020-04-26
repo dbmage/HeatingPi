@@ -50,7 +50,7 @@ def retHTTP(retcode,data=None):
         return HTTPResponse(retcode, body=jsondata)
     except:
         pass
-    return HTTPResponse(retcode, body=data)
+    return HTTPResponse(retcode, body=str(data))
 
 def retOK(data=None):
     return retHTTP(200, data=data)
