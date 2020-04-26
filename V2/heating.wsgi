@@ -20,14 +20,14 @@ __builtins__.config = config
 
 ## Setup logging
 config['logspecs']['level'] = getattr(log, config['logspecs']['level'], 'INFO')
-Logger(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']])
+Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']])
 
 db.log = log
 functions.log = log
 atq.log = log
 ## Initialise necessary things
 db.connect(config['db']['db'])
-pinSetup()
+functions.pinSetup()
 
 def retHTTP(retcode,data=None):
     if not isinstance(retcode, int):
@@ -59,25 +59,25 @@ def FUNCTION():
 
 @route('/pinon/<pin>')
 def FUNCTION(pin):
-    on(pin)
+    functions.on(pin)
     data = {
         "pin" : pin,
-        "state" : getPinState(pin)
+        "state" : functions.getPinState(pin)
     }
     return retOK(data)
 
 @route('/pinoff/<pin>')
 def FUNCTION(pin):
-    off(pin)
+    functions.off(pin)
     data = {
         "pin" : pin,
-        "state" : getPinState(pin)
+        "state" : functions.getPinState(pin)
     }
     return retOK(data)
 
 @route('/resetpins')
 def FUNCTION():
-    resetPins()
+    functions.resetPins()
     return retOK()
 
 application = default_app()

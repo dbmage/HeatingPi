@@ -48,7 +48,7 @@ def pinSetup():
         pintype = pins['type'][pin]
         defset = getattr(GPIO, pins['types'][pins['type'][pin]][pins['defaultsetting'][pin]])
         log.info("Initialised pin %s with mode %s and state %s" % (pin, mode, defset))
-        GPIO.setup(channel, GPIO.mode, initial=GPIO.defset)
+        GPIO.setup(pin, mode, initial=defset)
 
 def setTimers():
     clearQueues()
