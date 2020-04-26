@@ -62,7 +62,7 @@
             "redled",
             "greenled"
         ],
-        "function": {
+        "mapping": {
             "light" : 3,
             "fan" : 2,
             "halfvalve" : 15,
