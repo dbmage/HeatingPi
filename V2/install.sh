@@ -162,7 +162,7 @@ then
 fi
 if [ ! -e /etc/apache2/sites-available/heating.conf ];
 then
-    cp heating.conf /etc/apache2/sites-available/ || { echo -e "\t\t$FAIL"; exit 1; }
+    cp config/heating.conf /etc/apache2/sites-available/ || { echo -e "\t\t$FAIL"; exit 1; }
 fi
 if [ ! -e /etc/apache2/sites-enabled/heating.conf ];
 then
