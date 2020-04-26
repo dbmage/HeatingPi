@@ -92,7 +92,7 @@ def resetPins():
     clearQueues()
 
 def on(function):
-    pin = config['pins']['function'][function]
+    pin = config['pins']['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
     GPIO.output(pin, GPIO.state)
     log.info("Set pin %s to state %s" % (pin, state))
@@ -102,7 +102,7 @@ def on(function):
     return
 
 def off(function):
-    pin = config['pins']['function'][function]
+    pin = config['pins']['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['off'])
     GPIO.output(pin, GPIO.state)
     log.info("Set pin %s to state %s" % (pin, state))
@@ -112,7 +112,7 @@ def off(function):
     return
 
 def timed(function, duration):
-    pin = config['pins']['function'][function]
+    pin = config['pins']['mapping'][function]
     state = getattr(GPIO, pins['types'][pins['type'][function]]['on'])
     command = "%s/%s" % (config['commands']['off'], function)
     if 0 < duration < 25:
