@@ -5,7 +5,7 @@ import getpass
 from sys import exit
 from distutils.dir_util import copy_tree
 
-newlocation = '/usr/local/bin/HeatingPi'
+newlocation = '/usr/local/bin/HeatingPi/V2'
 curuser = getpass.getuser()
 if not os.path.isdir(newlocation):
     try:

@@ -21,8 +21,8 @@ import db
 import at as atq
 
 ## Set global vars
-config = json.loads(open("%s/configconfig.json" % (my_cwd)).read())
-config['db']['db'] = "%s/%s" % ( my_cwd, config['db']['db'])
+config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
+config['db']['db'] = "%s/bin/%s" % ( my_cwd, config['db']['db'])
 __builtins__.my_cwd = my_cwd
 __builtins__.config = config
 
