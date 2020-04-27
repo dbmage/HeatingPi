@@ -87,8 +87,8 @@ try:
         for thing in files:
             os.chown(os.path.join(root, thing), fowner, fgroup)
             os.chmod(os.path.join(root, thing), 0o750)
-    print("[  OK  ]")
-    print("%-40s" % ("Testing installation"), end='')
+    print_progress("OK", type='end')
+    print_progress("Testing installation", type='start')
     try:
         for i in range(5):
             requests.get('http://127.0.0.1/api/test')
