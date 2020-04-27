@@ -16,11 +16,6 @@ def connect(database):
         return e
     return True
 
-def tableCheck(table):
-    query = "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % (table)
-    output = executeQuery(query)
-    return output
-
 def executeQuery(query):
     cursor = config['db']['cursor']
     query = query.replace(';', '')
@@ -38,6 +33,20 @@ def executeQuery(query):
     output = []
     for row in cursor:
         output.append(row)
+    return output
+
+def createTable(table):
+    if table not in config['db']['tables']:
+        return False
+    columns = ""
+    for column in config['db']['tables'][table]:
+        columns += "%s," % ()' '.join(column))
+    query = "Create table %s(%s)" % (table, columns)
+    return executeQuery(query)
+
+def tableCheck(table):
+    query = "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % (table)
+    output = executeQuery(query)
     return output
 
 def describeTable(table):
