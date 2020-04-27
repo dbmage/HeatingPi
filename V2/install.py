@@ -97,7 +97,7 @@ print_progress("OK", type='end')
 print_progress("Testing installation", type='start')
 try:
     for i in range(5):
-        requests.get('http://127.0.0.1/api/test', timeout=2)
+        requests.get('http://127.0.0.1:5000/test', timeout=2)
 except:
     print_progress("Failed", type='end')
     print("Install failed, backend not running!")
