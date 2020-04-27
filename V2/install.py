@@ -20,7 +20,7 @@ while passwd == '':
         passwd = b64encode(passwd.encode())
 
 config = open("%s/config/config.json" % (my_cwd)).read()
-config.replace('CHANGEME', passwd)
+config = config.replace('CHANGEME', passwd.decode('utf-8'))
 myfh = open("%s/config/config.json" % (my_cwd), 'w')
 myfh.write(config)
 myfh.close()
