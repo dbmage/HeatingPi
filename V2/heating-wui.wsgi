@@ -18,6 +18,14 @@ config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
 Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['wui']])
 
 def init():
+    try:
+        req = requests.get('http://localhost/api/test')
+        if req.status_code != 200:
+            log.error("API issue: %s" % (req.text))
+            sys.exit()
+    except:
+        log.error("No response from the API")
+        sys.exit()
     data = requests.get('http://localhost/api/getUsers').text
     log.info(data)
     config['users'] = json.loads(data)
