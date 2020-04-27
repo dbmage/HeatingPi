@@ -16,37 +16,67 @@ curuser = getpass.getuser()
 fowner = getpwnam('heatingpi').pw_uid
 fgroup = getgrnam('www-data').gr_gid
 passwd = ''
+def print_progress(message, type=None):
+    colours = {
+        'ok' : "\033[1;32;40m",
+        'warn' : "\033[1;33;40m",
+        'failed' : "\033[1;31;40m"
+    }
+    if type == 'start':
+        print("\033[1;33;40m%-40s\e[39m" % (message), end='')
+        return
+    if type == 'end' and message.lower() in colours:
+        print("[%s%s\e[39m]" % (colours[message.lower()], message.center(6)))
+        return
+    if type.lower() in colours:
+        print("%s%-40s\e[39m" % (colours[type.lower()], message), end='')
+        return
+    print(message)
+
 while passwd == '':
-    print("Please choose the admin password")
+    print_progress("Please choose the admin password", type='warn')
     a = getpass.getpass("Password: ")
     b = getpass.getpass("Confirm: ")
     if a == b:
         passwd = b64encode(passwd.encode())
 
-config = open("%s/config/config.json" % (my_cwd)).read()
-config = config.replace('CHANGEME', passwd.decode('utf-8'))
-myfh = open("%s/config/config.json" % (my_cwd), 'w')
-myfh.write(config)
-myfh.close()
-print("Password set")
+print_progress("Password", type='start')
+try:
+    config = open("%s/config/config.json" % (my_cwd)).read()
+    config = config.replace('CHANGEME', passwd.decode('utf-8'))
+    myfh = open("%s/config/config.json" % (my_cwd), 'w')
+    myfh.write(config)
+    myfh.close()
+except:
+    print_progress("Failed", type='end')
+    print("Unableto set password, check permissions of %s" % (newlocation))
+    sys.exit(1)
+print_progress("OK", type='end')
+print_progress("Logfiles", type='start')
 config = json.loads(config)
-for thing in config['logspecs']:
-    lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
-    lfh = open(lfile, 'w')
-    lfh.write('')
-    lfh.close()
-    os.chown(lfile, fowner, fgroup)
-    os.chmod(lfile, 0o750)
-
+try:
+    for thing in config['logspecs']:
+        lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
+        lfh = open(lfile, 'w')
+        lfh.write('')
+        lfh.close()
+        os.chown(lfile, fowner, fgroup)
+        os.chmod(lfile, 0o750)
+except:
+    print_progress("Failed", type='end')
+    print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
+    sys.exit(1)
+print_progress("OK", type='end')
+print_progress("Install", type='start')
 if not os.path.isdir(newlocation):
     try:
         os.mkdir(newlocation)
     except OSError:
+        print_progress("Failed", type='end')
         print("Creation of the directory %s failed." % (newlocation))
         print("Please create the directory and ensure the current user %s owns it" % (curuser))
         exit(1)
 try:
-    print("Installing....")
     copy_tree("%s" % (my_cwd), newlocation)
     for file in [ 'install.sh', 'install.py', 'install.log', 'Package.list']:
         os.remove("%s%s" % (newlocation, file))
@@ -57,16 +87,20 @@ try:
         for thing in files:
             os.chown(os.path.join(root, thing), fowner, fgroup)
             os.chmod(os.path.join(root, thing), 0o750)
-    print("Installed, testing installation....")
+    print("[  OK  ]")
+    print("%-40s" % ("Testing installation"), end='')
     try:
         for i in range(5):
             requests.get('http://127.0.0.1/api/test')
     except:
+        print_progress("Failed", type='end')
         print("Install failed, backend not running!")
         sys.exit(1)
-    print("Installed to %s!" % (newlocation))
 except Exception as e:
+    print_progress("Failed", type='end')
     print("Failed to move project to %s." % (newlocation))
     print("Please check the permissions of the folder")
     print("Error: %s" % (e))
     exit(1)
+print_progress("OK", type='end')
+print("Installed to %s!" % (newlocation))
