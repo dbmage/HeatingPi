@@ -29,7 +29,7 @@ def print_progress(message, type=None):
         print("[%s%s\x1b[0m]" % (colours[message.lower()], message.center(6)))
         return
     if type.lower() in colours:
-        print("%s%-40s\x1b[0m" % (colours[type.lower()], message), end='')
+        print("%s%-40s\x1b[0m" % (colours[type.lower()], message))
         return
     print(message)
 
