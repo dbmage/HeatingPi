@@ -87,20 +87,20 @@ try:
         for thing in files:
             os.chown(os.path.join(root, thing), fowner, fgroup)
             os.chmod(os.path.join(root, thing), 0o750)
-    print_progress("OK", type='end')
-    print_progress("Testing installation", type='start')
-    try:
-        for i in range(5):
-            requests.get('http://127.0.0.1/api/test')
-    except:
-        print_progress("Failed", type='end')
-        print("Install failed, backend not running!")
-        sys.exit(1)
 except Exception as e:
     print_progress("Failed", type='end')
     print("Failed to move project to %s." % (newlocation))
     print("Please check the permissions of the folder")
     print("Error: %s" % (e))
     exit(1)
+print_progress("OK", type='end')
+print_progress("Testing installation", type='start')
+try:
+    for i in range(5):
+        requests.get('http://127.0.0.1/api/test')
+except:
+    print_progress("Failed", type='end')
+    print("Install failed, backend not running!")
+    sys.exit(1)
 print_progress("OK", type='end')
 print("Installed to %s!" % (newlocation))
