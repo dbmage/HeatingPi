@@ -11,9 +11,11 @@ from distutils.dir_util import copy_tree
 my_cwd = os.path.dirname(os.path.realpath(__file__))
 newlocation = '/usr/local/bin/HeatingPi/'
 curuser = getpass.getuser()
+fowner = getpwnam('heatingpi').pw_uid
+fgroup = getgrnam('www-data').gr_gid
 passwd = ''
 while passwd == '':
-    print("Please enter the admin password")
+    print("Please choose the admin password")
     a = getpass.getpass("Password: ")
     b = getpass.getpass("Confirm: ")
     if a == b:
@@ -24,6 +26,14 @@ config = config.replace('CHANGEME', passwd.decode('utf-8'))
 myfh = open("%s/config/config.json" % (my_cwd), 'w')
 myfh.write(config)
 myfh.close()
+
+for thing in config['logspecs']:
+    lfile = "%s%s" % (config['logdir'], thing['filename'])
+    lfh = open(lfile, 'w')
+    lfh.write('')
+    lfh.close()
+    os.chown(lfile, fowner, fgroup)
+    os.chmod(lfile, 0o750)
 
 if not os.path.isdir(newlocation):
     try:
@@ -36,8 +46,6 @@ try:
     copy_tree("%s" % (my_cwd), newlocation)
     for file in [ 'install.sh', 'install.py', 'install.log', 'Package.list']:
         os.remove("%s%s" % (newlocation, file))
-    fowner = getpwnam('heatingpi').pw_uid
-    fgroup = getgrnam('www-data').gr_gid
     for root, dirs, files in os.walk(newlocation):
         for thing in dirs:
             os.chown(os.path.join(root, thing), fowner, fgroup)
