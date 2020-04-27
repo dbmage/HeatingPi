@@ -46,7 +46,7 @@ try:
             os.chown(os.path.join(root, thing), fowner, fgroup)
             os.chmod(os.path.join(root, thing), 0o750)
     for i in range(5):
-        requests.get('http://127.0.0.1:5000/api/test')
+        requests.get('http://127.0.0.1/api/test')
     print("Installed to %s!" % (newlocation))
 except Exception as e:
     print("Failed to move project to %s." % (newlocation))
