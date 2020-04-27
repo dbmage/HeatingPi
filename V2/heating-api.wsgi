@@ -29,7 +29,7 @@ __builtins__['config'] = config
 
 ## Setup logging
 config['logspecs']['level'] = getattr(log, config['logspecs']['level'], 'INFO')
-Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']])
+Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['api']])
 ## Pass logger to other modules instead ofsetting up in each one
 db.log = log
 hpfuncs.log = log

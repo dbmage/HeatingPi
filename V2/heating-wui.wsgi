@@ -13,6 +13,11 @@ from bottle import run, post, error, route, install, request, response, template
 
 ## Needed for deifnitive path
 my_cwd = os.path.dirname(os.path.realpath(__file__))
+config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
+## Setup logging
+Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['wui']])
+
+def init():
 
 
 ## Routes
