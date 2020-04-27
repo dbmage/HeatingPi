@@ -24,7 +24,7 @@
         "user" : "root",
         "pass" : "CHANGEME",
         "tables" : {
-            "timer" : {
+            "timer" : [
                 ["DAY", "TEXT"],
                 ["CHON1", "TEXT" ],
                 ["CHOFF1", "TEXT" ],
@@ -36,14 +36,14 @@
                 ["CHOFF4", "TEXT" ],
                 ["CHON5", "TEXT" ],
                 ["CHOFF5", "TEXT" ]
-            },
-            "users" : {
+            ],
+            "users" : [
                 [ "FNAME", "TEXT" ],
                 [ "LNAME", "TEXT" ],
                 [ "UNAME", "TEXT" ],
                 [ "PASSWD", "TEXT"],
                 [ "TYPE", "TEXT"]
-            }
+            ]
         }
     },
     "sets" : {
