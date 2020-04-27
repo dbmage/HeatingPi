@@ -25,7 +25,7 @@
         "pass" : "CHANGEME",
         "tables" : {
             "timer" : {
-                ["DAY", "TEXT"]
+                ["DAY", "TEXT"],
                 ["CHON1", "TEXT" ],
                 ["CHOFF1", "TEXT" ],
                 ["CHON2", "TEXT" ],
