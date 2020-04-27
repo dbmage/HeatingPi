@@ -18,14 +18,15 @@ config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
 Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['wui']])
 
 def init():
-
+    config['users'] = requests.get('http://localhost/api/getUsers')
 
 ## Routes
 @route('/')
 def FUNCTION():
-    if users not in config['users']:
+    if len(config['users']) == 0:
         return template('firstrun')
     return template('main')
 
 ## Run WSGI
+init()
 application = default_app()
