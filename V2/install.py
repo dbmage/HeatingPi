@@ -4,7 +4,7 @@ import pwd
 import json
 import getpass
 import requests
-import subprocess
+from subprocess import DEVNULL, STDOUT, check_call
 from sys import exit
 from grp import getgrnam
 from pwd import getpwnam
@@ -99,8 +99,7 @@ except Exception as e:
 print_progress("OK", type='end')
 
 print_progress("Restart Apache", type='start')
-with open(subprocess.DEVNULL, 'wb') as devnull:
-    subprocess.check_call(['/etc/init.d/apache2', 'restart'], stdout=devnull, stderr=subprocess.STDOUT)
+check_call(['/etc/init.d/apache2', 'restart'], stdout=DEVNULL, stderr=STDOUT)
 print_progress("OK", type='end')
 
 print_progress("Testing installation", type='start')
