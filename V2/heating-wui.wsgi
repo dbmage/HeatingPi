@@ -19,14 +19,14 @@ Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspe
 
 def init():
     try:
-        req = requests.get('http://localhost/api/test')
+        req = requests.get('http://localhost:5000/test')
         if req.status_code != 200:
             log.error("API issue: %s" % (req.text))
             sys.exit()
     except:
         log.error("No response from the API")
         sys.exit()
-    data = requests.get('http://localhost/api/getUsers').text
+    data = requests.get('http://localhost:5000/getUsers').text
     log.info(data)
     config['users'] = json.loads(data)
 
