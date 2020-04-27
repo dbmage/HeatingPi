@@ -50,7 +50,7 @@ try:
 except:
     print_progress("Failed", type='end')
     print("Unableto set password, check permissions of %s" % (newlocation))
-    sys.exit(1)
+    exit(1)
 print_progress("OK", type='end')
 print_progress("Logfiles", type='start')
 config = json.loads(config)
@@ -65,7 +65,7 @@ try:
 except:
     print_progress("Failed", type='end')
     print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
-    sys.exit(1)
+    exit(1)
 print_progress("OK", type='end')
 print_progress("Install", type='start')
 if not os.path.isdir(newlocation):
@@ -101,6 +101,6 @@ try:
 except:
     print_progress("Failed", type='end')
     print("Install failed, backend not running!")
-    sys.exit(1)
+    exit(1)
 print_progress("OK", type='end')
 print("Installed to %s!" % (newlocation))
