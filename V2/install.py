@@ -4,6 +4,7 @@ import pwd
 import json
 import getpass
 import requests
+import subprocess
 from sys import exit
 from grp import getgrnam
 from pwd import getpwnam
@@ -97,17 +98,26 @@ except Exception as e:
     exit(1)
 print_progress("OK", type='end')
 
+print_progress("Restart Apache", type='start')
+process = subprocess.Popen(['systemctl reload apache2'], stderr=subprocess.STDERR, stdout=subprocess.STDOUT)
+out, err = process.communicate()
+if err:
+    print_progress("Failed", type='end')
+    print("Install failed, apache not running!")
+    print(err)
+print_progress("OK", type='end')
+
 print_progress("Testing installation", type='start')
 result = False
 for i in range(3):
     try:
-        a = requests.get('http://localhost:5000/test', timeout=2)
-        if a.status_code == 200:
+        req = requests.get('http://localhost:5000/test', timeout=2)
+        if req.status_code == 200:
             result = True
-    except:
+    except Exception as e:
         print_progress("Failed", type='end')
         print("Install failed, backend not running!")
-        print("%s" % (a))
+        print("%s" % (e))
         exit(1)
 if result:
     print_progress("OK", type='end')
