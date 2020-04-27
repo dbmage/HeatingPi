@@ -19,7 +19,7 @@ Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspe
 
 def init():
     try:
-        req = requests.get('http://localhost:5000/test')
+        req = requests.get('http://localhost:5000/test', timeout=2)
         if req.status_code != 200:
             log.error("API issue: %s" % (req.text))
             sys.exit()
