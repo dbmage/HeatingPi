@@ -28,6 +28,7 @@ config = config.replace('CHANGEME', passwd.decode('utf-8'))
 myfh = open("%s/config/config.json" % (my_cwd), 'w')
 myfh.write(config)
 myfh.close()
+print("Password set")
 config = json.loads(config)
 for thing in config['logspecs']:
     lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
@@ -45,6 +46,7 @@ if not os.path.isdir(newlocation):
         print("Please create the directory and ensure the current user %s owns it" % (curuser))
         exit(1)
 try:
+    print("Installing....")
     copy_tree("%s" % (my_cwd), newlocation)
     for file in [ 'install.sh', 'install.py', 'install.log', 'Package.list']:
         os.remove("%s%s" % (newlocation, file))
@@ -55,6 +57,7 @@ try:
         for thing in files:
             os.chown(os.path.join(root, thing), fowner, fgroup)
             os.chmod(os.path.join(root, thing), 0o750)
+    print("Installed, testing installation....")
     try:
         for i in range(5):
             requests.get('http://127.0.0.1/api/test')
