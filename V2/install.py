@@ -18,9 +18,9 @@ fgroup = getgrnam('www-data').gr_gid
 passwd = ''
 def print_progress(message, type=None):
     colours = {
-        'ok' : "\033[1;32;40m",
-        'warn' : "\033[1;33;40m",
-        'failed' : "\033[1;31;40m"
+        'ok' : "\x1b[1;32m",
+        'warn' : "\x1b[1;33m",
+        'failed' : "\x1b[1;31m"
     }
     if type == 'start':
         print("\033[1;33;40m%-40s\e[39m" % (message), end='')
