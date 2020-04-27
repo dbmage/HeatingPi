@@ -103,7 +103,7 @@ try:
 except:
     print_progress("Failed", type='end')
     print("Install failed, backend not running!")
-    print("%s" % (a)
+    print("%s" % (a))
     exit(1)
 print_progress("OK", type='end')
 print("Installed to %s!" % (newlocation))
