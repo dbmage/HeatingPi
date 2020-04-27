@@ -23,7 +23,28 @@
         "db" : "heating.db",
         "user" : "root",
         "pass" : "CHANGEME",
-        "tables" : [ "timer", "users" ]
+        "tables" : {
+            "timer" : {
+                ["DAY", "TEXT"]
+                ["CHON1", "TEXT" ],
+                ["CHOFF1", "TEXT" ],
+                ["CHON2", "TEXT" ],
+                ["CHOFF2", "TEXT" ],
+                ["CHON3", "TEXT" ],
+                ["CHOFF3", "TEXT" ],
+                ["CHON4", "TEXT" ],
+                ["CHOFF4", "TEXT" ],
+                ["CHON5", "TEXT" ],
+                ["CHOFF5", "TEXT" ]
+            },
+            "users" : {
+                [ "FNAME", "TEXT" ],
+                [ "LNAME", "TEXT" ],
+                [ "UNAME", "TEXT" ],
+                [ "PASSWD", "TEXT"],
+                [ "TYPE", "TEXT"]
+            }
+        }
     },
     "sets" : {
         "heating" : "Set1",
