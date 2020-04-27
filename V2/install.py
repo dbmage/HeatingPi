@@ -96,14 +96,22 @@ except Exception as e:
     print("Error: %s" % (e))
     exit(1)
 print_progress("OK", type='end')
+
 print_progress("Testing installation", type='start')
-try:
-    for i in range(3):
+result = False
+for i in range(3):
+    try:
         a = requests.get('http://localhost:5000/test', timeout=2)
-except:
-    print_progress("Failed", type='end')
-    print("Install failed, backend not running!")
-    print("%s" % (a))
-    exit(1)
-print_progress("OK", type='end')
-print("Installed to %s!" % (newlocation))
+        if a.status_code == 200:
+            result = True
+    except:
+        print_progress("Failed", type='end')
+        print("Install failed, backend not running!")
+        print("%s" % (a))
+        exit(1)
+if result:
+    print_progress("OK", type='end')
+    print("Installed to %s!" % (newlocation))
+    exit(0)
+print_progress("Failed", type='end')
+print("Install failed, backend not running!")
