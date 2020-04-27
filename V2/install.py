@@ -30,7 +30,7 @@ myfh.write(config)
 myfh.close()
 config = json.loads(config)
 for thing in config['logspecs']:
-    lfile = "%s%s" % (config['logdir'], thing['filename'])
+    lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
     lfh = open(lfile, 'w')
     lfh.write('')
     lfh.close()
