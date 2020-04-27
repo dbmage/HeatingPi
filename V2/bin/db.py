@@ -27,7 +27,7 @@ def executeQuery(query):
         log.error("Error executing query (%s): %s" % (query, e))
         if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
             config['db']['connection'].rollback()
-        return e
+        return False
     if 'insert' in query or 'update' in query:
         return True
     output = []
