@@ -17,7 +17,7 @@ while passwd == '':
     a = getpass.getpass("Password: ")
     b = getpass.getpass("Confirm: ")
     if a == b:
-        passwd = b64encode(getpass.encode())
+        passwd = b64encode(passwd.encode())
 
 config = open("%s/config/config.json" % (my_cwd)).read()
 config.replace('CHANGEME', passwd)
