@@ -23,13 +23,13 @@ def print_progress(message, type=None):
         'failed' : "\x1b[1;31m"
     }
     if type == 'start':
-        print("\033[1;33;40m%-40s\e[39m" % (message), end='')
+        print("\033[1;33;40m%-40s\x1b[0m" % (message), end='')
         return
     if type == 'end' and message.lower() in colours:
-        print("[%s%s\e[39m]" % (colours[message.lower()], message.center(6)))
+        print("[%s%s\x1b[0m]" % (colours[message.lower()], message.center(6)))
         return
     if type.lower() in colours:
-        print("%s%-40s\e[39m" % (colours[type.lower()], message), end='')
+        print("%s%-40s\x1b[0m" % (colours[type.lower()], message), end='')
         return
     print(message)
 
