@@ -182,5 +182,6 @@ then
 fi
 if [ ! -e /usr/local/bin/HeatingPi/heating-api.wsgi ];
 then
-    sudo python3 install.py || (echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET" && exit 1)
+    sudo python3 install.py || echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET"
 fi
+exit $?
