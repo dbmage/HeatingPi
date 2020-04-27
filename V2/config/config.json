@@ -22,7 +22,7 @@
         "host" : "127.0.0.1",
         "db" : "heating.db",
         "user" : "root",
-        "pass" : "eXN0OTQq",
+        "pass" : "CHANGEME",
         "tables" : [ "timer", "users" ]
     },
     "sets" : {
