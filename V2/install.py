@@ -4,7 +4,6 @@ import pwd
 import json
 import getpass
 import requests
-import subprocess
 from sys import exit
 from grp import getgrnam
 from pwd import getpwnam
@@ -99,12 +98,7 @@ except Exception as e:
 print_progress("OK", type='end')
 
 print_progress("Restart Apache", type='start')
-process = subprocess.Popen(['/etc/init.d/apache2 reload"'], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-out, err = process.communicate()
-if err:
-    print_progress("Failed", type='end')
-    print("Install failed, apache not running!")
-    print(err)
+os.system('/etc/init.d/apache2 reload')
 print_progress("OK", type='end')
 
 print_progress("Testing installation", type='start')
