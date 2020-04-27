@@ -98,7 +98,7 @@ except Exception as e:
 print_progress("OK", type='end')
 
 print_progress("Restart Apache", type='start')
-os.system('/etc/init.d/apache2 reload')
+os.system('/etc/init.d/apache2 reload &> /dev/null')
 print_progress("OK", type='end')
 
 print_progress("Testing installation", type='start')
