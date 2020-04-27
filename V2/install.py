@@ -108,6 +108,8 @@ for i in range(3):
         req = requests.get('http://localhost:5000/test', timeout=2)
         if req.status_code == 200:
             result = True
+    except requests.exceptions.Timeout:
+        pass
     except Exception as e:
         print_progress("Failed", type='end')
         print("Install failed, backend not running!")
