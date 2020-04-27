@@ -100,7 +100,7 @@ done
 if [ `echo -n $notinstalled | wc -c` -gt 0 ];
 then
     echo -e "\t\t\t$WARN"
-    echo -e "\t\e[33mThe following python modules will to be installed:$RESET"
+    echo -e "\t\e[33mThe following python modules will need to be installed:$RESET"
     for module in $notinstalled;
     do
         echo -e "\t$module"
