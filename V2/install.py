@@ -99,7 +99,7 @@ except Exception as e:
 print_progress("OK", type='end')
 
 print_progress("Restart Apache", type='start')
-process = subprocess.Popen(['systemctl reload apache2'], stderr=subprocess.STDERR, stdout=subprocess.STDOUT)
+process = subprocess.Popen(['systemctl reload apache2'], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 out, err = process.communicate()
 if err:
     print_progress("Failed", type='end')
