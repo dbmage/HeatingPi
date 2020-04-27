@@ -39,7 +39,7 @@ atq.log = log
 db.connect(config['db']['db'])
 hpfuncs.pinSetup()
 for table in config['db']['tables']:
-    if db.tableCheck(tableCheck) == 0:
+    if db.tableCheck(table) == 0:
         db.createTable(table)
 
 ## WSGI hpfuncs
