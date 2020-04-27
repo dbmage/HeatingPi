@@ -24,7 +24,7 @@ def executeQuery(query):
         if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
             config['db']['connection'].commit()
     except sqlite3.Error as e:
-        log.error("Error executing query (%s): %s" % (query, e[1]))
+        log.error("Error executing query (%s): %s" % (query, e))
         if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
             config['db']['connection'].rollback()
         return e
