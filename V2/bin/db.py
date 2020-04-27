@@ -16,6 +16,11 @@ def connect(database):
         return e
     return True
 
+def tableCheck(table):
+    query = "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % (table)
+    output = executeQuery(query)
+    return output
+
 def executeQuery(query):
     cursor = config['db']['cursor']
     query = query.replace(';', '')
