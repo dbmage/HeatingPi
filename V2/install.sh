@@ -2,8 +2,8 @@
 ## NOTE: For mare savvy users, you culd easily do these things yourself with
 ## instructions, but this was designed to be easy to install by newbies :)
 ## Feel free to poke around and run the necessities yourself. There shouldn't
-## be anything majorly intrusive, I tried to make this run ahppily without
-## affecting a current runnign system. This would ideally have all been in the
+## be anything majorly intrusive, I tried to make this run happily without
+## affecting a current running system. This would ideally have all been in the
 ## python script, but in case python3 is not installed, I do some of it here.
 user=$(whoami)
 arch=$(uname -m | grep arm | wc -c)
@@ -162,10 +162,6 @@ else
 fi
 ## Add and enable apache config
 echo -en "\e[35mApplying Apache2 config\e[39m"
-if [ `cat /etc/apache2/ports.conf | grep 'Listen 5000' | wc -l` -eq 0 ];
-then
-    echo "Listen 5000" >> /etc/apache2/ports.conf || { echo -e "\t\t$FAIL"; exit 1; }
-fi
 if [ ! -e /etc/apache2/sites-available/heating.conf ];
 then
     cp config/heating.conf /etc/apache2/sites-available/ || { echo -e "\t\t$FAIL"; exit 1; }
