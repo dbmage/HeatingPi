@@ -38,6 +38,9 @@ atq.log = log
 ## Initialise necessary things
 db.connect(config['db']['db'])
 hpfuncs.pinSetup()
+for table in config['db']['tables']:
+    if db.tableCheck(tableCheck) == 0:
+        db.createTable(table)
 
 ## WSGI hpfuncs
 def retHTTP(retcode,data=None):
@@ -91,6 +94,10 @@ def FUNCTION(pin):
 def FUNCTION():
     hpfuncs.resetPins()
     return retOK()
+
+@route('/getUsers')
+def FUNCTION():
+    return json.dumps(db.selectData('users', datafilter="type != 'disabled'"))
 
 ## Run WSGI
 application = default_app()
