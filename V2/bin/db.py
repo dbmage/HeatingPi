@@ -40,7 +40,7 @@ def createTable(table):
         return False
     columns = ""
     for column in config['db']['tables'][table]:
-        columns += "%s," % ()' '.join(column))
+        columns += "%s," % (' '.join(column))
     query = "Create table %s(%s)" % (table, columns)
     return executeQuery(query)
 
