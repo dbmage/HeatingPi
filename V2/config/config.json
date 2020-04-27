@@ -3,11 +3,20 @@
     "bankholidays" : false,
     "logdir" : "/var/log/",
     "logspecs" : {
-        "filename" : "heatingpi-error.log",
-        "level" : "INFO",
-        "splitlines" : true,
-        "pretty" : true,
-        "fmt" : "%(asctime)s %(levelname)-8s %(module)15.15s %(funcName)-15s: %(message)s"
+        "api" : {
+            "filename" : "heatingpi-api-error.log",
+            "level" : "INFO",
+            "splitlines" : true,
+            "pretty" : true,
+            "fmt" : "%(asctime)s %(levelname)-8s %(module)15.15s %(funcName)-15s: %(message)s"
+        },
+        "wui" : {
+            "filename" : "heatingpi-wui-error.log",
+            "level" : "INFO",
+            "splitlines" : true,
+            "pretty" : true,
+            "fmt" : "%(asctime)s %(levelname)-8s : %(message)s"
+        }
     },
     "db" : {
         "host" : "127.0.0.1",
