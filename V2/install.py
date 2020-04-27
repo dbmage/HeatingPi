@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 import pwd
+import json
 import getpass
 import requests
 from sys import exit
@@ -8,6 +9,7 @@ from grp import getgrnam
 from pwd import getpwnam
 from base64 import b64encode
 from distutils.dir_util import copy_tree
+
 my_cwd = os.path.dirname(os.path.realpath(__file__))
 newlocation = '/usr/local/bin/HeatingPi/'
 curuser = getpass.getuser()
@@ -26,7 +28,7 @@ config = config.replace('CHANGEME', passwd.decode('utf-8'))
 myfh = open("%s/config/config.json" % (my_cwd), 'w')
 myfh.write(config)
 myfh.close()
-
+config = json.loads(config)
 for thing in config['logspecs']:
     lfile = "%s%s" % (config['logdir'], thing['filename'])
     lfh = open(lfile, 'w')
