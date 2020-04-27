@@ -4,6 +4,7 @@ import pwd
 import json
 import getpass
 import requests
+import subprocess
 from sys import exit
 from grp import getgrnam
 from pwd import getpwnam
@@ -98,14 +99,15 @@ except Exception as e:
 print_progress("OK", type='end')
 
 print_progress("Restart Apache", type='start')
-os.system('/etc/init.d/apache2 reload &> /dev/null')
+with open(subprocess.DEVNULL, 'wb') as devnull:
+    subprocess.check_call(['/etc/init.d/apache2', 'restart'], stdout=devnull, stderr=subprocess.STDOUT)
 print_progress("OK", type='end')
 
 print_progress("Testing installation", type='start')
 result = False
 for i in range(3):
     try:
-        req = requests.get('http://localhost:5000/test', timeout=2)
+        req = requests.get('http://localhost:5000/test', timeout=5)
         if req.status_code == 200:
             result = True
     except requests.exceptions.Timeout:
