@@ -20,7 +20,7 @@
     },
     "db" : {
         "host" : "127.0.0.1",
-        "db" : "timer.db",
+        "db" : "heating.db",
         "user" : "root",
         "pass" : "eXN0OTQq"
     },
