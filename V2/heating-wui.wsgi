@@ -29,6 +29,9 @@ def init():
     data = requests.get('http://localhost:5000/getUsers').text
     log.info(data)
     config['users'] = json.loads(data)
+    if not config['users']:
+        log.error("Error response from the API")
+        sys.exit()
 
 ## Routes
 @route('/')
