@@ -39,7 +39,8 @@ while passwd == '':
     b = getpass.getpass("Confirm: ")
     if a == b:
         passwd = b64encode(passwd.encode())
-
+    print("Passwords did not match")
+    
 print_progress("Password", type='start')
 try:
     config = open("%s/config/config.json" % (my_cwd)).read()
