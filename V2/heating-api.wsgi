@@ -28,7 +28,7 @@ __builtins__['my_cwd'] = my_cwd
 __builtins__['config'] = config
 
 ## Setup logging
-config['logspecs']['level'] = getattr(log, config['logspecs']['level'], 'INFO')
+config['logspecs']['api']['level'] = getattr(log, config['logspecs']['api']['level'], 'INFO')
 Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['api']])
 ## Pass logger to other modules instead ofsetting up in each one
 db.log = log
