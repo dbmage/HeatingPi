@@ -18,7 +18,7 @@ config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
 Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['wui']])
 
 def init():
-    config['users'] = requests.get('http://localhost/api/getUsers')
+    config['users'] = json.loads(requests.get('http://localhost/api/getUsers').text)
 
 ## Routes
 @route('/')
