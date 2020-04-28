@@ -14,7 +14,7 @@
 
 </head>
 <body>
-<% content %>
+{{content}}
 <div id="footer">
 </div>
 </body>
