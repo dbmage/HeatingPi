@@ -58,10 +58,13 @@ def createTable(table):
     return executeQuery(query)
 
 def tableCheck(table):
+    connect()
+    cursor = config['db']['cursor']
     query = "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % (table)
     cursor = config['db']['cursor']
     cursor.execute(query)
     output = cursor.rowcount
+    disconnect()
     return output
 
 def describeTable(table):
