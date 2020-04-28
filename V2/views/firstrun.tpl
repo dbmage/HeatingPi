@@ -28,7 +28,7 @@
             <h1>HeatingPi first setup</h1>
         </div>
         <div class='container'>
-            {{content}}
+            % include(content)
         </div>
     </body>
 </html>
