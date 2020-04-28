@@ -61,9 +61,10 @@ def tableCheck(table):
     connect()
     cursor = config['db']['cursor']
     query = "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % (table)
-    cursor = config['db']['cursor']
     cursor.execute(query)
-    output = cursor.rowcount
+    output = cursor.fetchall()
+    if len(output) > 0:
+        output = list(output[0])
     disconnect()
     return output
 
