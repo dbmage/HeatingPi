@@ -42,9 +42,12 @@ hpfuncs.pinSetup()
 for table in config['db']['tables']:
     output = db.tableCheck(table)
     log.warning("Checking table %s: %s" % (table, output))
-    if output == 0:
+    if output < 1:
         log.warning("Table %s not found, creating")
         db.createTable(table)
+    if output > 1:
+        log.critical("More than one table was found matching %s!" % (table))
+        sys.exit(1)
 
 ## WSGI hpfuncs
 def retHTTP(retcode,data=None):
