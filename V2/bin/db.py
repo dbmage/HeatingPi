@@ -23,7 +23,7 @@ def disconnect():
     config['db']['cursor'] = None
     return True
 
-def executeQuery(, query):
+def executeQuery(query):
     connect()
     cursor = config['db']['cursor']
     query = query.replace(';', '')
