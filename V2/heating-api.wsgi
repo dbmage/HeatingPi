@@ -40,6 +40,7 @@ db.connect(config['db']['db'])
 hpfuncs.pinSetup()
 for table in config['db']['tables']:
     if db.tableCheck(table) == 0:
+        log.warning("Table %s not found, creating")
         db.createTable(table)
 
 ## WSGI hpfuncs
