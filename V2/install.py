@@ -19,10 +19,10 @@ fowner = getpwnam('heatingpi').pw_uid
 fgroup = getgrnam('www-data').gr_gid
 configfile = "%s/config/config.json" % (my_cwd)
 if os.path.exists("%s/config/config.json" % (newlocation)):
-    __builtins__['configfile'] = "%s/config/config.json" % (newlocation)
+    configfile = "%s/config/config.json" % (newlocation)
     shutil.copyfile(configfile, "%s/config/config.json" % (my_cwd))
 try:
-    __builtins__['config'] = open(configfile).read()
+    config = open(configfile).read()
 except:
     print("Unable to open config file %s" % (configfile))
     sys.exit(1)
@@ -45,6 +45,8 @@ def print_progress(message, type=None):
     print(message)
 
 def setPasswd():
+    global config
+    global configfile
     passwd = ''
     while passwd == '':
         print_progress("Please choose the admin password", type='warn')
