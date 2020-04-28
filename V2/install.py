@@ -71,6 +71,7 @@ def setPasswd():
     print_progress("OK", type='end')
 
 def createLogFiles():
+    global config
     print_progress("Logfiles", type='start')
     config = json.loads(config)
     try:
@@ -88,6 +89,7 @@ def createLogFiles():
     print_progress("OK", type='end')
 
 def doInstall():
+    global newlocation
     print_progress("Install", type='start')
     if not os.path.isdir(newlocation):
         try:
