@@ -2,6 +2,7 @@
 import os
 import pwd
 import json
+import shutil
 import getpass
 import requests
 from subprocess import DEVNULL, STDOUT, check_call
@@ -20,11 +21,13 @@ passwd = ''
 configfile = "%s/config/config.json" % (my_cwd)
 if os.path.exists("%s/config/config.json" % (newlocation)):
     configfile = "%s/config/config.json" % (newlocation)
+    shutil.copyfile(configfile, "%s/config/config.json" % (my_cwd))
 try:
     config = open(configfile).read()
 except:
     print("Unable to open config file %s" % (configfile))
     sys.exit(1)
+
 def print_progress(message, type=None):
     colours = {
         'ok' : '\x1b[1;32m',
