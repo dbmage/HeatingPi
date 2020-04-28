@@ -43,7 +43,7 @@ for table in config['db']['tables']:
     output = db.tableCheck(table)
     log.warning("Checking table %s: %s" % (table, output))
     if output < 1:
-        log.warning("Table %s not found, creating")
+        log.warning("Table %s not found, creating" % (table))
         db.createTable(table)
     if output > 1:
         log.critical("More than one table was found matching %s!" % (table))
