@@ -50,7 +50,7 @@ def tableCheck(table):
     query = "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % (table)
     cursor = config['db']['cursor']
     cursor.execute(query)
-    output = cursor.rowcount()
+    output = cursor.rowcount
     return output
 
 def describeTable(table):
