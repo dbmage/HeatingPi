@@ -48,7 +48,9 @@ def createTable(table):
 
 def tableCheck(table):
     query = "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % (table)
-    output = executeQuery(query)
+    cursor = config['db']['cursor']
+    cursor.execute(query)
+    output = len(cursor)
     return output
 
 def describeTable(table):
