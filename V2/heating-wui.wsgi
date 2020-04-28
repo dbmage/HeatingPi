@@ -44,7 +44,7 @@ def firstRun(stage=None):
 def FUNCTION():
     if len(config['users']) == 0:
         firstRun()
-    return template('main')
+    return template('main', content=None)
 
 @route('/install')
 def FUNCTION():
