@@ -47,7 +47,7 @@ def FUNCTION():
         return firstRun()
     return template('main', content=None)
 
-@route('/createuser')
+@post('/createuser')
 def FUNCTION():
     if config['install'] == True:
         return HTTPResponse(404)
