@@ -15,7 +15,8 @@ from bottle import run, post, error, route, install, request, response, template
 my_cwd = os.path.dirname(os.path.realpath(__file__))
 config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
 ## Setup logging
-Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['wui']])
+## console logger does not accept NOTSET so set to 60 to stop console logging
+Logger.init(config['logdir'], termSpecs={"level" : 60}, fileSpecs=[config['logspecs']['wui']])
 
 def init():
     try:

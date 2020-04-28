@@ -29,7 +29,8 @@ __builtins__['config'] = config
 
 ## Setup logging
 config['logspecs']['api']['level'] = getattr(log, config['logspecs']['api']['level'], 'INFO')
-Logger.init(config['logdir'], termSpecs={"level" : 0}, fileSpecs=[config['logspecs']['api']])
+## console logger does not accept NOTSET so set to 60 to stop console logging
+Logger.init(config['logdir'], termSpecs={"level" : 60}, fileSpecs=[config['logspecs']['api']])
 ## Pass logger to other modules instead ofsetting up in each one
 db.log = log
 hpfuncs.log = log
@@ -40,6 +41,7 @@ db.connect(config['db']['db'])
 hpfuncs.pinSetup()
 for table in config['db']['tables']:
     output = db.tableCheck(table)
+    log.warning("Checking table %s: %s" % (table, output))
     if output == 0:
         log.warning("Table %s not found, creating")
         db.createTable(table)
