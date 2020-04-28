@@ -37,7 +37,6 @@ hpfuncs.log = log
 atq.log = log
 
 ## Initialise necessary things
-db.connect(config['db']['db'])
 hpfuncs.pinSetup()
 for table in config['db']['tables']:
     output = db.tableCheck(table)
