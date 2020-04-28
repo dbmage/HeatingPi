@@ -37,11 +37,13 @@ def executeQuery(query):
 
 def createTable(table):
     if table not in config['db']['tables']:
+        log.warning("%s is not a valid table")
         return False
     columns = ""
     for column in config['db']['tables'][table]:
         columns += "%s," % (' '.join(column))
     query = "Create table %s(%s)" % (table, columns)
+    log.warning("Creating table %s" % (table))
     return executeQuery(query)
 
 def tableCheck(table):
