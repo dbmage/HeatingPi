@@ -19,10 +19,10 @@ fowner = getpwnam('heatingpi').pw_uid
 fgroup = getgrnam('www-data').gr_gid
 configfile = "%s/config/config.json" % (my_cwd)
 if os.path.exists("%s/config/config.json" % (newlocation)):
-    configfile = "%s/config/config.json" % (newlocation)
+    __builtins__['configfile'] = "%s/config/config.json" % (newlocation)
     shutil.copyfile(configfile, "%s/config/config.json" % (my_cwd))
 try:
-    config = open(configfile).read()
+    __builtins__['config'] = open(configfile).read()
 except:
     print("Unable to open config file %s" % (configfile))
     sys.exit(1)
@@ -61,9 +61,10 @@ def setPasswd():
         myfh = open("%s" % (configfile), 'w')
         myfh.write(config)
         myfh.close()
-    except:
+    except Exception as e:
         print_progress("Failed", type='end')
-        print("Unableto set password, check permissions of %s" % (newlocation))
+        print("Unableto set password, check permissions of %s" % (configfile))
+        print(e)
         exit(1)
     print_progress("OK", type='end')
 
