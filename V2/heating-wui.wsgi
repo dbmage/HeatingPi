@@ -36,13 +36,21 @@ def init():
         return False
     return True
 
+def firstRun(stage=None):
+    if stage == None:
+        return template('firstrun', content=template(create_account_form))
 ## Routes
 @route('/')
 def FUNCTION():
     if len(config['users']) == 0:
-        return template('firstrun')
+        firstRun()
     return template('main')
 
+@route('/install')
+def FUNCTION():
+    if config['install'] == True:
+        return HTTPResponse(404)
+    return template('firstrun', content=template(step2))
 ## Run WSGI
 start = False
 while not start:
