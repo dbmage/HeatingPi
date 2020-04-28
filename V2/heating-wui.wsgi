@@ -26,13 +26,13 @@ def init():
             sys.exit()
     except:
         log.error("No response from the API")
-        sys.exit()
+        return False
     data = requests.get('http://localhost:5000/getUsers').text
     log.info(data)
     config['users'] = json.loads(data)
     if not config['users']:
         log.error("Error response from the API")
-        sys.exit()
+        return False
 
 ## Routes
 @route('/')
@@ -42,5 +42,10 @@ def FUNCTION():
     return template('main')
 
 ## Run WSGI
-init()
+start = False
+while not start:
+    start = init()
+    if start:
+        break
+    time.sleep(60)
 application = default_app()
