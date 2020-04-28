@@ -38,7 +38,7 @@ def init():
 
 def firstRun(stage=None):
     if stage == None:
-        return template('firstrun', content=template(create_account_form))
+        return template('firstrun', content=template('create_account_form'))
 ## Routes
 @route('/')
 def FUNCTION():
