@@ -17,7 +17,6 @@ newlocation = '/usr/local/bin/HeatingPi/'
 curuser = getpass.getuser()
 fowner = getpwnam('heatingpi').pw_uid
 fgroup = getgrnam('www-data').gr_gid
-passwd = ''
 configfile = "%s/config/config.json" % (my_cwd)
 if os.path.exists("%s/config/config.json" % (newlocation)):
     configfile = "%s/config/config.json" % (newlocation)
@@ -46,6 +45,7 @@ def print_progress(message, type=None):
     print(message)
 
 def setPasswd():
+    passwd = ''
     while passwd == '':
         print_progress("Please choose the admin password", type='warn')
         a = getpass.getpass("Password: ")
