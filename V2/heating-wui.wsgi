@@ -47,11 +47,12 @@ def FUNCTION():
         return firstRun()
     return template('main', content=None)
 
-@route('/install')
+@route('/createuser')
 def FUNCTION():
     if config['install'] == True:
         return HTTPResponse(404)
-    return template('firstrun', content=template(step2))
+    return template('main', content="FUCK OFF! I'm not ready yet")
+    # return template('firstrun', content=template(step2))
 ## Run WSGI
 start = False
 while not start:

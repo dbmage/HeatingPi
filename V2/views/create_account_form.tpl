@@ -1,4 +1,4 @@
-<form action='/createUser' method='post'>
+<form action='/createuser' method='post'>
     <h2 class='d-flex justify-content-center'>Create a login</h2>
     <hr>
     <div class='form-group'>
