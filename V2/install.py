@@ -18,7 +18,7 @@ fowner = getpwnam('heatingpi').pw_uid
 fgroup = getgrnam('www-data').gr_gid
 passwd = ''
 configfile = "%s/config/config.json" % (my_cwd)
-if path.exists("%s/config/config.json" % (newlocation)):
+if os.path.exists("%s/config/config.json" % (newlocation)):
     configfile = "%s/config/config.json" % (newlocation)
 try:
     config = open(configfile).read()
@@ -41,6 +41,7 @@ def print_progress(message, type=None):
         print("%s%-40s\x1b[0m" % (colours[type.lower()], message))
         return
     print(message)
+
 ## If password is already set, stop everything being overwritten (update)
 if 'CHANGEME' in config:
     while passwd == '':
