@@ -70,7 +70,7 @@ def tableCheck(table):
 def describeTable(table):
     query = "DESCRIBE %s" % (table)
     output = executeQuery(query)
-    if output == False::
+    if output == False:
         return False
     return output
 
@@ -79,14 +79,14 @@ def selectData(table, datafilter=None):
     if datafilter:
         query += " WHERE %s" % (datafilter)
     output = executeQuery(query)
-    if output == False::
+    if output == False:
         return False
     return output
 
 def updateData(table, column, updatedata, datafilter):
     query = "UPDATE %s SET %s = %s WHERE %s" % (table, column, updatedata, datafilter)
     output = executeQuery(query)
-    if output == False::
+    if output == False:
         return False
     return output
 
@@ -103,13 +103,13 @@ def insertData(table, data):
         return False
     query = "INSERT INTO %s(%s) VALUES (%s)" % (table, ','.join(headers), ','.join(data))
     output = executeQuery(query)
-    if output == False::
+    if output == False:
         return False
     return True
 
 def removeData(table, datafilter):
     query = "DELETE FROM %s WHERE %s" % (table, datafilter)
     output = executeQuery(query)
-    if output == False::
+    if output == False:
         return False
     return output
