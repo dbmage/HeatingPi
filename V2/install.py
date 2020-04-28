@@ -17,6 +17,14 @@ curuser = getpass.getuser()
 fowner = getpwnam('heatingpi').pw_uid
 fgroup = getgrnam('www-data').gr_gid
 passwd = ''
+configfile = "%s/config/config.json" % (my_cwd)
+if path.exists("%s/config/config.json" % (newlocation)):
+    configfile = "%s/config/config.json" % (newlocation)
+try:
+    config = open(configfile).read()
+except:
+    print("Unable to open config file %s" % (configfile))
+    sys.exit(1)
 def print_progress(message, type=None):
     colours = {
         'ok' : '\x1b[1;32m',
@@ -33,21 +41,21 @@ def print_progress(message, type=None):
         print("%s%-40s\x1b[0m" % (colours[type.lower()], message))
         return
     print(message)
-
-while passwd == '':
-    print_progress("Please choose the admin password", type='warn')
-    a = getpass.getpass("Password: ")
-    b = getpass.getpass("Confirm: ")
-    if a == b:
-        passwd = b64encode(passwd.encode())
-        break
-    print("Passwords did not match")
+## If password is already set, stop everything being overwritten (update)
+if 'CHANGEME' in config:
+    while passwd == '':
+        print_progress("Please choose the admin password", type='warn')
+        a = getpass.getpass("Password: ")
+        b = getpass.getpass("Confirm: ")
+        if a == b:
+            passwd = b64encode(passwd.encode())
+            break
+        print("Passwords did not match")
 
 print_progress("Password", type='start')
 try:
-    config = open("%s/config/config.json" % (my_cwd)).read()
     config = config.replace('CHANGEME', passwd.decode('utf-8'))
-    myfh = open("%s/config/config.json" % (my_cwd), 'w')
+    myfh = open("%s" % (configfile), 'w')
     myfh.write(config)
     myfh.close()
 except:
