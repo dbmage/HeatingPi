@@ -4,7 +4,8 @@ import json
 import sqlite3
 from bin import functions as hpfuncs
 
-def connect(database):
+def connect():
+    database = config['db']['db']
     if os.path.exists(database) and not os.path.isfile(database):
         log.error("Database provided is invalid: %s" % (database))
         return "Database provided is invalid"
@@ -16,7 +17,14 @@ def connect(database):
         return e
     return True
 
-def executeQuery(query):
+def disconnect():
+    config['db']['connection'].close()
+    config['db']['connection'] = None
+    config['db']['cursor'] = None
+    return True
+
+def executeQuery(, query):
+    connect()
     cursor = config['db']['cursor']
     query = query.replace(';', '')
     try:
@@ -27,12 +35,15 @@ def executeQuery(query):
         log.error("Error executing query (%s): %s" % (query, e))
         if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
             config['db']['connection'].rollback()
+        disconnect()
         return False
     if 'insert' in query or 'update' in query:
+        disconnect()
         return True
     output = []
     for row in cursor:
         output.append(row)
+    disconnect()
     return output
 
 def createTable(table):
