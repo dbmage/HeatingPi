@@ -34,6 +34,7 @@ def init():
     if config['users'] == False:
         log.error("Error response from the API")
         return False
+    return True
 
 ## Routes
 @route('/')
