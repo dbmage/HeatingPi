@@ -1,3 +1,4 @@
+% rebase(create_form)
 <form action='/createUser' method='post'>
     <h2 class='d-flex justify-content-center'>Create a login</h2>
     <hr>
