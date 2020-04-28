@@ -53,17 +53,18 @@ if 'CHANGEME' in config:
             break
         print("Passwords did not match")
 
-print_progress("Password", type='start')
-try:
-    config = config.replace('CHANGEME', passwd.decode('utf-8'))
-    myfh = open("%s" % (configfile), 'w')
-    myfh.write(config)
-    myfh.close()
-except:
-    print_progress("Failed", type='end')
-    print("Unableto set password, check permissions of %s" % (newlocation))
-    exit(1)
-print_progress("OK", type='end')
+    print_progress("Password", type='start')
+    try:
+        config = config.replace('CHANGEME', passwd.decode('utf-8'))
+        myfh = open("%s" % (configfile), 'w')
+        myfh.write(config)
+        myfh.close()
+    except:
+        print_progress("Failed", type='end')
+        print("Unableto set password, check permissions of %s" % (newlocation))
+        exit(1)
+    print_progress("OK", type='end')
+
 print_progress("Logfiles", type='start')
 config = json.loads(config)
 try:
