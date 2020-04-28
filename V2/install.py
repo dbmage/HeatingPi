@@ -45,8 +45,7 @@ def print_progress(message, type=None):
         return
     print(message)
 
-## If password is already set, stop everything being overwritten (update)
-if 'CHANGEME' in config:
+def setPasswd():
     while passwd == '':
         print_progress("Please choose the admin password", type='warn')
         a = getpass.getpass("Password: ")
@@ -68,70 +67,89 @@ if 'CHANGEME' in config:
         exit(1)
     print_progress("OK", type='end')
 
-print_progress("Logfiles", type='start')
-config = json.loads(config)
-try:
-    for thing in config['logspecs']:
-        lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
-        lfh = open(lfile, 'w')
-        lfh.write('')
-        lfh.close()
-        os.chown(lfile, fowner, fgroup)
-        os.chmod(lfile, 0o750)
-except:
-    print_progress("Failed", type='end')
-    print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
-    exit(1)
-print_progress("OK", type='end')
-print_progress("Install", type='start')
-if not os.path.isdir(newlocation):
+def createLogFiles():
+    print_progress("Logfiles", type='start')
+    config = json.loads(config)
     try:
-        os.mkdir(newlocation)
-    except OSError:
+        for thing in config['logspecs']:
+            lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
+            lfh = open(lfile, 'w')
+            lfh.write('')
+            lfh.close()
+            os.chown(lfile, fowner, fgroup)
+            os.chmod(lfile, 0o750)
+    except:
         print_progress("Failed", type='end')
-        print("Creation of the directory %s failed." % (newlocation))
-        print("Please create the directory and ensure the current user %s owns it" % (curuser))
+        print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
         exit(1)
-try:
-    copy_tree("%s" % (my_cwd), newlocation)
-    for file in [ 'install.sh', 'install.py', 'install.log', 'Package.list']:
-        os.remove("%s%s" % (newlocation, file))
-    for root, dirs, files in os.walk(newlocation):
-        for thing in dirs:
-            os.chown(os.path.join(root, thing), fowner, fgroup)
-            os.chmod(os.path.join(root, thing), 0o750)
-        for thing in files:
-            os.chown(os.path.join(root, thing), fowner, fgroup)
-            os.chmod(os.path.join(root, thing), 0o750)
-except Exception as e:
-    print_progress("Failed", type='end')
-    print("Failed to move project to %s." % (newlocation))
-    print("Please check the permissions of the folder")
-    print("Error: %s" % (e))
-    exit(1)
-print_progress("OK", type='end')
+    print_progress("OK", type='end')
 
-print_progress("Restart Apache", type='start')
-check_call(['/etc/init.d/apache2', 'restart'], stdout=DEVNULL, stderr=STDOUT)
-print_progress("OK", type='end')
-
-print_progress("Testing installation", type='start')
-result = False
-for i in range(3):
+def doInstall():
+    print_progress("Install", type='start')
+    if not os.path.isdir(newlocation):
+        try:
+            os.mkdir(newlocation)
+        except OSError:
+            print_progress("Failed", type='end')
+            print("Creation of the directory %s failed." % (newlocation))
+            print("Please create the directory and ensure the current user %s owns it" % (curuser))
+            exit(1)
     try:
-        req = requests.get('http://localhost:5000/test', timeout=5)
-        if req.status_code == 200:
-            result = True
-    except requests.exceptions.Timeout:
-        pass
+        copy_tree("%s" % (my_cwd), newlocation)
+        for file in [ 'install.sh', 'install.py', 'install.log', 'Package.list']:
+            os.remove("%s%s" % (newlocation, file))
+        for root, dirs, files in os.walk(newlocation):
+            for thing in dirs:
+                os.chown(os.path.join(root, thing), fowner, fgroup)
+                os.chmod(os.path.join(root, thing), 0o750)
+            for thing in files:
+                os.chown(os.path.join(root, thing), fowner, fgroup)
+                os.chmod(os.path.join(root, thing), 0o750)
     except Exception as e:
         print_progress("Failed", type='end')
-        print("Install failed, backend not running!")
-        print("%s" % (e))
+        print("Failed to move project to %s." % (newlocation))
+        print("Please check the permissions of the folder")
+        print("Error: %s" % (e))
         exit(1)
-if result:
     print_progress("OK", type='end')
-    print("Installed to %s!" % (newlocation))
-    exit(0)
-print_progress("Failed", type='end')
-print("Install failed, backend not running!")
+
+def restartApache():
+    print_progress("Restart Apache", type='start')
+    check_call(['/etc/init.d/apache2', 'restart'], stdout=DEVNULL, stderr=STDOUT)
+    print_progress("OK", type='end')
+
+def testInstall():
+    print_progress("Testing installation", type='start')
+    result = False
+    for i in range(3):
+        try:
+            req = requests.get('http://localhost:5000/test', timeout=5)
+            if req.status_code == 200:
+                result = True
+        except requests.exceptions.Timeout:
+            pass
+        except Exception as e:
+            print_progress("Failed", type='end')
+            print("Install failed, backend not running!")
+            print("%s" % (e))
+            exit(1)
+    if result:
+        print_progress("OK", type='end')
+        print("Installed to %s!" % (newlocation))
+        exit(0)
+    print_progress("Failed", type='end')
+    print("Install failed, backend not running!")
+
+def newInstall():
+    setPasswd()
+    createLogFiles()
+
+def main():
+    ## If password is already set, stop everything being overwritten (update)
+    if 'CHANGEME' in config:
+        newInstall()
+    doInstall()
+    restartApache()
+    testInstall()
+
+main()
