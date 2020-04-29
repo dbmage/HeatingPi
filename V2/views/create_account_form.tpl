@@ -116,5 +116,5 @@
             return;
         };
         invalidate(passconf)
-    };
+    });
 </script>
