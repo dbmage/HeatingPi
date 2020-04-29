@@ -15,6 +15,7 @@ from bottle import run, post, error, route, install, request, response, template
 ## Needed for deifnitive path
 my_cwd = os.path.dirname(os.path.realpath(__file__))
 config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
+from bin import general
 ## Setup logging
 ## console logger does not accept NOTSET so set to 60 to stop console logging
 Logger.init(config['logdir'], termSpecs={"level" : 60}, fileSpecs=[config['logspecs']['wui']])
@@ -40,6 +41,14 @@ def init():
 def firstRun(stage=None):
     if stage == None:
         return template('firstrun', content='create_account_form')
+
+def register_user(userdata):
+    for thing in ['fname', 'lname', 'username', 'passwd' ]:
+        if thing not in userdata:
+            log.error("Missing %s" % (thing))
+            log.error(userdata)
+            return False
+    return userdata
 ## Routes
 @route('/')
 def FUNCTION():
@@ -51,7 +60,15 @@ def FUNCTION():
 def FUNCTION():
     if config['install'] == True:
         return HTTPResponse(404)
-    return template('main', content="FUCK OFF! I'm not ready yet")
+    data = {}
+    data[fname] = request.forms.get('fname')
+    data[lname] = request.forms.get('lname')
+    data[username] = request.forms.get('username')
+    data[password] = request.forms.get('password')
+    user = register_user(data)
+    if user == False:
+        return template('main', content="Bad form data")
+    return template('main', content="FUCK OFF %s%s! I'm not ready yet" % (general.ucFirst(user['fname'])))
     # return template('firstrun', content=template(step2))
 ## Run WSGI
 start = False
