@@ -66,12 +66,12 @@
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
     function invalidate(domitem){
-        domitem.classList.remove('valid')
-        domitem.classList.add('invalid')
+        domitem.classList.remove('is-valid')
+        domitem.classList.add('is-invalid')
     };
     function validate(domitem){
-        domitem.classList.remove('invalid')
-        domitem.classList.add('valid')
+        domitem.classList.remove('is-invalid')
+        domitem.classList.add('is-valid')
     };
     password.addEventListener('input', function() {
         $('#pwstr').removeClass (function (index, className) {
