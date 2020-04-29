@@ -26,13 +26,13 @@
             <span class='input-group-addon col-1 material-icons-two-tone d-flex justify-content-center'>lock</span>
             <input id="passwd" type='password' class='form-control' name='password' placeholder='Password' required='required'>
         </div>
-        <div class="progress col-12">
-            <div id="pwstr" class="progress-bar progress-bar-striped active" role="progressbar"
-            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div class='input-group row'>
+            <div class="progress col-12">
+                <div id="pwstr" class="progress-bar progress-bar-striped active" role="progressbar"
+                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                </div>
             </div>
         </div>
-    <!-- </div>
-    <div class='form-group'> -->
         <div class='input-group row'>
             <span class='input-group-addon col-1 material-icons d-flex justify-content-center'>lock</span>
             <input type='password' class='form-control' name='confirm_password' placeholder='Confirm Password' required='required'>
