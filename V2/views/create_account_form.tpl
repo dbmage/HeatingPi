@@ -98,13 +98,12 @@
         meter.innerHTML = strength[result.score];
         meter.classList.add('bg-' + colours[result.score])
         score = 0
-        for ( thing in [fname, lname, uname, email] ){
-            console.log(thing);
+        [fname, lname, uname, email].forEach(function() {
             if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
                 continue;
             };
             score += 1;
-        }
+        });
         if ( score > 0 ) {
             invalidate(password);
             return;
