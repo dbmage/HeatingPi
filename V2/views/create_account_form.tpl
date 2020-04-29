@@ -99,6 +99,7 @@
         meter.classList.add('bg-' + colours[result.score])
         score = 0
         for ( thing in [fname, lname, uname, email] ){
+            console.log(thing);
             if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
                 continue;
             };
