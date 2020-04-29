@@ -42,3 +42,37 @@
         <button type='submit' class='btn btn-primary btn-lg'>Sign Up</button>
     </div>
 </form>
+<script type="text/javascript">
+    strength = {
+        1: "Bad",
+        2: "Weak",
+        3: "Good",
+        4: "Strong"
+    };
+    colours = {
+        1: "error",
+        2: "error",
+        3: "warning",
+        4: "success"
+    }
+    password = document.getElementById('passwd');
+    meter = document.getElementById('pwstr');
+    password.addEventListener('input', function() {
+        $("#pwstr").removeClass (function (index, className) {
+            return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
+        });
+        if (password.value == '') {
+            meter.innerHTML = "";
+            return;
+        }
+        result = zxcvbn(password.value);
+        // Update the password strength meter
+        meter.width = result.score * 25;
+        // Update the text indicator
+        if (password.value !== "") {
+            meter.innerHTML = strength[result.score];
+            meter.classList.add("bg-" + colours[result.score])
+        }
+    });
+
+</script>
