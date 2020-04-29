@@ -14,6 +14,7 @@ from bottle import run, post, error, route, install, request, response, template
 
 ## Needed for deifnitive path
 my_cwd = os.path.dirname(os.path.realpath(__file__))
+sys.path.append("%s" % (my_cwd))
 config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
 from bin import general
 ## Setup logging
