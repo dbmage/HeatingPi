@@ -99,7 +99,7 @@
         meter.classList.add('bg-' + colours[result.score])
         score = 0
         for ( thing in [fname, lname, uname, email] ){
-            if ( !( passwd.value.includes(thing) ) ) {
+            if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
                 continue;
             };
             score += 1;
