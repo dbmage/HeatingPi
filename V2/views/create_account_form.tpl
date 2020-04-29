@@ -58,10 +58,10 @@
         3: 'warning',
         4: 'success'
     }
-    fname = document.getElementById('fname').value();
-    lname = document.getElementById('lname').value();
-    uname = document.getElementById('uname').value();
-    email = document.getElementById('email').value();
+    fname = document.getElementById('fname').value;
+    lname = document.getElementById('lname').value;
+    uname = document.getElementById('uname').value;
+    email = document.getElementById('email').value;
     password = document.getElementById('passwd');
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
