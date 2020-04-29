@@ -58,10 +58,10 @@
         3: 'warning',
         4: 'success'
     }
-    fname = document.getElementById('fname').value;
-    lname = document.getElementById('lname').value;
-    uname = document.getElementById('uname').value;
-    email = document.getElementById('email').value;
+    fname = document.getElementById('fname').value.toLowerCase();
+    lname = document.getElementById('lname').value.toLowerCase();
+    uname = document.getElementById('uname').value.toLowerCase();
+    email = document.getElementById('email').value.toLowerCase();
     password = document.getElementById('passwd');
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
@@ -111,7 +111,7 @@
         validate(password);
     });
     passconf.addEventListener('input', function() {
-        if (passconf.value == password.value) {
+        if (passconf.value.toLowerCase() == password.value.toLowerCase()) {
             validate(passconf)
             return;
         };
