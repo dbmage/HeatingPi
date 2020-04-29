@@ -24,13 +24,13 @@
     <div class='form-group'>
         <div class='input-group row'>
             <span class='input-group-addon col-1 material-icons-two-tone d-flex justify-content-center'>lock</span>
-            <input type='text' class='form-control' name='password' placeholder='Password' required='required'>
+            <input type='password' class='form-control' name='password' placeholder='Password' required='required'>
         </div>
     </div>
     <div class='form-group'>
         <div class='input-group row'>
             <span class='input-group-addon col-1 material-icons d-flex justify-content-center'>lock</span>
-            <input type='text' class='form-control' name='confirm_password' placeholder='Confirm Password' required='required'>
+            <input type='password' class='form-control' name='confirm_password' placeholder='Confirm Password' required='required'>
         </div>
     </div>
     <div class='form-group'>
