@@ -69,7 +69,7 @@
             return;
         }
         result = zxcvbn(password.value);
-        console.log(result);
+        console.log(result.score);
         // Update the password strength meter
         meter.style.width = result.score * 25;
         // Update the text indicator
