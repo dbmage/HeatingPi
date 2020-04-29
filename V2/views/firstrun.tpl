@@ -51,18 +51,20 @@
         password = document.getElementById('passwd');
         meter = document.getElementById('pwstr');
         password.addEventListener('input', function() {
-            result = zxcvbn(password.value);
-            // Update the password strength meter
-            meter.width = result.score * 25;
             $("#pwstr").removeClass (function (index, className) {
                 return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
             });
+            if (password.value == '') {
+                meter.innerHTML = "";
+                return;
+            }
+            result = zxcvbn(password.value);
+            // Update the password strength meter
+            meter.width = result.score * 25;
             // Update the text indicator
-            if (val !== "") {
+            if (password.value !== "") {
                 meter.innerHTML = strength[result.score];
                 meter.classList.add("bg-" + colours[result.score])
-            } else {
-                meter.innerHTML = "";
             }
         });
 
