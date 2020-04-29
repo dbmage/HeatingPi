@@ -66,6 +66,7 @@
         });
         if (password.value == '') {
             meter.innerHTML = "";
+            meter.style.width = "0%";
             return;
         }
         result = zxcvbn(password.value);
