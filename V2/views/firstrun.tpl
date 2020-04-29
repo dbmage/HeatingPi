@@ -9,6 +9,7 @@
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js'></script>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
         <style type='text/css'>
             .container {
                 background-color: #e9ecef;
@@ -21,6 +22,9 @@
                 font-size: 36px;
                 margin-top: 1px;
             }
+            .progress-bar {
+                width: 0%;
+            }
         </style>
     </head>
     <body>
@@ -31,4 +35,36 @@
             % include(content)
         </div>
     </body>
+    <script type="text/javascript">
+        strength = {
+            1: "Bad",
+            2: "Weak",
+            3: "Good",
+            4: "Strong"
+        };
+        colours = {
+            1: "error",
+            2: "error",
+            3: "warning",
+            4: "success"
+        }
+        password = document.getElementById('passwd');
+        meter = document.getElementById('pwstr');
+        password.addEventListener('input', function() {
+            result = zxcvbn(password.value);
+            // Update the password strength meter
+            meter.width = result.score * 25;
+            $("#pwstr").removeClass (function (index, className) {
+                return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
+            });
+            // Update the text indicator
+            if (val !== "") {
+                meter.innerHTML = strength[result.score];
+                meter.classList.add("bg-" + colours[result.score])
+            } else {
+                meter.innerHTML = "";
+            }
+        });
+
+    </script>
 </html>
