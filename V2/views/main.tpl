@@ -1,21 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="<% settings.charset %>">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>heating</title>
-  <link rel="stylesheet" href="<% request.uri_base %>/css/style.css">
-
-<!-- Grab jQuery from a CDN, fall back to local if necessary -->
-<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-<script type="text/javascript">/* <![CDATA[ */
-    !window.jQuery && document.write('<script type="text/javascript" src="<% request.uri_base %>/javascripts/jquery.js"><\/script>')
-/* ]]> */</script>
-
-</head>
-<body>
-{{content}}
-<div id="footer">
-</div>
-</body>
+<html>
+    <head>
+        <title>HeatingPi</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    </head>
+    <body>
+        <div id="nav">
+        </div>
+        <div class='container'>
+            {{content}}
+        </div>
+        <div id="footer">
+        </div>
+    </body>
 </html>
