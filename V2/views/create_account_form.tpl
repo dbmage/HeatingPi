@@ -28,7 +28,7 @@
     <div class='form-group'>
         <div class='progress'>
             <span class='input-group-addon col-1 d-flex justify-content-center'>Password Strength</span>
-            <div id='pwstr' class='progress-bar progress-bar-striped active' role='progressbar'
+            <div id='pwstr' class='progress-bar progress-bar-striped active border' role='progressbar'
             aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>
             </div>
         </div>
