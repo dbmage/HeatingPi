@@ -24,6 +24,7 @@
             }
             .progress-bar {
                 width: 0%;
+                background-color: black !important; 
             }
         </style>
     </head>
@@ -35,5 +36,5 @@
             % include(content)
         </div>
     </body>
-    
+
 </html>
