@@ -68,7 +68,7 @@
     };
     username.addEventListener('input', function() {
         username.value = username.value.toLowerCase();
-    )};
+    });
     password.addEventListener('input', function() {
         $('#pwstr').removeClass (function (index, className) {
             return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
