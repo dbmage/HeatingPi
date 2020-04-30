@@ -76,7 +76,6 @@
         if (password.value == '') {
             meter.innerHTML = '';
             meter.style.width = '0%';
-            invalidate(password);
             return;
         };
         if (passconf.value == password.value) {
@@ -100,9 +99,11 @@
             if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
                 return;
             };
+            console.log(thing  + "was found in " + passwd.value.toLowerCase());
             score += 1;
         });
         if ( score > 0 ) {
+            console.log("score: " + score);
             invalidate(password);
             return;
         }
