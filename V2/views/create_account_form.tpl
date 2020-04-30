@@ -4,21 +4,13 @@
     <div class='form-group'>
         <div class='input-group row'>
             <span class='input-group-addon col-1 material-icons-two-tone d-flex justify-content-center'>info</span>
-            <input type='text' class='form-control' id='fname' name='fname' placeholder='First Name' required='required'>
-            <span class='col-1'></span>
-            <input type='text' class='form-control' id='lname' name='lname' placeholder='Last Name' required='required'>
+            <input type='text' class='form-control' id='fname' name='fname' placeholder='Full Name' required='required'>
         </div>
     </div>
     <div class='form-group'>
         <div class='input-group row'>
             <span class='input-group-addon col-1 material-icons-two-tone d-flex justify-content-center'>account_circle</span>
             <input type='text' class='form-control' id='uname' name='username' placeholder='Username' required='required'>
-        </div>
-    </div>
-    <div class='form-group'>
-        <div class='input-group row'>
-            <span class='input-group-addon col-1 material-icons-two-tone d-flex justify-content-center'>mail</span>
-            <input type='email' class='form-control' id='email' name='email' placeholder='Email Address' required='required'>
         </div>
     </div>
     <div class='form-group'>
@@ -58,10 +50,8 @@
         3: 'warning',
         4: 'success'
     }
-    fname = document.getElementById('fname').value.toLowerCase();
-    lname = document.getElementById('lname').value.toLowerCase();
+    names = document.getElementById('fname').value.toLowerCase().split(' ');
     uname = document.getElementById('uname').value.toLowerCase();
-    email = document.getElementById('email').value.toLowerCase();
     password = document.getElementById('passwd');
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
@@ -98,9 +88,9 @@
         meter.innerHTML = strength[result.score];
         meter.classList.add('bg-' + colours[result.score])
         score = 0
-        [fname, lname, uname, email].forEach(function() {
+        [fname, uname, email].concat(names).forEach(function() {
             if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
-                continue;
+                return;
             };
             score += 1;
         });
