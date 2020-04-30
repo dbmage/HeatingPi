@@ -79,11 +79,13 @@
             invalidate(password);
             return;
         };
-        if (passconf.value != '' && passconf.value == password.value) {
+        if (passconf.value == password.value) {
             validate(passconf)
             return;
         };
-        invalidate(passconf)
+        if ( passconf != '' ){
+            invalidate(passconf)
+        };
         result = zxcvbn(password.value);
         // Update the password strength meter
         if ( result.score == 0 ){
