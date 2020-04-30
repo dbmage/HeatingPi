@@ -75,7 +75,7 @@
             invalidate(password);
             return;
         };
-        if (passconf.value == password.value) {
+        if (passconf.value != '' && passconf.value == password.value) {
             validate(passconf)
             return;
         };
