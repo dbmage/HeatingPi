@@ -51,7 +51,8 @@
     }
     $('[data-toggle="tooltip"]').tooltip();
     names = document.getElementById('fname').value.toLowerCase().split(' ');
-    uname = document.getElementById('uname').value.toLowerCase();
+    username = document.getElementById('uname');
+    uname = username.value.toLowerCase();
     password = document.getElementById('passwd');
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
@@ -61,9 +62,12 @@
         domitem.classList.add('is-invalid')
     };
     function validate(domitem){
-        $('#' + domitem.id).tooltip('hide')
-        domitem.classList.remove('is-invalid')
-        domitem.classList.add('is-valid')
+        $('#' + domitem.id).tooltip('hide');
+        domitem.classList.remove('is-invalid');
+        domitem.classList.add('is-valid');
+    };
+    username.addEventListener('input', function() {
+        username.value = username.value.toLowerCase();
     };
     password.addEventListener('input', function() {
         $('#pwstr').removeClass (function (index, className) {
