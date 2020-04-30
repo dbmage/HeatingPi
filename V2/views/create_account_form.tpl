@@ -28,8 +28,7 @@
     <div class='form-group'>
         <div class='progress'>
             <span class='input-group-addon col-1 d-flex justify-content-center'>Password Strength</span>
-            <div id='pwstr' class='progress-bar progress-bar-striped active border' role='progressbar'
-            aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>
+            <div id='pwstr' class='progress-bar progress-bar-striped active border' role='progressbar'>
             </div>
         </div>
     </div>
@@ -50,18 +49,19 @@
         3: 'warning',
         4: 'success'
     }
+    $('[data-toggle="tooltip"]').tooltip(); 
     names = document.getElementById('fname').value.toLowerCase().split(' ');
     uname = document.getElementById('uname').value.toLowerCase();
     password = document.getElementById('passwd');
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
     function invalidate(domitem){
-        domitem.tooltip('show')
+        $(#domitem.id).tooltip('show')
         domitem.classList.remove('is-valid')
         domitem.classList.add('is-invalid')
     };
     function validate(domitem){
-        domitem.tooltip('hide')
+        $(#domitem.id).tooltip('hide')
         domitem.classList.remove('is-invalid')
         domitem.classList.add('is-valid')
     };
