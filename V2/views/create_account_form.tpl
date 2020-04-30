@@ -26,9 +26,9 @@
         </div>
     </div>
     <div class='form-group'>
-        <div class='progress'>
-            <span class='input-group-addon col-3 d-flex justify-content-center'>Password Strength</span>
-            <div id='pwstr' class='progress-bar progress-bar-striped active' role='progressbar'>
+        <span class='input-group-addon col-3 d-flex justify-content-center'>Password Strength</span>
+        <div class='progress bg-light'>
+            <div id='pwstr' class='progress-bar progress-bar-striped active'>
             </div>
         </div>
     </div>
