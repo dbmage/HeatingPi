@@ -49,19 +49,19 @@
         3: 'warning',
         4: 'success'
     }
-    $('[data-toggle="tooltip"]').tooltip(); 
+    $('[data-toggle="tooltip"]').tooltip();
     names = document.getElementById('fname').value.toLowerCase().split(' ');
     uname = document.getElementById('uname').value.toLowerCase();
     password = document.getElementById('passwd');
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
     function invalidate(domitem){
-        $(#domitem.id).tooltip('show')
+        $('#' + domitem.id).tooltip('show')
         domitem.classList.remove('is-valid')
         domitem.classList.add('is-invalid')
     };
     function validate(domitem){
-        $(#domitem.id).tooltip('hide')
+        $('#' + domitem.id).tooltip('hide')
         domitem.classList.remove('is-invalid')
         domitem.classList.add('is-valid')
     };
