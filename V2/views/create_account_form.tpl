@@ -83,7 +83,7 @@
             validate(passconf)
             return;
         };
-        if ( passconf != '' ){
+        if ( passconf.value != '' ){
             invalidate(passconf)
         };
         result = zxcvbn(password.value);
@@ -96,7 +96,7 @@
         meter.innerHTML = strength[result.score];
         meter.classList.add('bg-' + colours[result.score])
         score = 0
-        [fname, uname, email].concat(names).forEach(function() {
+        [fname, uname].concat(names).forEach(function() {
             if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
                 return;
             };
