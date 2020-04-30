@@ -96,7 +96,7 @@
         meter.innerHTML = strength[result.score];
         meter.classList.add('bg-' + colours[result.score])
         score = 0
-        [fname, uname].concat(names).forEach(function() {
+        [fname, uname].concat(names).forEach(function(thing) {
             if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
                 return;
             };
