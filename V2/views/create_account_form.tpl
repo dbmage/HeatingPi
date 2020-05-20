@@ -77,7 +77,7 @@
         items = document.querySelectorAll('[required]');
         invalids = 0;
         items.forEach( function(item) {
-            if ( Array.from(item.classList).includes('is-invalid') ){
+            if ( item.validationMessage != '' ){
                 invalids += 1;
             };
         })
