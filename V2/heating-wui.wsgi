@@ -62,9 +62,9 @@ def FUNCTION():
     if config['install'] == True:
         return HTTPResponse(404)
     data = {}
-    data[names] = request.forms.fname
-    data[username] = request.forms.username
-    data[password] = request.forms.password
+    data['names'] = request.forms.fname
+    data['username'] = request.forms.username
+    data['password'] = request.forms.password
     user = register_user(data)
     if user == False:
         return template('main', content="Bad form data")
