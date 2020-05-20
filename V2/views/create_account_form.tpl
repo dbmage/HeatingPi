@@ -50,6 +50,7 @@
         4: 'success'
     }
     $('[data-toggle="tooltip"]').tooltip();
+    form = document.querySelector('form');
     names = document.getElementById('fname').value.toLowerCase().split(' ');
     username = document.getElementById('uname');
     uname = username.value.toLowerCase();
@@ -60,21 +61,19 @@
         $('#' + domitem.id).tooltip('show');
         domitem.classList.remove('is-valid');
         domitem.classList.add('is-invalid');
-        checkForm();
     };
 
     function validate(domitem){
         $('#' + domitem.id).tooltip('hide');
         domitem.classList.remove('is-invalid');
         domitem.classList.add('is-valid');
-        checkForm();
     };
 
     username.addEventListener('input', function() {
         username.value = username.value.toLowerCase();
     });
 
-    function checkForm() {
+    form.addEventListener('change', function() {
         items = document.querySelectorAll('[required]');
         invalids = 0;
         items.forEach( function(item) {
@@ -85,9 +84,9 @@
         if ( invalids > 0 ) {
             $(':input[type="submit"]').prop('disabled', true);
             return;
-        }
+        };
         $(':input[type="submit"]').prop('disabled', false);
-    }
+    });
 
     password.addEventListener('input', function() {
         $('#pwstr').removeClass (function (index, className) {
