@@ -73,11 +73,11 @@
         username.value = username.value.toLowerCase();
     });
 
-    form.addEventListener('change', function() {
+    function checkForm() {
         items = document.querySelectorAll('[required]');
         invalids = 0;
         items.forEach( function(item) {
-            if ( item.validationMessage != '' ){
+            if ( Array.from(item.classList).includes('is-invalid') || item.validationMessage != '' ){
                 invalids += 1;
             };
         })
@@ -86,7 +86,9 @@
             return;
         };
         $(':input[type="submit"]').prop('disabled', false);
-    });
+    }
+
+    form.addEventListener('change', checkForm());
 
     password.addEventListener('input', function() {
         $('#pwstr').removeClass (function (index, className) {
@@ -133,5 +135,9 @@
             return;
         };
         invalidate(passconf)
+    });
+
+    $( document ).ready(function() {
+        checkForm();
     });
 </script>
