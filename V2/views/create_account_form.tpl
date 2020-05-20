@@ -49,14 +49,7 @@
         3: 'warning',
         4: 'success'
     }
-    $('[data-toggle="tooltip"]').tooltip();
-    form = document.querySelector('form');
-    names = document.getElementById('fname').value.toLowerCase().split(' ');
-    username = document.getElementById('uname');
-    uname = username.value.toLowerCase();
-    password = document.getElementById('passwd');
-    passconf = document.getElementById('passconf');
-    meter = document.getElementById('pwstr');
+
     function invalidate(domitem){
         $('#' + domitem.id).tooltip('show');
         domitem.classList.remove('is-valid');
@@ -69,10 +62,6 @@
         domitem.classList.add('is-valid');
     };
 
-    username.addEventListener('input', function() {
-        username.value = username.value.toLowerCase();
-    });
-
     function checkForm() {
         items = document.querySelectorAll('[required]');
         invalids = 0;
@@ -81,6 +70,7 @@
                 invalids += 1;
             };
         })
+        console.log
         if ( invalids > 0 ) {
             $(':input[type="submit"]').prop('disabled', true);
             return;
@@ -88,56 +78,69 @@
         $(':input[type="submit"]').prop('disabled', false);
     }
 
-    form.addEventListener('change', checkForm());
+    $( document ).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+        form = document.querySelector('form');
+        names = document.getElementById('fname').value.toLowerCase().split(' ');
+        username = document.getElementById('uname');
+        uname = username.value.toLowerCase();
+        password = document.getElementById('passwd');
+        passconf = document.getElementById('passconf');
+        meter = document.getElementById('pwstr');
 
-    password.addEventListener('input', function() {
-        $('#pwstr').removeClass (function (index, className) {
-            return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
+        username.addEventListe6ner('input', function() {
+            username.value = username.value.toLowerCase();
         });
-        if (password.value == '') {
-            meter.innerHTML = '';
-            meter.style.width = '0%';
-            return;
-        };
-        if (passconf.value == password.value) {
-            validate(passconf)
-            return;
-        };
-        if ( passconf.value != '' ){
-            invalidate(passconf)
-        };
-        result = zxcvbn(password.value);
-        // Update the password strength meter
-        if ( result.score == 0 ){
-            result.score = 1;
-        }
-        meter.style.width = result.score * 25 + '%';
-        // Update the text indicator
-        meter.innerHTML = strength[result.score];
-        meter.classList.add('bg-' + colours[result.score])
-        score = 0;
-        [uname].concat(names).forEach(function(thing) {
-            if ( thing == '' || !( passwd.value.toLowerCase().includes(thing) ) ) {
+
+        form.addEventListener('change', checkForm());
+
+        password.addEventListener('input', function() {
+            $('#pwstr').removeClass (function (index, className) {
+                return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
+            });
+            if (password.value == '') {
+                meter.innerHTML = '';
+                meter.style.width = '0%';
                 return;
             };
-            score += 1;
+            if (passconf.value == password.value) {
+                validate(passconf)
+                return;
+            };
+            if ( passconf.value != '' ){
+                invalidate(passconf)
+            };
+            result = zxcvbn(password.value);
+            // Update the password strength meter
+            if ( result.score == 0 ){
+                result.score = 1;
+            }
+            meter.style.width = result.score * 25 + '%';
+            // Update the text indicator
+            meter.innerHTML = strength[result.score];
+            meter.classList.add('bg-' + colours[result.score])
+            score = 0;
+            [uname].concat(names).forEach(function(thing) {
+                if ( thing == '' || !( passwd.value.toLowerCase().includes(thing) ) ) {
+                    return;
+                };
+                score += 1;
+            });
+            if ( score > 0 ) {
+                invalidate(password);
+                return;
+            }
+            validate(password);
         });
-        if ( score > 0 ) {
-            invalidate(password);
-            return;
-        }
-        validate(password);
-    });
 
-    passconf.addEventListener('input', function() {
-        if (passconf.value.toLowerCase() == password.value.toLowerCase()) {
-            validate(passconf)
-            return;
-        };
-        invalidate(passconf)
-    });
+        passconf.addEventListener('input', function() {
+            if (passconf.value.toLowerCase() == password.value.toLowerCase()) {
+                validate(passconf)
+                return;
+            };
+            invalidate(passconf)
+        });
 
-    $( document ).ready(function() {
         checkForm();
     });
 </script>
