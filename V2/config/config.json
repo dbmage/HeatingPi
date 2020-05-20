@@ -2,6 +2,7 @@
     "pinmode" : "BCM",
     "bankholidays" : false,
     "logdir" : "/var/log/",
+    "install" : false,
     "logspecs" : {
         "api" : {
             "filename" : "heatingpi-api-error.log",
