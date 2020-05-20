@@ -62,14 +62,13 @@ def FUNCTION():
     if config['install'] == True:
         return HTTPResponse(404)
     data = {}
-    data[fname] = request.forms.get('fname')
-    data[lname] = request.forms.get('lname')
-    data[username] = request.forms.get('username')
-    data[password] = request.forms.get('password')
+    data[names] = request.forms.fname
+    data[username] = request.forms.username
+    data[password] = request.forms.password
     user = register_user(data)
     if user == False:
         return template('main', content="Bad form data")
-    return template('main', content="FUCK OFF %s%s! I'm not ready yet" % (general.ucFirst(user['fname'])))
+    return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(user['fname'])))
     # return template('firstrun', content=template(step2))
 ## Run WSGI
 start = False
