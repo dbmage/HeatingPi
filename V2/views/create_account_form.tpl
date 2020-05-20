@@ -57,18 +57,38 @@
     passconf = document.getElementById('passconf');
     meter = document.getElementById('pwstr');
     function invalidate(domitem){
-        $('#' + domitem.id).tooltip('show')
-        domitem.classList.remove('is-valid')
-        domitem.classList.add('is-invalid')
+        $('#' + domitem.id).tooltip('show');
+        domitem.classList.remove('is-valid');
+        domitem.classList.add('is-invalid');
+        checkForm();
     };
+
     function validate(domitem){
         $('#' + domitem.id).tooltip('hide');
         domitem.classList.remove('is-invalid');
         domitem.classList.add('is-valid');
+        checkForm();
     };
+
     username.addEventListener('input', function() {
         username.value = username.value.toLowerCase();
     });
+
+    function checkForm() {
+        items = document.querySelectorAll('[required]');
+        invalids = 0;
+        items.forEach( function(item) {
+            if ( Array.from(item.classList).includes('is-invalid') ){
+                invalids += 1;
+            };
+        })
+        if ( invalids > 0 ) {
+            $(':input[type="submit"]').prop('disabled', true);
+            return;
+        }
+        $(':input[type="submit"]').prop('disabled', false);
+    }
+
     password.addEventListener('input', function() {
         $('#pwstr').removeClass (function (index, className) {
             return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
@@ -96,19 +116,18 @@
         meter.classList.add('bg-' + colours[result.score])
         score = 0;
         [uname].concat(names).forEach(function(thing) {
-            if ( !( passwd.value.toLowerCase().includes(thing) ) ) {
+            if ( thing == '' || !( passwd.value.toLowerCase().includes(thing) ) ) {
                 return;
             };
-            console.log(thing  + "was found in " + passwd.value.toLowerCase());
             score += 1;
         });
         if ( score > 0 ) {
-            console.log("score: " + score);
             invalidate(password);
             return;
         }
         validate(password);
     });
+
     passconf.addEventListener('input', function() {
         if (passconf.value.toLowerCase() == password.value.toLowerCase()) {
             validate(passconf)
