@@ -54,12 +54,14 @@
         $('#' + domitem.id).tooltip('show');
         domitem.classList.remove('is-valid');
         domitem.classList.add('is-invalid');
+        checkForm();
     };
 
     function validate(domitem){
         $('#' + domitem.id).tooltip('hide');
         domitem.classList.remove('is-invalid');
         domitem.classList.add('is-valid');
+        checkForm();
     };
 
     function checkForm() {
@@ -70,7 +72,6 @@
                 invalids += 1;
             };
         })
-        console.log
         if ( invalids > 0 ) {
             $(':input[type="submit"]').prop('disabled', true);
             return;
@@ -90,9 +91,8 @@
 
         username.addEventListener('input', function() {
             username.value = username.value.toLowerCase();
+            checkForm();
         });
-
-        form.addEventListener('change', checkForm());
 
         password.addEventListener('input', function() {
             $('#pwstr').removeClass (function (index, className) {
@@ -140,7 +140,7 @@
             };
             invalidate(passconf)
         });
-
+        
         checkForm();
     });
 </script>
