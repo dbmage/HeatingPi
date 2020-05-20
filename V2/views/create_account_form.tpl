@@ -81,7 +81,6 @@
 
     $( document ).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
-        form = document.querySelector('form');
         names = document.getElementById('fname').value.toLowerCase().split(' ');
         username = document.getElementById('uname');
         uname = username.value.toLowerCase();
@@ -120,6 +119,8 @@
             meter.innerHTML = strength[result.score];
             meter.classList.add('bg-' + colours[result.score])
             score = 0;
+            uname = username.value.toLowerCase();
+            names = document.getElementById('fname').value.toLowerCase().split(' ');
             [uname].concat(names).forEach(function(thing) {
                 if ( thing == '' || !( passwd.value.toLowerCase().includes(thing) ) ) {
                     return;
@@ -140,7 +141,7 @@
             };
             invalidate(passconf)
         });
-        
+
         checkForm();
     });
 </script>
