@@ -88,7 +88,7 @@
         passconf = document.getElementById('passconf');
         meter = document.getElementById('pwstr');
 
-        username.addEventListe6ner('input', function() {
+        username.addEventListener('input', function() {
             username.value = username.value.toLowerCase();
         });
 
