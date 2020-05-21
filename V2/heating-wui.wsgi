@@ -69,6 +69,10 @@ def FUNCTION():
         return firstRun()
     return template('main', content=None)
 
+@route('/test')
+def FUNCTION():
+    return HTTPResponse(status=200)
+
 @post('/createuser')
 def FUNCTION():
     if config['install'] == True:
