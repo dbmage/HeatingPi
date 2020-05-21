@@ -58,6 +58,8 @@ def register_user(userdata):
             log.error("Missing %s" % (thing))
             log.error(userdata)
             return False
+    config['install'] = True
+    general.configSave(my_cwd, config)
     return apiCall('/createuser', data=userdata)
 
 ## Routes
@@ -79,7 +81,7 @@ def FUNCTION():
     resp = register_user(data)
     if resp == False:
         return template('main', content="Bad form data")
-    return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(user['names'])))
+    return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(data['names'])))
     # return template('firstrun', content=template(step2))
 
 ## Run WSGI

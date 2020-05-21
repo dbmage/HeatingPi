@@ -108,9 +108,10 @@ def FUNCTION():
 @post('createuser')
 def FUNCTION():
     try:
-        addUser(json.loads(request.json['payload']))
-        return retOK()
+        if addUser(json.loads(request.json['payload'])):
+            return retOK()
+        return retError(data='Create user failed')
     except:
-        return retError()
+        return retError(data='Create user failed')
 ## Run WSGI
 application = default_app()
