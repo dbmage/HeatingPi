@@ -196,7 +196,8 @@ function sysd {
     chmod 644 /lib/systemd/system/heatingPi.service &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     systemctl enable heatingPi &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     echo -e "\t\t$OK"
-    exit 0
 }
 
 [[ -L "/sbin/init" ]] && sysd || echo -e "${RED}Systemd is required for the HeatingPi service.$RESET\nHeatingPi will run without it, but restarts can be unpredictable (sorry)."
+myip=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'`
+echo -e "${GREEN}Finished$RESET. Go to http://$myip/ to get started."
