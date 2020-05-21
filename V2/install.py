@@ -29,12 +29,12 @@ except:
 
 def print_progress(message, type=None):
     colours = {
-        'ok' : '\x1b[1;32;40m',
-        'warn' : '\x1b[1;33;40m',
-        'failed' : '\x1b[1;31;40m'
+        'ok' : '\x1b[1;32m',
+        'warn' : '\x1b[1;33m',
+        'failed' : '\x1b[1;31m'
     }
     if type == 'start':
-        print("\033[1;35;40m%-40s\x1b[0m" % (message), end='')
+        print("\033[1;35m%-40s\x1b[0m" % (message), end='')
         return
     if type == 'end' and message.lower() in colours:
         print("[%s%s\x1b[0m]" % (colours[message.lower()], message.center(6)))

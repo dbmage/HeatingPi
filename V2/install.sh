@@ -7,31 +7,31 @@
 ## python script, but in case python3 is not installed, I do some of it here.
 user=$(whoami)
 arch=$(uname -m | grep arm | wc -c)
-RESET="\e[39m"
-PINK="\e[35m"
-YELLOW="\e[33m"
-GREEN="\e[32m"
-RED="\e[31m"
-WARN="\t[ \e[33mWARN\e[39m ]"
-OK="\t[  \e[32mOK\e[39m  ]"
-FAIL="\t[ \e[31mFAIL\e[39m ]"
-FAILED="\t[\e[31mFAILED\e[39m]"
+RESET="\e[0m"
+MAGENTA="\e[1;35m"
+YELLOW="\e[1;33m"
+GREEN="\e[1;32m"
+RED="\e[1;31m"
+WARN="\t[ ${YELLOW}WARN$RESET ]"
+OK="\t[  ${GREEN}OK$RESET  ]"
+FAIL="\t[ ${RED}FAIL$RESET ]"
+FAILED="\t[${RED}FAILED$RESET]"
 clear
 echo "More detailed info is stored in install.log"
 ## Git would not let me commit the chmods, so they're going here....
 chmod -R o-rwx *
 ## Check for run as root, had issues using sudo
-echo -en "\e[35mRoot\e[39m"
+echo -en "${MAGENTA}Root$RESET"
 if [[ $user != "root" ]];
 then
     echo -e "\t\t\t\t$FAIL"
-    echo -e "\t\e[33mPlease run as root\e[39m"
+    echo -e "\t${YELLOW}Please run as root$RESET"
     exit 1
 else
     echo -e "\t\t\t\t$OK"
 fi
 ## check for and install missing packages
-echo -en "\e[35mPackages\e[39m"
+echo -en "${MAGENTA}Packages$RESET"
 failedpackage=0
 for package in $(cat Package.list);
 do
@@ -49,39 +49,39 @@ then
 fi
 echo -e "\t\t\t$OK"
 ## check for py3, install if missing
-echo -en "\e[35mPython\e[39m"
+echo -en "${MAGENTA}Python$RESET"
 if [ `command -v python3 | wc -l` -lt 1 ];
 then
     echo -e "\t\t\t\t$WARN"
-    echo -e "\t\e[33mThis system does not have python 3 installed, it will be installed$RESET"
+    echo -e "\t${YELLOW}This system does not have python 3 installed, it will be installed$RESET"
     installcode=`sudo apt-get install update &>> install.log && sudo apt-get install python3 python3-dev -y &>> install.log`
     if [ $? -eq 1 ];
     then
         echo -e "Python install $FAILED, please install manually"
         exit 1
     fi
-    echo -e "\e[35mPython$RESET\t\t\t\t$OK"
+    echo -e "${MAGENTA}Python$RESET\t\t\t\t$OK"
 else
     echo -e "\t\t\t\t$OK"
 fi
 ## Check for pip and install if missing
-echo -en "\e[35mPip$RESET"
+echo -en "${MAGENTA}Pip$RESET"
 if [ `command -v pip3 | wc -l` -lt 1 ];
 then
     echo -e "\t\t\t\t$WARN"
-    echo -e "\t\e[33mThis system does not have pip installed, it will be installed$RESET"
+    echo -e "\t${YELLOW}This system does not have pip installed, it will be installed$RESET"
     installcode=`sudo apt-get update &>> install.log && sudo apt-get install python3-pip -y &>> install.log`
     if [ $? -eq 1 ];
     then
         echo -e "\nPip install $FAILED, please install manually"
         exit 1
     fi
-    echo -e "\e[35mPip\e[39m\t\t\t\t$OK"
+    echo -e "${MAGENTA}Pip$RESET\t\t\t\t$OK"
 else
     echo -e "\t\t\t\t$OK"
 fi
 ## Same again for python modules...
-echo -en "\e[35mPython modules$RESET"
+echo -en "${MAGENTA}Python modules$RESET"
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 notinstalled=''
 for module in $reqmods;
@@ -100,7 +100,7 @@ done
 if [ `echo -n $notinstalled | wc -c` -gt 0 ];
 then
     echo -e "\t\t\t$WARN"
-    echo -e "\t\e[33mThe following python modules will need to be installed:$RESET"
+    echo -e "\t${YELLOW}The following python modules will need to be installed:$RESET"
     for module in $notinstalled;
     do
         echo -e "\t$module"
@@ -114,12 +114,12 @@ then
             continue
         fi
         echo -e "\tInstalling $module"
-        pip3 install $module &>> install.log && echo -e "\t\t\e[35mpip$RESET\t$OK" || echo -e "\t\t\e[35mpip$RESET\t$FAILED"
+        pip3 install $module &>> install.log && echo -e "\t\t${MAGENTA}pip$RESET\t$OK" || echo -e "\t\t${MAGENTA}pip$RESET\t$FAILED"
         if [ $? == 0 ];
         then
             continue
         fi
-        apt-get install python3-$module &>> install.log && echo -e "\t\t\e[35mapt$RESET\t$OK" || echo -e "\t\t\e[35mapt$RESET\t$FAILED"
+        apt-get install python3-$module &>> install.log && echo -e "\t\t${MAGENTA}apt$RESET\t$OK" || echo -e "\t\t${MAGENTA}apt$RESET\t$FAILED"
         if [ $? == 0 ];
         then
             continue
@@ -129,7 +129,7 @@ else
     echo -e "\t\t\t$OK"
 fi
 ## Create dedicate user
-echo -en "\e[35mCreating heatingpi user$RESET"
+echo -en "${MAGENTA}Creating heatingpi user$RESET"
 if [ $(id -u heatingpi &> /dev/null; echo $?) == 1 ];
 then
     useradd \
@@ -145,11 +145,11 @@ then
 fi
 echo -e "\t\t$OK"
 ## Give it the required perms
-echo -en "\e[35mSetting permissions for heatingpi$RESET"
+echo -en "${MAGENTA}Setting permissions for heatingpi$RESET"
 echo "heatingpi" >> /etc/at.allow &&\
 echo -e "$OK" || { echo -e "$FAIL"; exit 1; }
 ## Create the logfile and chown it for ease
-echo -en "\e[35mCreating files\e[39m"
+echo -en "${MAGENTA}Creating files$RESET"
 logfile=/var/log/heatingpi-error.log
 if [ ! -e $logfile ];
 then
@@ -161,7 +161,7 @@ else
     echo -e "\t\t\t$OK"
 fi
 ## Add and enable apache config
-echo -en "\e[35mApplying Apache2 config\e[39m"
+echo -en "${MAGENTA}Applying Apache2 config$RESET"
 if [ `cat /etc/apache2/ports.conf | grep 'Listen 5000' | wc -l` -eq 0 ];
 then
     echo "Listen 5000" >> /etc/apache2/ports.conf || { echo -e "\t\t$FAIL"; exit 1; }
@@ -180,7 +180,7 @@ echo -e "\t\t$OK" || { echo -e "\t\t$FAIL"; exit 1; }
 echo "Prerequisutes done. Running HeatingPi install"
 if [ ! -e 'install.py' ];
 then
-    echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET"
+    echo -e "${RED}Unable to run install.py${YELLOW}, please run manually$RESET"
     echo 'python3 install.py'
     exit 1
 fi
@@ -188,7 +188,7 @@ fi
 python3 install.py || exit 1
 git reset --hard &> /dev/null
 function sysd {
-    echo -en "\e[35;40mAdding systemd service\e[39m"
+    echo -en "\e[1;350mAdding systemd service$RESET"
     cp service/heating-pi-init.sh /usr/local/bin/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     chmod +x /usr/local/bin/heating-pi-init.sh &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     cp service/heatingPi.service /lib/systemd/system/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
