@@ -91,5 +91,5 @@ while not start:
     if start:
         break
     time.sleep(60)
-
+log.info("Successfully connected to API, starting WUI")
 application = default_app()
