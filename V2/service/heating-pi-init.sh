@@ -1,5 +1,5 @@
 #!/bin/bash
-while :
+while true; do
     if [ -f /var/run/apache2/apache2.pid ]; then
         continue
     fi
