@@ -39,8 +39,7 @@
                 ["CHOFF5", "TEXT" ]
             ],
             "users" : [
-                [ "FNAME", "TEXT" ],
-                [ "LNAME", "TEXT" ],
+                [ "NAME", "TEXT" ],
                 [ "UNAME", "TEXT" ],
                 [ "PASSWD", "TEXT"],
                 [ "TYPE", "TEXT"]
