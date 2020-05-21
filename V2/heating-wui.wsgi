@@ -32,14 +32,14 @@ def apiCall(endpoint, data=None):
 
 def init():
     try:
-        req = apiCall('test')
+        req = apiCall('/test')
         if req.status_code != 200:
             log.error("API issue: %s" % (req.text))
             sys.exit()
     except:
         log.error("No response from the API")
         return False
-    data = requests.get('/getUsers').text
+    data = apiCall('/getUsers').text
     log.info(data)
     config['users'] = json.loads(data)
     if config['users'] == False:
