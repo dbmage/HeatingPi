@@ -4,7 +4,7 @@ def ucFirst(word):
 def configSave(my_cwd, config):
     try:
         myfh = open("%s/config/config.json" % (my_cwd), 'w')
-        myfh.write(config)
+        myfh.write(json.dumps(config))
         myfh.close()
         return True
     except (OSError, IOError) as e:
