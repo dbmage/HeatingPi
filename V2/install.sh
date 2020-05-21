@@ -184,11 +184,12 @@ then
     echo 'python3 install.py'
     exit 1
 fi
-
 python3 install.py || exit 1
+## Reset git to undo any changes install made, allows for pull and upgrade
 git reset --hard &> /dev/null
+
 function sysd {
-    echo -en "\e[1;350mAdding systemd service$RESET"
+    echo -en "${MAGENTA}Adding systemd service$RESET"
     cp service/heating-pi-init.sh /usr/local/bin/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     chmod +x /usr/local/bin/heating-pi-init.sh &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     cp service/heatingPi.service /lib/systemd/system/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
@@ -198,4 +199,4 @@ function sysd {
     exit 0
 }
 
-[[ -L "/sbin/init" ]] && sysd || echo -e "Systemd is required for the HeatingPi service.\nHeatingPi will run without, but restarts can be unpredictable (sorry)."
+[[ -L "/sbin/init" ]] && sysd || echo -e "${RED}Systemd is required for the HeatingPi service.$RESET\nHeatingPi will run without it, but restarts can be unpredictable (sorry)."
