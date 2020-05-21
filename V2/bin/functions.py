@@ -160,4 +160,4 @@ def getPinState(pin):
 
 def addUser(userdata):
     dbdata = "name = '%s', uname = '%s', password = '%s', type = '%s'" % ( userdata['name'], userdata['uname'], userdata['password'], userdata['type'] )
-    return db.insertData('users', dbdata):
+    return db.insertData('users', dbdata)
