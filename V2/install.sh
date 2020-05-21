@@ -186,7 +186,7 @@ then
 fi
 
 python3 install.py || exit 1
-
+git reset --hard &> /dev/null
 function sysd {
     echo -en "\e[35mAdding systemd service\e[39m"
     cp service/heating-pi-init.sh /usr/local/bin/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }

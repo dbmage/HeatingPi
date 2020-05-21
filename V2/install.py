@@ -104,8 +104,9 @@ def doInstall():
             exit(1)
     try:
         copy_tree("%s" % (my_cwd), newlocation)
-        for file in [ 'install.sh', 'install.py', 'install.log', 'Package.list']:
+        for file in [ 'install.sh', 'install.py', 'install.log', 'Package.list', 'config/heating.conf']:
             os.remove("%s%s" % (newlocation, file))
+        shutil.rmtree("%sservice" % (newlocation))
         for root, dirs, files in os.walk(newlocation):
             for thing in dirs:
                 os.chown(os.path.join(root, thing), fowner, fgroup)
