@@ -29,11 +29,11 @@ def executeQuery(query):
     query = query.replace(';', '')
     try:
         cursor.execute(query)
-        if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
+        if any(sqlfunction.upper() in query for sqlfunction in [ 'create', 'update', 'insert', 'delete']):
             config['db']['connection'].commit()
     except sqlite3.Error as e:
         log.error("Error executing query (%s): %s" % (query, e))
-        if any(sqlfunction.upper() in query for sqlfunction in [ 'update', 'insert', 'delete']):
+        if any(sqlfunction.upper() in query for sqlfunction in [ 'create', 'update', 'insert', 'delete']):
             config['db']['connection'].rollback()
         disconnect()
         return False
