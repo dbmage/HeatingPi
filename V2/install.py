@@ -52,10 +52,13 @@ def setPasswd():
         print_progress("Please choose the admin password", type='warn')
         a = getpass.getpass("Password: ")
         b = getpass.getpass("Confirm: ")
-        if a == b:
-            passwd = b64encode(passwd.encode())
-            break
-        print("Passwords did not match")
+        if a != b:
+            print("Passwords did not match")
+            continue
+        if a == '':
+            print("Cannot have blank password")
+            continue
+        passwd = b64encode(passwd.encode())
 
     print_progress("Password", type='start')
     try:
