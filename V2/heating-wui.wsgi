@@ -81,6 +81,8 @@ def FUNCTION():
     resp = register_user(data)
     if resp == False:
         return template('main', content="Bad form data")
+    if resp.status_code != 200:
+        return template('main', content="Creating user failed")
     return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(data['names'])))
     # return template('firstrun', content=template(step2))
 
