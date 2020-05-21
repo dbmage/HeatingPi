@@ -6,6 +6,8 @@ PartOf=apache2.service
 
 [Service]
 Type=simple
+Restart=always
+RestartSec=2
 ExecStart=/bin/bash /usr/local/bin/heating-pi-init.sh
 
 [Install]
