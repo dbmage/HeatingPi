@@ -71,7 +71,7 @@ def FUNCTION():
 
 @route('/test')
 def FUNCTION():
-    return HTTPResponse(status=200, body='WUI running')
+    return HTTPResponse(status=200, body=json.dumps('WUI running'))
 
 @post('/createuser')
 def FUNCTION():
