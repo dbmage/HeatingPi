@@ -58,7 +58,7 @@ def setPasswd():
         if a == '':
             print("Cannot have blank password")
             continue
-        passwd = b64encode(passwd.encode())
+        passwd = b64encode(a.encode())
 
     print_progress("Password", type='start')
     try:
