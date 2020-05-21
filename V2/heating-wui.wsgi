@@ -44,7 +44,7 @@ def firstRun(stage=None):
         return template('firstrun', content='create_account_form')
 
 def register_user(userdata):
-    for thing in ['names', 'username', 'passwd' ]:
+    for thing in ['names', 'username', 'password' ]:
         if thing not in userdata:
             log.error("Missing %s" % (thing))
             log.error(userdata)
