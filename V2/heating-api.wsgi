@@ -76,7 +76,7 @@ def retDisabled(data=None):
 ## Routes
 @route('/test')
 def FUNCTION():
-    return retOK(data='Running')
+    return retOK(data='API Running')
 
 @route('/pinon/<pin>')
 def FUNCTION(pin):
