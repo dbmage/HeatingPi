@@ -1,0 +1,12 @@
+[Unit]
+Description=HeatingPi startup service.
+After=apache2.service
+Requires=apache2.service
+PartOf=apache2.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/local/bin/heating-pi-init.sh
+
+[Install]
+WantedBy=multi-user.target

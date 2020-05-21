@@ -172,9 +172,9 @@ then
 fi
 if [ ! -e /etc/apache2/sites-enabled/heating.conf ];
 then
-    a2ensite heating.conf &> /dev/null || { echo -e "\t\t$FAIL"; exit 1; }
+    a2ensite heating.conf &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
 fi
-systemctl restart apache2 &> /dev/null &&\
+systemctl restart apache2 &>> install.log &&\
 echo -e "\t\t$OK" || { echo -e "\t\t$FAIL"; exit 1; }
 ## Now run python script
 echo "Prerequisutes done. Running HeatingPi install"
@@ -185,4 +185,17 @@ then
     exit 1
 fi
 
-python3 install.py || { echo -e "\e[31mUnable to run install.py\e[33m, please run manually$RESET"; exit 1; }
+python3 install.py || exit 1
+
+function sysd {
+    echo -en "\e[35mAdding systemd service\e[39m"
+    cp service/heating-pi-init.sh /usr/local/bin/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
+    chmod +x /usr/local/bin/heating-pi-init.sh &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
+    cp service/heatingPi.service /lib/systemd/system/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
+    chmod 644 /lib/systemd/system/heatingPi.service &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
+    systemctl enable heatingPi &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
+    echo -e "\t\t$OK"
+    exit 0
+}
+
+[[ -L "/sbin/init" ]] && sysd || echo -e "Systemd is required for the HeatingPi service.\nHeatingPi will run without, but restarts can be unpredictable (sorry)."
