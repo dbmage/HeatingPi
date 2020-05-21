@@ -194,8 +194,9 @@ function sysd {
     chmod +x /usr/local/bin/heating-pi-init.sh &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     cp service/heatingPi.service /lib/systemd/system/ &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
     chmod 644 /lib/systemd/system/heatingPi.service &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
-    systemctl enable heatingPi &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
-    systemctl start heatingpi &>> /dev/null || { echo -e "\t\t$FAIL"; exit 1; }
+    systemctl enable heatingPi.service &>> install.log || { echo -e "\t\t$FAIL"; exit 1; }
+    systemctl stop heatingPi.service &> /dev/null
+    systemctl start heatingPi.service &>> /dev/null || { echo -e "\t\t$FAIL"; exit 1; }
     echo -e "\t\t$OK"
 }
 
