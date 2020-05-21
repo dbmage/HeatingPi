@@ -156,6 +156,8 @@ def main():
     ## If password is already set, stop everything being overwritten (update)
     if 'CHANGEME' in config:
         newInstall()
+    else:
+        print("Current installation found, updating...")
     doInstall()
     restartApache()
     testInstall()
