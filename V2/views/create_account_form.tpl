@@ -33,6 +33,7 @@
         </div>
     </div>
     <div class='form-group'>
+        <input type='text' class='form-control' name='type' style='display:none' value='administrator'>
         <button type='submit' class='btn btn-primary btn-lg'>Sign Up</button>
     </div>
 </form>

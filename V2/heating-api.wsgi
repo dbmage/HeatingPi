@@ -105,5 +105,11 @@ def FUNCTION():
 def FUNCTION():
     return json.dumps(db.selectData('users', datafilter="type != 'disabled'"))
 
+@post('createuser'):
+    try:
+        addUser(json.loads(request.json['payload']))
+        return retOK()
+    except:
+        return retError()
 ## Run WSGI
 application = default_app()

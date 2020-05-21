@@ -17,20 +17,29 @@ my_cwd = os.path.dirname(os.path.realpath(__file__))
 sys.path.append("%s" % (my_cwd))
 config = json.loads(open("%s/config/config.json" % (my_cwd)).read())
 from bin import general
+apiurl = 'http://localhost:5000'
 ## Setup logging
 ## console logger does not accept NOTSET so set to 60 to stop console logging
 Logger.init(config['logdir'], termSpecs={"level" : 60}, fileSpecs=[config['logspecs']['wui']])
 
+def apiCall(endpoint, data=None):
+    url = "%s%s" % ( apiurl, endpoint )
+    if endpoint == '/test':
+        return requests.get(url, timeout=2)
+    if data == None:
+        return requests.get( url )
+    return requests.post(url, json=json.dumps(data)
+
 def init():
     try:
-        req = requests.get('http://localhost:5000/test', timeout=2)
+        req = apiCall('test')
         if req.status_code != 200:
             log.error("API issue: %s" % (req.text))
             sys.exit()
     except:
         log.error("No response from the API")
         return False
-    data = requests.get('http://localhost:5000/getUsers').text
+    data = requests.get('/getUsers').text
     log.info(data)
     config['users'] = json.loads(data)
     if config['users'] == False:
@@ -44,12 +53,13 @@ def firstRun(stage=None):
         return template('firstrun', content='create_account_form')
 
 def register_user(userdata):
-    for thing in ['names', 'username', 'password' ]:
+    for thing in ['names', 'username', 'password', 'type' ]:
         if thing not in userdata:
             log.error("Missing %s" % (thing))
             log.error(userdata)
             return False
-    return userdata
+    return apiCall('/createuser', data=userdata)
+
 ## Routes
 @route('/')
 def FUNCTION():
@@ -65,11 +75,13 @@ def FUNCTION():
     data['names'] = request.forms.fname
     data['username'] = request.forms.username
     data['password'] = request.forms.password
-    user = register_user(data)
-    if user == False:
+    data['type'] = request.forms.type
+    resp = register_user(data)
+    if resp == False:
         return template('main', content="Bad form data")
-    return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(user['fname'])))
+    return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(user['names'])))
     # return template('firstrun', content=template(step2))
+
 ## Run WSGI
 start = False
 while not start:
@@ -77,4 +89,5 @@ while not start:
     if start:
         break
     time.sleep(60)
+
 application = default_app()

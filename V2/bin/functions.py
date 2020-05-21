@@ -157,3 +157,7 @@ def getPinState(pin):
     pins = config['pins']
     pin = pins['mapping'][pin]
     return GPIO.input(pin)
+
+def addUser(userdata):
+    dbdata = "name = '%s', uname = '%s', password = '%s', type = '%s'" % ( userdata['name'], userdata['uname'], userdata['password'], userdata['type'] )
+    db.insertData('users', dbdata)
