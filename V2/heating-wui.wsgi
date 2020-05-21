@@ -28,7 +28,7 @@ def apiCall(endpoint, data=None):
         return requests.get(url, timeout=2)
     if data == None:
         return requests.get( url )
-    return requests.post(url, json=json.dumps(data)
+    return requests.post(url, json=json.dumps(data))
 
 def init():
     try:
