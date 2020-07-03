@@ -75,18 +75,27 @@ def FUNCTION():
 
 @post('/createuser')
 def FUNCTION():
+    log.info(1)
     if config['install'] == True:
         return HTTPResponse(404)
+    log.info(2)
     data = {}
+    log.info(3)
     data['names'] = request.forms.fname
+    log.info(4)
     data['username'] = request.forms.username
+    log.info(5)
     data['password'] = request.forms.password
+    log.info(6)
     data['type'] = request.forms.type
+    log.info(7)
     resp = register_user(data)
+    log.info(8)
     if resp == False:
         return template('main', content="Bad form data")
     if resp.status_code != 200:
         return template('main', content="Creating user failed")
+    ## this fails "unhandled exception" but the logs are empty
     return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(data['names'])))
     # return template('firstrun', content=template(step2))
 
