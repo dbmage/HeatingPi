@@ -101,7 +101,7 @@ def insertData(table, data):
         raise ValueError("%s is not a valid table" % (table))
         return False
     for row in tabledes:
-        header.append(row[0])
+        headers.append(row[0])
     if len(data) != len(headers):
         log.error("Not enough values for insert - provided %s need %s" % (len(data), len(headers)))
         return False
