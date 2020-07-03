@@ -109,7 +109,7 @@ def FUNCTION():
 @post('/createuser')
 def FUNCTION():
     try:
-        if hpfuncs.addUser(json.loads(request.json['payload'])):
+        if hpfuncs.addUser(json.loads(json.loads(request.json)['payload'])):
             return retOK()
         return retError(data='Create user failed')
     except:
