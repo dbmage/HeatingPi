@@ -153,8 +153,9 @@ echo -en "${MAGENTA}Creating files$RESET"
 logs=0
 logdir=`cat config/config.json | jq .logdir`
 for log in api wui; do
-    logfile=`cat config/config.json | jq .logspecs.$log.filename`
-    logfile="${logdir}${logfile}"
+    logfile=$logdir
+    logfile+=`cat config/config.json | jq .logspecs.$log.filename`
+    logfile=`echo $logfile | sed 's/"//g'`
     if [ ! -e $logfile ];
         then
             touch $logfile &&\
