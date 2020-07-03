@@ -158,9 +158,9 @@ for log in api wui; do
     logfile=`echo $logfile | sed 's/"//g'`
     if [ ! -e $logfile ];
         then
-            touch $logfile &&\
-            chown heatingpi:www-data $logfile &&\
-            chmod 664 $logfile &&\
+            touch $logfile &>> install.log &&\
+            chown heatingpi:www-data $logfile  &>> install.log &&\
+            chmod 664 $logfile  &>> install.log &&\
             logs=$((logs+1))
     fi
 done
