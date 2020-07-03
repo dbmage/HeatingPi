@@ -6,6 +6,7 @@ import sys
 import json
 import time
 import requests
+import traceback
 import logging as log
 import RPi.GPIO as GPIO
 from lazylog import Logger
@@ -66,6 +67,7 @@ def register_user(userdata):
 @route('/')
 def FUNCTION():
     if len(config['users']) == 0:
+        config['install'] = False
         return firstRun()
     return template('main', content=None)
 
@@ -75,32 +77,21 @@ def FUNCTION():
 
 @post('/createuser')
 def FUNCTION():
-    try:
-        log.info(1)
-        if config['install'] == True:
-            return HTTPResponse(404)
-        log.info(2)
-        data = {}
-        log.info(3)
-        data['names'] = request.forms.fname
-        log.info(4)
-        data['username'] = request.forms.username
-        log.info(5)
-        data['password'] = request.forms.password
-        log.info(6)
-        data['type'] = request.forms.type
-        log.info(7)
-        resp = register_user(data)
-        log.info(8)
-        if resp == False:
-            return template('main', content="Bad form data")
-        if resp.status_code != 200:
-            return template('main', content="Creating user failed")
-        ## this fails "unhandled exception" but the logs are empty
-        return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(data['names'])))
-        # return template('firstrun', content=template(step2))
-    except Exception as e:
-        print(e)
+    if config['install'] == True:
+        return HTTPResponse(body=None, status=404)
+    data = {}
+    data['names'] = request.forms.fname
+    data['username'] = request.forms.username
+    data['password'] = request.forms.password
+    data['type'] = request.forms.type
+    resp = register_user(data)
+    if resp == False:
+        return template('main', content="Bad form data")
+    if resp.status_code != 200:
+        return template('main', content="Creating user failed")
+    ## this fails "unhandled exception" but the logs are empty
+    return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(data['names'])))
+    # return template('firstrun', content=template(step2))
 
 ## Run WSGI
 start = False
