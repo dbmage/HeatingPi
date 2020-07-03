@@ -76,11 +76,11 @@ def retDisabled(data=None):
 
 ## Routes
 @route('/test')
-def FUNCTION():
+def test():
     return retOK(data='API Running')
 
 @route('/pinon/<pin>')
-def FUNCTION(pin):
+def pinOn(pin):
     hpfuncs.on(pin)
     data = {
         "pin" : pin,
@@ -89,7 +89,7 @@ def FUNCTION(pin):
     return retOK(data=data)
 
 @route('/pinoff/<pin>')
-def FUNCTION(pin):
+def pinOff(pin):
     hpfuncs.off(pin)
     data = {
         "pin" : pin,
@@ -98,16 +98,16 @@ def FUNCTION(pin):
     return retOK(data=data)
 
 @route('/resetpins')
-def FUNCTION():
+def resetPins():
     hpfuncs.resetPins()
     return retOK()
 
 @route('/getUsers')
-def FUNCTION():
+def getUsers():
     return json.dumps(db.selectData('users', datafilter="type != 'disabled'"))
 
 @post('/createuser')
-def FUNCTION():
+def createUser():
     try:
         if hpfuncs.addUser(json.loads(json.loads(request.json)['payload'])):
             return retOK()

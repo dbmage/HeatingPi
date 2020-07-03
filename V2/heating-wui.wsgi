@@ -34,7 +34,7 @@ def apiCall(endpoint, data=None):
     except:
         log.error(traceback.print_exc())
         return HTTPResponse(body=json.dumps(traceback.print_exc()), status=500)
-        
+
 def init():
     try:
         req = apiCall('/test')
@@ -69,18 +69,18 @@ def register_user(userdata):
 
 ## Routes
 @route('/')
-def FUNCTION():
+def root():
     if len(config['users']) == 0:
         config['install'] = False
         return firstRun()
     return template('main', content=None)
 
 @route('/test')
-def FUNCTION():
+def test():
     return HTTPResponse(status=200, body=json.dumps('WUI running'))
 
 @post('/createuser')
-def FUNCTION():
+def createUser():
     if config['install'] == True:
         return HTTPResponse(body=None, status=404)
     data = {}
