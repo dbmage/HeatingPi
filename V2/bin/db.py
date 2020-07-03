@@ -69,7 +69,7 @@ def tableCheck(table):
     return output
 
 def describeTable(table):
-    query = "DESCRIBE %s" % (table)
+    query = "PRAGMA TABLE_INFO(%s)" % (table)
     output = executeQuery(query)
     if output == False:
         return False
