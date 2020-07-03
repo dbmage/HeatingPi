@@ -115,6 +115,6 @@ def createUser():
     except Exception as e:
         log.error(e)
         log.error(traceback.print_exc())
-        return retError(data='Create user failed')
+        return retError(data="Create user failed: %s" % (e))
 ## Run WSGI
 application = default_app()
