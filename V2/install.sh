@@ -150,15 +150,23 @@ echo "heatingpi" >> /etc/at.allow &&\
 echo -e "$OK" || { echo -e "$FAIL"; exit 1; }
 ## Create the logfile and chown it for ease
 echo -en "${MAGENTA}Creating files$RESET"
-logfile=/var/log/heatingpi-error.log
-if [ ! -e $logfile ];
-then
-    touch $logfile &&\
-    chown heatingpi:www-data $logfile &&\
-    chmod 664 $logfile &&\
-    echo -e "\t\t\t$OK" || { echo -e "\t\t\t$FAIL"; exit 1; }
-else
+logs=0
+logdir=`cat config/config.josn | jq .logdir`
+for log in api wui; do
+    logfile=`cat config/config.json | jq .logspecs.$log.filename`
+    logfile="${logdir}/${logfile}"
+    if [ ! -e $logfile ];
+        then
+            touch $logfile &&\
+            chown heatingpi:www-data $logfile &&\
+            chmod 664 $logfile &&\
+            logs=$((logs+1))
+    fi
+done
+if [[ $logs -eq 2 ]]; then
     echo -e "\t\t\t$OK"
+else
+    echo -e "\t\t\t$FAIL"; exit 1;
 fi
 ## Add and enable apache config
 echo -en "${MAGENTA}Applying Apache2 config$RESET"
