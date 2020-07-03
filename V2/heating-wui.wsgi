@@ -34,6 +34,7 @@ def apiCall(endpoint, data=None):
     except:
         log.error(traceback.print_exc())
         return HTTPResponse(body=json.dumps(traceback.print_exc()), status=500)
+        
 def init():
     try:
         req = apiCall('/test')
