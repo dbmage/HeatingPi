@@ -151,7 +151,7 @@ echo -e "$OK" || { echo -e "$FAIL"; exit 1; }
 ## Create the logfile and chown it for ease
 echo -en "${MAGENTA}Creating files$RESET"
 logs=0
-logdir=`cat config/config.josn | jq .logdir`
+logdir=`cat config/config.json | jq .logdir`
 for log in api wui; do
     logfile=`cat config/config.json | jq .logspecs.$log.filename`
     logfile="${logdir}/${logfile}"
