@@ -5,6 +5,7 @@ import os
 import sys
 import json
 import requests
+import traceback
 import logging as log
 import RPi.GPIO as GPIO
 from lazylog import Logger
@@ -112,6 +113,7 @@ def FUNCTION():
             return retOK()
         return retError(data='Create user failed')
     except:
+        log.error(traceback.print_exc())
         return retError(data='Create user failed')
 ## Run WSGI
 application = default_app()
