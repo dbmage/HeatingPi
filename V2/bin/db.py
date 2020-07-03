@@ -93,7 +93,7 @@ def updateData(table, column, updatedata, datafilter):
 
 def insertData(table, data):
     if not isinstance(data, list):
-        log.error("Incorrect datatype for insert: %s" % (data))
+        log.error("Incorrect datatype (%s) for insert: %s" % (type(data), data))
         return False
     tabledes = describeTable(table)
     headers = []
