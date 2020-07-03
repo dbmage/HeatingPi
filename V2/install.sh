@@ -154,7 +154,7 @@ logs=0
 logdir=`cat config/config.json | jq .logdir`
 for log in api wui; do
     logfile=`cat config/config.json | jq .logspecs.$log.filename`
-    logfile="${logdir}/${logfile}"
+    logfile="${logdir}${logfile}"
     if [ ! -e $logfile ];
         then
             touch $logfile &&\
