@@ -157,11 +157,13 @@ for log in api wui; do
     logfile+=`cat config/config.json | jq .logspecs.$log.filename`
     logfile=`echo $logfile | sed 's/"//g'`
     if [ ! -e $logfile ];
-        then
-            touch $logfile &>> install.log &&\
-            chown heatingpi:www-data $logfile  &>> install.log &&\
-            chmod 664 $logfile  &>> install.log &&\
-            logs=$((logs+1))
+    then
+        touch $logfile &>> install.log &&\
+        chown heatingpi:www-data $logfile  &>> install.log &&\
+        chmod 664 $logfile  &>> install.log &&\
+        logs=$((logs+1))
+    else
+        logs=$((logs+1))
     fi
 done
 if [[ $logs -eq 2 ]]; then
