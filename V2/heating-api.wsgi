@@ -105,7 +105,7 @@ def FUNCTION():
 def FUNCTION():
     return json.dumps(db.selectData('users', datafilter="type != 'disabled'"))
 
-@post('createuser')
+@post('/createuser')
 def FUNCTION():
     try:
         if hpfuncs.addUser(json.loads(request.json['payload'])):
