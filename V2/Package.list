@@ -2,5 +2,6 @@ at
 apache2
 g++
 gcc
+jq
 libapache2-mod-wsgi-py3
 wiringpi
