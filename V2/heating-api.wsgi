@@ -112,7 +112,8 @@ def createUser():
         if hpfuncs.addUser(json.loads(json.loads(request.json)['payload'])):
             return retOK()
         return retError(data='Create user failed')
-    except:
+    except Exception as e:
+        log.error(e)
         log.error(traceback.print_exc())
         return retError(data='Create user failed')
 ## Run WSGI
