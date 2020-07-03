@@ -160,5 +160,5 @@ def getPinState(pin):
 
 def addUser(userdata):
     log.debug(userdata)
-    dbdata = [ userdata['names'], userdata['username'], b64encode(userdata['password'].encode()), userdata['type'] ]
+    dbdata = [ userdata['names'], userdata['username'], b64encode(userdata['password'].encode()).encode('utf-8'), userdata['type'] ]
     return db.insertData('users', dbdata)
