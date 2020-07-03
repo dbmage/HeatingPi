@@ -86,7 +86,7 @@ def createUser():
     data = {}
     data['names'] = request.forms.fname
     data['username'] = request.forms.username
-    data['password'] = request.forms.password
+    data['password'] = request.forms.password.lower()
     data['type'] = request.forms.type
     resp = register_user(data)
     if resp == False:
