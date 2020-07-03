@@ -159,5 +159,6 @@ def getPinState(pin):
     return GPIO.input(pin)
 
 def addUser(userdata):
-    dbdata = "'%s', '%s', '%s', '%s'" % ( userdata['name'], userdata['uname'], b64encode(userdata['password'].encode()), userdata['type'] )
+    log.debug(userdata)
+    dbdata = "'%s', '%s', '%s', '%s'" % ( userdata['names'], userdata['uname'], b64encode(userdata['password'].encode()), userdata['type'] )
     return db.insertData('users', dbdata)
