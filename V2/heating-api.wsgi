@@ -42,7 +42,7 @@ hpfuncs.pinSetup()
 for table in config['db']['tables']:
     output = db.tableCheck(table)
     log.warning("Checking table %s: %s" % (table, output))
-    if len(output) < 1:
+    if len(output) < 1 or output == False:
         log.warning("Table %s not found, creating" % (table))
         db.createTable(table)
     if len(output) > 1:
