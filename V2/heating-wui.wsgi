@@ -24,13 +24,16 @@ apiurl = 'http://localhost:5000'
 Logger.init(config['logdir'], termSpecs={"level" : 60}, fileSpecs=[config['logspecs']['wui']])
 
 def apiCall(endpoint, data=None):
-    url = "%s%s" % ( apiurl, endpoint )
-    if endpoint == '/test':
-        return requests.get(url, timeout=2)
-    if data == None:
-        return requests.get( url )
-    return requests.post(url, json=json.dumps(data))
-
+    try:
+        url = "%s%s" % ( apiurl, endpoint )
+        if endpoint == '/test':
+                return requests.get(url, timeout=2)
+        if data == None:
+            return requests.get( url )
+        return requests.post(url, json=json.dumps(data))
+    except:
+        log.error(traceback.print_exc())
+        return HTTPResponse(body=json.dumps(traceback.print_exc()), status=500)
 def init():
     try:
         req = apiCall('/test')
