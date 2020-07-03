@@ -16,7 +16,7 @@
     <div class='form-group'>
         <div class='input-group row'>
             <span class='input-group-addon col-1 material-icons-two-tone d-flex justify-content-center'>lock</span>
-            <input id='passwd' type='password' class='form-control' name='password' placeholder='Password' required='required' data-toggle="tooltip" title="Password must not contain your name or username">
+            <input id='passwd' type='password' class='form-control' name='password' placeholder='Password (not case sensitive)' required='required' data-toggle="tooltip" title="Password must not contain your name or username">
         </div>
     </div>
     <div class='form-group'>
