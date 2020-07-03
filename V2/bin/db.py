@@ -98,7 +98,7 @@ def insertData(table, data):
     tabledes = describeTable(table)
     headers = []
     if tabledes == False:
-        raise ValueError("%s is not a valid table")
+        raise ValueError("%s is not a valid table" % (table))
         return False
     for row in tabledes:
         header.append(row[0])
