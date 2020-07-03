@@ -111,7 +111,6 @@ def createUser():
     try:
         if hpfuncs.addUser(json.loads(request.json)):
             return retOK()
-        return retError(data='Create user failed')
     except Exception as e:
         log.error(e)
         log.error(traceback.print_exc())
