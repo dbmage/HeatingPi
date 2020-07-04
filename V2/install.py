@@ -76,18 +76,18 @@ def setPasswd():
 def createLogFiles():
     global config
     print_progress("Logfiles", type='start')
-    try:
-        for thing in config['logspecs']:
+    for thing in config['logspecs']:
+        try:
             lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
             lfh = open(lfile, 'w')
             lfh.write('')
             lfh.close()
             os.chown(lfile, fowner, fgroup)
             os.chmod(lfile, 0o750)
-    except:
-        print_progress("Failed", type='end')
-        print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
-        exit(1)
+        except:
+            print_progress("Failed", type='end')
+            print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
+            exit(1)
     print_progress("OK", type='end')
 
 def verifyPinUse():
