@@ -65,6 +65,8 @@ def register_user(userdata):
             return False
     config['install'] = True
     general.configSave(my_cwd, config)
+    data = apiCall('/getUsers').text
+    config['users'] = json.loads(data)
     return apiCall('/createuser', data=userdata)
 
 ## Routes
