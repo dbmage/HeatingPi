@@ -3,6 +3,7 @@
     "bankholidays" : false,
     "logdir" : "/var/log/",
     "install" : false,
+    "installstep" : 0,
     "logspecs" : {
         "api" : {
             "filename" : "heatingpi-api-error.log",
