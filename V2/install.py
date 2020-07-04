@@ -5,7 +5,7 @@ import json
 import shutil
 import getpass
 import requests
-from subprocess import DEVNULL, STDOUT, check_call
+from subprocess import DEVNULL, STDOUT, check_call, Popen, PIPE
 from sys import exit
 from grp import getgrnam
 from pwd import getpwnam
@@ -68,7 +68,7 @@ def setPasswd():
         myfh.close()
     except Exception as e:
         print_progress("Failed", type='end')
-        print("Unableto set password, check permissions of %s" % (configfile))
+        print("Unable to set password, check permissions of %s" % (configfile))
         print(e)
         exit(1)
     print_progress("OK", type='end')
@@ -76,7 +76,6 @@ def setPasswd():
 def createLogFiles():
     global config
     print_progress("Logfiles", type='start')
-    config = json.loads(config)
     try:
         for thing in config['logspecs']:
             lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
@@ -88,6 +87,36 @@ def createLogFiles():
     except:
         print_progress("Failed", type='end')
         print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
+        exit(1)
+    print_progress("OK", type='end')
+
+def verifyPinUse():
+    global config
+    global configfile
+    config_orig = dict(config)
+    print_progress("Pins", type="Start")
+    cmd = 'ls /sys/class/gpio/ | egrep "gpio[0-9]{1,2}"'
+    output,error = Popen([cmd], shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    pins = output.decode('utf-8').splitlines()
+    if len(pins) < 1:
+        print_progress("OK", type='end')
+        return
+    for pin in pins:
+        pin = ''.join(pin[4:])
+        if pin not in config['pins']['freepins']:
+            continue
+        config['pins']['freepins'].remove(pin)
+    if config_orig['pins']['freepins'] == config['pins']['freepins']:
+        print_progress("OK", type='end')
+        return
+    try:
+        myfh = open("%s" % (configfile), 'w')
+        myfh.write(config)
+        myfh.close()
+    except Exception as e:
+        print_progress("Failed", type='end')
+        print("Unable to save config, check permissions of %s" % (configfile))
+        print(e)
         exit(1)
     print_progress("OK", type='end')
 
@@ -152,6 +181,7 @@ def testInstall():
 def newInstall():
     setPasswd()
     createLogFiles()
+    verifyPinUse()
 
 def main():
     ## If password is already set, stop everything being overwritten (update)
