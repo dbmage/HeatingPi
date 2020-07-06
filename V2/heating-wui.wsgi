@@ -11,7 +11,7 @@ import logging as log
 import RPi.GPIO as GPIO
 from lazylog import Logger
 from base64 import b64encode, b64decode
-from bottle import run, post, error, route, install, request, response, template, HTTPResponse, default_app
+from bottle import run, post, error, route, install, request, response, template, HTTPResponse, default_app, redirect
 
 ## Needed for deifnitive path
 my_cwd = os.path.dirname(os.path.realpath(__file__))
