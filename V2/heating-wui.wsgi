@@ -57,7 +57,7 @@ def firstRun():
     if config['installstep'] == 0:
         return template('firstrun', content='create_account_form')
     if config['installstep'] == 1:
-        return template('firstrun', content=template('setup', pins=config['pins']['freepins']))
+        return template('firstrun', content='setup')
 
 def register_user(userdata):
     for thing in ['names', 'username', 'password', 'type' ]:
