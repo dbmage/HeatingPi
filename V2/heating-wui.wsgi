@@ -53,9 +53,11 @@ def init():
     log.warning("User count: %s" % (len(config['users'])))
     return True
 
-def firstRun(stage=None):
-    if stage == None:
+def firstRun():
+    if config['installstep'] == 0:
         return template('firstrun', content='create_account_form')
+    if config['installstep'] == 1:
+        return template('firstrun', content=template('setup', pins=config['pins']['freepins']))
 
 def register_user(userdata):
     for thing in ['names', 'username', 'password', 'type' ]:
@@ -72,7 +74,7 @@ def register_user(userdata):
 ## Routes
 @route('/')
 def root():
-    if len(config['users']) == 0:
+    if len(config['users']) == 0 or config['installstep'] != -1:
         config['install'] = False
         return firstRun()
     return template('main', content=None)
@@ -95,9 +97,7 @@ def createUser():
         return template('main', content="Bad form data")
     if resp.status_code != 200:
         return template('main', content="Creating user failed")
-    ## this fails "unhandled exception" but the logs are empty
-    return template('main', content="FUCK OFF %s! I'm not ready yet" % (general.ucFirst(data['names'])))
-    # return template('firstrun', content=template(step2))
+    redirect('/')
 
 ## Run WSGI
 start = False
