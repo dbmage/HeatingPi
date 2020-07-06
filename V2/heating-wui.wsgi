@@ -97,6 +97,7 @@ def createUser():
         return template('main', content="Bad form data")
     if resp.status_code != 200:
         return template('main', content="Creating user failed")
+    config['installstep'] += 1
     redirect('/')
 
 ## Run WSGI
