@@ -67,7 +67,6 @@ def register_user(userdata):
             return False
     config['install'] = True
     general.configSave(my_cwd, config)
-    data = apiCall('/getUsers').text
     return apiCall('/createuser', data=userdata)
 
 ## Routes
@@ -84,7 +83,7 @@ def test():
 
 @post('/createuser')
 def createUser():
-    config['users'] = json.loads(data)
+    config['users'] = json.loads(apiCall('/getUsers').text)
     if config['install'] == True or len(config['users']) > 0:
         return HTTPResponse(body=None, status=404)
     data = {}
