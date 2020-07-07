@@ -68,7 +68,6 @@ def register_user(userdata):
     config['install'] = True
     general.configSave(my_cwd, config)
     data = apiCall('/getUsers').text
-    config['users'] = json.loads(data)
     return apiCall('/createuser', data=userdata)
 
 ## Routes
@@ -85,7 +84,8 @@ def test():
 
 @post('/createuser')
 def createUser():
-    if config['install'] == True:
+    config['users'] = json.loads(data)
+    if config['install'] == True or len(config['users']) > 0:
         return HTTPResponse(body=None, status=404)
     data = {}
     data['names'] = request.forms.fname
@@ -95,7 +95,7 @@ def createUser():
     resp = register_user(data)
     if resp == False:
         return template('main', content="Bad form data")
-    if resp.status_code != 200:
+    if resp.status_code != 201:
         return template('main', content="Creating user failed")
     config['installstep'] += 1
     redirect('/')
