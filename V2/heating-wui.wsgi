@@ -97,6 +97,7 @@ def createUser():
     if resp.status_code != 201:
         return template('main', content="Creating user failed")
     config['installstep'] += 1
+    general.configSave(my_cwd, config)
     redirect('/')
 
 ## Run WSGI
