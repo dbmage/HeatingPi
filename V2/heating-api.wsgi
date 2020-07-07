@@ -121,7 +121,7 @@ def checkUsername(username):
 def createUser():
     try:
         if hpfuncs.addUser(json.loads(request.json)):
-            return retOK()
+            return retCreated()
     except Exception as e:
         log.error(e)
         log.error(traceback.print_exc())
