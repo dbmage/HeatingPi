@@ -107,7 +107,10 @@ def resetPins():
 
 @route('/getUsers')
 def getUsers():
-    return json.dumps(db.selectData('users', datafilter="type != 'disabled'"))
+    data = db.selectData('users', datafilter="type != 'disabled'")
+    if data == False:
+        return json.dumps([])
+    return json.dumps(list(data))
 
 @route('/checkUserName/<username>')
 def checkUsername(username):
