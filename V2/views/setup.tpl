@@ -32,7 +32,7 @@
     </fieldset>
 </form>
 <script type='text/javascript'>
-    pins = %% json.dumps(config['pins']['freepins']) %%;
+    pins = {{pins}};
     pinselect = document.getElementById('pina');
     pinindex = 0
     for (pin in pins) {
