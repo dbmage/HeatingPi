@@ -65,6 +65,9 @@ def retHTTP(retcode,data=None):
 def retOK(data=None):
     return retHTTP(200, data=data)
 
+def retCreated(data=None):
+    return retHTTP(201, data=data)
+
 def retError(data=None):
     return retHTTP(500, data=data)
 
@@ -105,6 +108,14 @@ def resetPins():
 @route('/getUsers')
 def getUsers():
     return json.dumps(db.selectData('users', datafilter="type != 'disabled'"))
+
+@route('/checkUserName/<username>')
+def checkUsername(username):
+    users = db.selectData('users', datafilter="type != 'disabled'")
+    for user in users:
+        if username == user[1]:
+            return retInvalid( data=json.dumps( { 'error' : "Username %s is already taken" % (username) } ) )
+    return retOk()
 
 @post('/createuser')
 def createUser():
