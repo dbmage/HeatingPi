@@ -48,6 +48,7 @@
         <button type='submit' class='btn btn-primary' id='subbtn' disabled>Submit</button>
     </div>
 </form>
+<h3 id='error' style='display:none'></h3>
 <!-- Modal -->
 <div class='modal fade' id='add-pin'>
     <div class='modal-dialog'>
@@ -82,7 +83,7 @@
 <script type='text/javascript'>
     pins = {{pins}};
     pinset = [];
-
+    seterror = {{error}};
     function formValidation() {
         useval = $('input[name=use]:checked').val() || '';
         pinval = $('#pindata').val() || '';
@@ -188,6 +189,10 @@
             input.addEventListener('change', (event) => {
                 formValidation();
             });
+        };
+        if ( error != '' ) {
+            $('#seterror').text(error);
+            $('#seterror').show();
         };
     });
 </script>
