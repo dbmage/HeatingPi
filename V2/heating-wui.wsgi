@@ -62,7 +62,7 @@ def check_login(user=None, password=None):
         return HTTPResponse(status=500)
     if len(config['users']) < 1:
         return True
-    resp = apiCall('/auth', data=josn.dumps( [ user, password ] ) )
+    resp = apiCall('/auth', data=json.dumps( [ user, password ] ) )
     if resp.status_code != 200:
         return False
     return
