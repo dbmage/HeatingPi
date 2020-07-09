@@ -92,7 +92,7 @@ def addPins(pins):
             config['pins']['mode'][pinuse] = 'OUT'
             config['pins']['type'][pinuse] = 'binary'
         else:
-            config['pins']['mode'][pinuse = 'NONE'
+            config['pins']['mode'][pinuse] = 'NONE'
             config['pins']['type'][pinuse] = 'NONE'
         config['pins']['defaultsetting'][pinuse] = 'off'
         config['pins']['freepins'].remove(pinno)
