@@ -172,13 +172,13 @@ else
     echo -e "\t\t\t$FAIL"; exit 1;
 fi
 ## Add and enable apache config
-echo -en "${MAGENTA}Applying Apache2 config$RESET"
 remdef=0
-ls /etc/apache2/sites-enabled/000-default.conf &> /dev/null && echo "Apache default site detected, would you like to remove this? [y/n] {n}"; read remdef
+ls /etc/apache2/sites-enabled/000-default.conf &> /dev/null && echo -en "Apache default site detected, would you like to remove this? [y/n] {n}"; read remdef
 if [ $remdef == 'y' ];
 then
     rm -f /etc/apache2/sites-enabled/000-default.conf
 fi
+echo -en "${MAGENTA}Applying Apache2 config$RESET"
 if [ `cat /etc/apache2/ports.conf | grep 'Listen 5000' | wc -l` -eq 0 ];
 then
     echo "Listen 5000" >> /etc/apache2/ports.conf || { echo -e "\t\t$FAIL"; exit 1; }
