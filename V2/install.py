@@ -94,7 +94,8 @@ def createLogFiles():
 def verifyPinUse():
     global config
     global configfile
-    config_orig = dict(config)
+    config_orig = dict(json.loads(config))
+    cfg = json.loads(config)
     print_progress("Pins", type="Start")
     cmd = 'ls /sys/class/gpio/ | egrep "gpio[0-9]{1,2}"'
     output,error = Popen([cmd], shell=True, stdout=PIPE, stderr=PIPE).communicate()
@@ -104,15 +105,15 @@ def verifyPinUse():
         return
     for pin in pins:
         pin = ''.join(pin[4:])
-        if pin not in config['pins']['freepins']:
+        if pin not in cfg['pins']['freepins']:
             continue
-        config['pins']['freepins'].remove(pin)
-    if config_orig['pins']['freepins'] == config['pins']['freepins']:
+        cfg['pins']['freepins'].remove(pin)
+    if config_orig['pins']['freepins'] == cfg['pins']['freepins']:
         print_progress("OK", type='end')
         return
     try:
         myfh = open("%s" % (configfile), 'w')
-        myfh.write(config)
+        myfh.write(json.dumps(cfg))
         myfh.close()
     except Exception as e:
         print_progress("Failed", type='end')
