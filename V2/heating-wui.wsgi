@@ -146,7 +146,7 @@ def createUser():
     redirect('/')
 
 @post('/setup')
-def setup():
+def setupRoute():
     data = {
         'use' : request.forms.use,
         'setting' : 'off',
