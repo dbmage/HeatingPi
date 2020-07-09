@@ -173,7 +173,7 @@ else
 fi
 ## Add and enable apache config
 remdef=0
-ls /etc/apache2/sites-enabled/000-default.conf &> /dev/null && echo -en "Apache default site detected, would you like to remove this? [y/n] {n} "; read remdef
+ls /etc/apache2/sites-enabled/000-default.conf &> /dev/null && echo -en "Apache default site detected, would you like to remove this? [y/n] {n} " && read remdef
 if [ $remdef == 'y' ];
 then
     rm -f /etc/apache2/sites-enabled/000-default.conf
