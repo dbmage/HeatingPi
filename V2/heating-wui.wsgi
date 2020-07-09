@@ -65,7 +65,7 @@ def check_login(user=None, password=None):
     resp = apiCall('/auth', data=json.dumps( [ user, password ] ) )
     if resp.status_code != 200:
         return False
-    return
+    return True
 
 def firstRun(update=None):
     if config['installstep'] == 0:
