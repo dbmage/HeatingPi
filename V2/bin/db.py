@@ -118,3 +118,10 @@ def removeData(table, datafilter):
     if output == False:
         return False
     return output
+
+def removeAllData(table):
+    query = "DELETE FROM %s" % (table)
+    output = executeQuery(query)
+    if output == False:
+        return False
+    return output
