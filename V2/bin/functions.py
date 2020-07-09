@@ -162,3 +162,11 @@ def addUser(userdata):
     log.debug(userdata)
     dbdata = [ userdata['names'], userdata['username'], b64encode(userdata['password'].encode()).decode('utf-8'), userdata['type'] ]
     return db.insertData('users', dbdata)
+
+def setUse(use, setting):
+    try:
+        db.removeAllData('use')
+        db.insertData('use', "%s,%s" % (use, setting))
+    except:
+        return False
+    return True
