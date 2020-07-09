@@ -129,5 +129,13 @@ def createUser():
         log.error(e)
         log.error(traceback.print_exc())
         return retError(data="Create user failed: %s" % (e))
+
+@post('/setup')
+def setup():
+    data = json.loads(request.forms.data)
+    if hpfuncs.setUse(data['use'], data['setting']):
+        return retOK()
+    return retError(data='Setting use failed')
+
 ## Run WSGI
 application = default_app()
