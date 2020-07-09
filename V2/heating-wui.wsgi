@@ -69,6 +69,9 @@ def register_user(userdata):
     general.configSave(my_cwd, config)
     return apiCall('/createuser', data=userdata)
 
+def setup(data):
+
+
 ## Routes
 @route('/')
 def root():
@@ -104,6 +107,7 @@ def createUser():
 def setup():
     data = {
         'use' : request.forms.use,
+        'setting' : 'off',
         'pins' : json.loads(request.forms.pindata)
     }
     log.info(data)
