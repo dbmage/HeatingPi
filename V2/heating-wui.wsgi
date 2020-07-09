@@ -65,7 +65,7 @@ def check_login(user=None, password=None):
     resp = apiCall('/auth', data=josn.dumps( [ user, password ] ) )
     if resp.status_code != 200:
         return False
-    return True
+    return
 
 def firstRun(update=None):
     if config['installstep'] == 0:
