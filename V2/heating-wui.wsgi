@@ -11,7 +11,7 @@ import logging as log
 import RPi.GPIO as GPIO
 from lazylog import Logger
 from base64 import b64encode, b64decode
-from bottle import run, post, error, route, install, request, response, template, HTTPResponse, default_app, redirect
+from bottle import run, post, error, route, install, request, response, template, HTTPResponse, default_app, redirect, auth_basic
 
 ## Needed for deifnitive path
 my_cwd = os.path.dirname(os.path.realpath(__file__))
@@ -35,6 +35,14 @@ def apiCall(endpoint, data=None):
         log.error(traceback.print_exc())
         return HTTPResponse(body=json.dumps(traceback.print_exc()), status=500)
 
+def getUsers():
+    data = apiCall('/getUsers').text
+    config['users'] = json.loads(data)
+    if config['users'] == False:
+        log.error("Error response from the API")
+        return False
+    return True
+
 def init():
     try:
         req = apiCall('/test')
@@ -44,13 +52,19 @@ def init():
     except:
         log.error("No response from the API")
         return False
-    data = apiCall('/getUsers').text
-    log.info(data)
-    config['users'] = json.loads(data)
-    if config['users'] == False:
-        log.error("Error response from the API")
+    if getUsers() == False:
         return False
     log.warning("User count: %s" % (len(config['users'])))
+    return True
+
+def check_login(user=None, password=None):
+    if getUsers() == False:
+        return HTTPResponse(status=500)
+    if len(config['users']) < 1:
+        return True
+    resp = apiCall('/auth', data=josn.dumps( [ user, password ] ) )
+    if resp.status_code != 200:
+        return False
     return True
 
 def firstRun(update=None):
@@ -96,6 +110,7 @@ def setup(data):
 
 ## Routes
 @route('/')
+@auth_basic(check_login)
 def root():
     if len(config['users']) == 0 or config['installstep'] != -1:
         config['install'] = False

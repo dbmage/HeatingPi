@@ -74,6 +74,9 @@ def retError(data=None):
 def retInvalid(data=None):
     return retHTTP(400, data=data)
 
+def retUnAuth(data=None):
+    return retHTTP(401, data=data)
+
 def retDisabled(data=None):
     return retHTTP(503, data=data)
 
@@ -103,6 +106,19 @@ def pinOff(pin):
 @route('/resetpins')
 def resetPins():
     hpfuncs.resetPins()
+    return retOK()
+
+@post('/auth')
+def authenticateUser():
+    try:
+        user,password = json.loads(request.json)
+    except:
+        return retInvalid()
+    usercheck = db.selectData('users', datafilter="UNAME == %s" % (user))
+    if len(usercheck) != 1:
+        return retUnAuth()
+    if password != b64decode(usercheck[0][2]).decode('utf-8'):
+        return retUnAuth()
     return retOK()
 
 @route('/getUsers')
