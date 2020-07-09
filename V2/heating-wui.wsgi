@@ -57,19 +57,21 @@ def init():
     log.warning("User count: %s" % (len(config['users'])))
     return True
 
-def checkLogin(user=None, password=None):
-    if getUsers() == False:
-        log.error(1)
-        return HTTPResponse(status=500)
-    if len(config['users']) < 1:
-        log.error(2)
-        return True
-    resp = apiCall('/auth', data=json.dumps( [ user, password ] ) )
-    log.error(3)
-    if resp.status_code != 200:
-        log.error(4)
-        return False
-    log.error(5)
+def checkLogin(user, password):
+    log.error(user)
+    log.error(password)
+    # if getUsers() == False:
+    #     log.error(1)
+    #     return HTTPResponse(status=500)
+    # if len(config['users']) < 1:
+    #     log.error(2)
+    #     return True
+    # resp = apiCall('/auth', data=json.dumps( [ user, password ] ) )
+    # log.error(3)
+    # if resp.status_code != 200:
+    #     log.error(4)
+    #     return False
+    # log.error(5)
     return True
 
 def firstRun(update=None):
@@ -115,7 +117,7 @@ def setup(data):
 
 ## Routes
 @route('/')
-@auth_basic(checkLogin)
+@auth_basic(checkLogin
 def root():
     if len(config['users']) == 0 or config['installstep'] != -1:
         config['install'] = False
