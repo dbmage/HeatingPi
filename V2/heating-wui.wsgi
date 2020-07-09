@@ -76,7 +76,7 @@ def firstRun(update=''):
     if config['installstep'] == 0:
         return template('firstrun', content='create_account_form')
     if config['installstep'] == 1:
-        return template('firstrun', content='setup', pins=config['pins']['freepins'], error=update)
+        return template('firstrun', content='setup', pins=config['pins']['freepins'], error=json.dumps(update))
 
 def register_user(userdata):
     for thing in ['names', 'username', 'password', 'type' ]:
