@@ -43,7 +43,7 @@
     </fieldset>
     <div class='row pb-3'>
         <div class='col-sm-5'>
-            <input style='display:none' id='pindata'>
+            <input style='display:none' id='pindata' name='pindata'>
         </div>
         <button type='submit' class='btn btn-primary' id='subbtn' disabled>Submit</button>
     </div>
