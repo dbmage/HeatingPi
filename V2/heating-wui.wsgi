@@ -53,11 +53,11 @@ def init():
     log.warning("User count: %s" % (len(config['users'])))
     return True
 
-def firstRun():
+def firstRun(update=None):
     if config['installstep'] == 0:
         return template('firstrun', content='create_account_form')
     if config['installstep'] == 1:
-        return template('firstrun', content='setup', pins=config['pins']['freepins'])
+        return template('firstrun', content='setup', pins=config['pins']['freepins'], error=update)
 
 def register_user(userdata):
     for thing in ['names', 'username', 'password', 'type' ]:
@@ -65,12 +65,34 @@ def register_user(userdata):
             log.error("Missing %s" % (thing))
             log.error(userdata)
             return False
-    config['install'] = True
     general.configSave(my_cwd, config)
     return apiCall('/createuser', data=userdata)
 
-def setup(data):
+def addPins(pins):
+    for pin in pins:
+        pinno, pinuse = row
+        if pinno not in config['pins']['freepins']:
+            continue
+        config['pins']['mapping'][pinuse] = pinno
+        if 'heating' in pinuse or 'water' in pinuse:
+            config['pins']['mode'][pinuse] = 'OUT'
+            config['pins']['type'][pinuse] = 'binary'
+        else:
+            config['pins']['mode'][pinuse = 'NONE'
+            config['pins']['type'][pinuse] = 'NONE'
+        config['pins']['defaultsetting'][pinuse] = 'off'
+        config['pins']['freepins'].remove(pinno)
+        config['pins']['active'].push(pinuse)
+    return True
 
+def setup(data):
+    req = apiCall('/setup', data=data)
+    if req.status_code != 200:
+        return firstRun('Error saving settings, please check the log for details')
+    addPins(data['pins'])
+    config['install'] = True
+    config['installstep'] = -1
+    redirect('/')
 
 ## Routes
 @route('/')
@@ -110,7 +132,8 @@ def setup():
         'setting' : 'off',
         'pins' : json.loads(request.forms.pindata)
     }
-    log.info(data)
+    return setup(data)
+
 
 ## Run WSGI
 start = False
