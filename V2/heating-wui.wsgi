@@ -117,7 +117,7 @@ def setup(data):
 
 ## Routes
 @route('/')
-@auth_basic(checkLogin
+@auth_basic(checkLogin)
 def root():
     if len(config['users']) == 0 or config['installstep'] != -1:
         config['install'] = False
