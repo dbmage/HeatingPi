@@ -72,7 +72,7 @@ def checkLogin(user, pw):
     # log.error(5)
     return True
 
-def firstRun(update=None):
+def firstRun(update='none'):
     if config['installstep'] == 0:
         return template('firstrun', content='create_account_form')
     if config['installstep'] == 1:
