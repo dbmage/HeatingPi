@@ -113,11 +113,14 @@ def authenticateUser():
     try:
         user,password = json.loads(request.json)
     except:
+        log.error("Unabled to get username and password from auth req: %s" % (request.json))
         return retInvalid()
     usercheck = db.selectData('users', datafilter="UNAME == %s" % (user))
     if len(usercheck) != 1:
+        log.error("User %s is invalid" % (user))
         return retUnAuth()
     if password != b64decode(usercheck[0][2]).decode('utf-8'):
+        log.error("Incorrect password for %s" % (user))
         return retUnAuth()
     return retOK()
 
