@@ -57,7 +57,7 @@ def init():
     log.warning("User count: %s" % (len(config['users'])))
     return True
 
-def checkLogin(*args):
+def checkLogin(user, pw):
     # if getUsers() == False:
     #     log.error(1)
     #     return HTTPResponse(status=500)
