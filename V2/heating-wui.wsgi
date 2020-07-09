@@ -57,7 +57,7 @@ def init():
     log.warning("User count: %s" % (len(config['users'])))
     return True
 
-def check_login(user=None, password=None):
+def checkLogin(user=None, password=None):
     if getUsers() == False:
         log.error(1)
         return HTTPResponse(status=500)
@@ -115,7 +115,7 @@ def setup(data):
 
 ## Routes
 @route('/')
-@auth_basic(check_login)
+@auth_basic(checkLogin)
 def root():
     if len(config['users']) == 0 or config['installstep'] != -1:
         config['install'] = False
