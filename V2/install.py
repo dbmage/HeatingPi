@@ -62,9 +62,9 @@ def setPasswd():
 
     print_progress("Password", type='start')
     try:
-        config = config.replace('CHANGEME', passwd.decode('utf-8'))
+        config_str = config.replace('CHANGEME', passwd.decode('utf-8'))
         myfh = open("%s" % (configfile), 'w')
-        myfh.write(config)
+        myfh.write(config_str)
         myfh.close()
     except Exception as e:
         print_progress("Failed", type='end')
