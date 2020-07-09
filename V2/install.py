@@ -62,9 +62,9 @@ def setPasswd():
 
     print_progress("Password", type='start')
     try:
-        config_str = config.replace('CHANGEME', passwd.decode('utf-8'))
+        config = config.replace('CHANGEME', passwd.decode('utf-8'))
         myfh = open("%s" % (configfile), 'w')
-        myfh.write(config_str)
+        myfh.write(config)
         myfh.close()
     except Exception as e:
         print_progress("Failed", type='end')
@@ -75,10 +75,11 @@ def setPasswd():
 
 def createLogFiles():
     global config
+    cfg = json.loads(config)
     print_progress("Logfiles", type='start')
-    for thing in config['logspecs']:
+    for thing in cfg['logspecs']:
         try:
-            lfile = "%s%s" % (config['logdir'], config['logspecs'][thing]['filename'])
+            lfile = "%s%s" % (cfg['logdir'], cfg['logspecs'][thing]['filename'])
             lfh = open(lfile, 'w')
             lfh.write('')
             lfh.close()
@@ -86,7 +87,7 @@ def createLogFiles():
             os.chmod(lfile, 0o750)
         except:
             print_progress("Failed", type='end')
-            print("Error creating %s%s", (config['logdir'], config['logspecs'][thing]['filename']))
+            print("Error creating %s%s", (cfg['logdir'], cfg['logspecs'][thing]['filename']))
             exit(1)
     print_progress("OK", type='end')
 
