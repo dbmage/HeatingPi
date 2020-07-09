@@ -96,7 +96,7 @@ def verifyPinUse():
     global configfile
     config_orig = dict(json.loads(config))
     cfg = json.loads(config)
-    print_progress("Pins", type="Start")
+    print_progress("Pins", type="start")
     cmd = 'ls /sys/class/gpio/ | egrep "gpio[0-9]{1,2}"'
     output,error = Popen([cmd], shell=True, stdout=PIPE, stderr=PIPE).communicate()
     pins = output.decode('utf-8').splitlines()
