@@ -100,6 +100,14 @@ def createUser():
     general.configSave(my_cwd, config)
     redirect('/')
 
+@post('/setup')
+def setup():
+    data = {
+        'use' : request.forms.use,
+        'pins' : json.loads(request.forms.pindata)
+    }
+    log.info(data)
+
 ## Run WSGI
 start = False
 while not start:
