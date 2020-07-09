@@ -58,8 +58,6 @@ def init():
     return True
 
 def checkLogin(user, password):
-    log.error(user)
-    log.error(password)
     # if getUsers() == False:
     #     log.error(1)
     #     return HTTPResponse(status=500)
