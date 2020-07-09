@@ -104,7 +104,7 @@ def createUser():
 def setup():
     data = {
         'use' : request.forms.use,
-        'pins' : request.forms.pindata
+        'pins' : json.loads(request.forms.pindata)
     }
     log.info(data)
 
