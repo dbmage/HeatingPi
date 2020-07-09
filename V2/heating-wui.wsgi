@@ -59,12 +59,17 @@ def init():
 
 def check_login(user=None, password=None):
     if getUsers() == False:
+        log.error(1)
         return HTTPResponse(status=500)
     if len(config['users']) < 1:
+        log.error(2)
         return True
     resp = apiCall('/auth', data=json.dumps( [ user, password ] ) )
+    log.error(3)
     if resp.status_code != 200:
+        log.error(4)
         return False
+    log.error(5)
     return True
 
 def firstRun(update=None):
