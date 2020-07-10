@@ -88,7 +88,7 @@
     function formValidation() {
         useval = $('input[name=use]:checked').val() || '';
         pinval = $('#pindata').val() || '';
-        if ( useval == '' || pinval == ''  || pindata == []) {
+        if ( useval == '' || pinval == ''  || pinval == []) {
             $('#subbtn').prop('disabled', true);
             return;
         };
