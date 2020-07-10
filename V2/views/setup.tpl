@@ -122,6 +122,7 @@
             'destroy' : true
         } );
         $('#pindata').val(JSON.stringify(pinset));
+        formValidation();
     };
 
     function addPinModal(){
