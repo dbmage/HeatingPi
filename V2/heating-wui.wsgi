@@ -73,10 +73,12 @@ def checkLogin(user, pw):
     return True
 
 def firstRun(update=None):
+    if not isinstance(update, str):
+        update = json.dumps(update)
     if config['installstep'] == 0:
         return template('firstrun', content='create_account_form')
     if config['installstep'] == 1:
-        return template('firstrun', content='setup', pins=config['pins']['freepins'], error=json.dumps(update))
+        return template('firstrun', content='setup', pins=config['pins']['freepins'], error=update)
 
 def register_user(userdata):
     for thing in ['names', 'username', 'password', 'type' ]:
