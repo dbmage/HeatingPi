@@ -84,10 +84,11 @@
     pins = {{pins}};
     pinset = [];
     seterror = {{error}};
+
     function formValidation() {
         useval = $('input[name=use]:checked').val() || '';
         pinval = $('#pindata').val() || '';
-        if ( useval == '' && pinval == '' ) {
+        if ( useval == '' || pinval == '' ) {
             $('#subbtn').prop('disabled', true);
         };
         $('#subbtn').prop('disabled', false);
