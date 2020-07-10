@@ -90,6 +90,7 @@
         pinval = $('#pindata').val() || '';
         if ( useval == '' || pinval == '' ) {
             $('#subbtn').prop('disabled', true);
+            return;
         };
         $('#subbtn').prop('disabled', false);
     };
