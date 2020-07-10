@@ -151,6 +151,7 @@ def createUser():
 
 @post('/setup')
 def setup():
+    log.warning(request.forms.data)
     data = json.loads(request.forms.data)
     if hpfuncs.setUse(data['use'], data['setting']):
         return retOK()
