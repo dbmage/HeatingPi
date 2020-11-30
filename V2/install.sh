@@ -86,7 +86,7 @@ if [[ ! -d '/usr/lib/python3/at/' || ! `diff -q ./bin/at/ /usr/lib/python3/at/` 
 then
 cp -r ./bin/at/ /usr/lib/python3/at/
 fi
-reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
+reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq | grep -v '\.'`
 notinstalled=''
 for module in $reqmods;
 do
