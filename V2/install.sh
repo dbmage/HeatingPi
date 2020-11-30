@@ -82,6 +82,10 @@ else
 fi
 ## Same again for python modules...
 echo -en "${MAGENTA}Python modules$RESET"
+if [[ ! -d '/usr/lib/python3/at/' || ! `diff -q ./bin/at/ /usr/lib/python3/at/` ]];
+then
+cp -r ./bin/at/ /usr/lib/python3/at/
+fi
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq`
 notinstalled=''
 for module in $reqmods;
@@ -97,11 +101,6 @@ do
     fi
     notinstalled="$notinstalled $module"
 done
-if [[ ! -d '/usr/lib/python3/at/' || ! `diff -q ./bin/at/ /usr/lib/python3/at/` ]];
-then
-cp -r ./bin/at/ /usr/lib/python3/at/
-fi
-
 if [ `echo -n $notinstalled | wc -c` -gt 0 ];
 then
     echo -e "\t\t\t$WARN"
