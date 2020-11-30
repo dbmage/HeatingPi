@@ -1,6 +1,7 @@
 ## Author: Joe Ash - DBMage - https://github.com/dbmage
 ## LazyLogger credit: Andreas Bontozoglou - urban-1 - https://github.com/urban-1
 ## Ideas and testing: Dave Ash - daveash  - https://github.com/daveash
+import at
 import os
 import sys
 import json
@@ -18,7 +19,6 @@ my_cwd = os.path.dirname(os.path.realpath(__file__))
 ## custom imports
 sys.path.append("%s" % (my_cwd))
 from bin import db
-from bin import at as atq
 ## Was unaware of python dist functions module. Renamed to avoid clash
 from bin import functions as hpfuncs
 
