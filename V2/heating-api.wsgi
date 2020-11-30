@@ -35,7 +35,8 @@ Logger.init(config['logdir'], termSpecs={"level" : 60}, fileSpecs=[config['logsp
 ## Pass logger to other modules instead ofsetting up in each one
 db.log = log
 hpfuncs.log = log
-atq.log = log
+atq = at.at()
+atq.sudo = True
 
 ## Initialise necessary things
 hpfuncs.pinSetup()
@@ -151,7 +152,8 @@ def createUser():
 
 @post('/setup')
 def setup():
-    data = json.loads(request.forms.json)
+    data = json.loads(request.forms.json) # this doesn't work
+    print(data)
     if hpfuncs.setUse(data['use'], data['setting']):
         return retOK()
     return retError(data='Setting use failed')
