@@ -82,10 +82,11 @@ else
 fi
 ## Same again for python modules...
 echo -en "${MAGENTA}Python modules$RESET"
-pythonlibdir=$(python3 -c "import sys;print('\n'.join(sys.path))" | grep '$pythonexe') # Need to find approrpiate lib folder for at
-if [[ ! -d '/usr/lib/python3/dist-packages/at/' || ! `diff -q ./bin/at/ /usr/lib/python3/dist-packages/at/` ]];
+pythonexe=$(python3 -V | cut -d '.' -f1-2 | tr [:upper:] [:lower:])
+pythondir=$(which ${python3exe//[[:blank:]]/}) # Need to find approrpiate lib folder for at
+if [[ ! -d $pythondir/at/ || ! `diff -q ./bin/at/ $pythondir/at/` ]];
 then
-cp -r ./bin/at/ /usr/lib/python3/dist-packages
+cp -r ./bin/at/ $pythondir/
 fi
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq | grep -v '\.'`
 notinstalled=''
