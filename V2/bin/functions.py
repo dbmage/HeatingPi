@@ -10,7 +10,7 @@ from workalendar import europe
 UnitedKingdom = europe.UnitedKingdom
 #sys.path.append(my_cwd)
 from bin import db
-from bin import at as atq
+
 
 def getPassword(password):
     return b64decode(password).decode('utf-8')
