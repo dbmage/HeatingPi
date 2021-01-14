@@ -37,6 +37,7 @@ db.log = log
 hpfuncs.log = log
 atq = at.at()
 atq.sudo = True
+hpfunc.atq = atq
 
 ## Initialise necessary things
 hpfuncs.pinSetup()
