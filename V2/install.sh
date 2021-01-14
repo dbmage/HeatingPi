@@ -83,7 +83,7 @@ fi
 ## Same again for python modules...
 echo -en "${MAGENTA}Python modules$RESET"
 pythonlibdir=$(python3 -c "import sys;print('\n'.join(sys.path))" | grep '$pythonexe') # Need to find approrpiate lib folder for at
-if [[ ! -d '/usr/lib/python3/dist-packages/at/' || ! `diff -q ./bin/at/ /usr/lib/python3/at/` ]];
+if [[ ! -d '/usr/lib/python3/dist-packages/at/' || ! `diff -q ./bin/at/ /usr/lib/python3/dist-packages/at/` ]];
 then
 cp -r ./bin/at/ /usr/lib/python3/dist-packages
 fi
