@@ -57,7 +57,14 @@ def init():
     log.warning("User count: %s" % (len(config['users'])))
     return True
 
-def checkLogin(user, pw):
+def checkUsers(fn):
+    def dummy_func(**kwargs):
+        if config['users'] > 1:
+            return auth_basic(checkLogin)
+        return fn(**kwargs)
+    return dummy_func
+
+def checkLogin(user, passwd):
     # if getUsers() == False:
     #     log.error(1)
     #     return HTTPResponse(status=500)
@@ -117,7 +124,7 @@ def setup(data):
 
 ## Routes
 @route('/')
-@auth_basic(checkLogin)
+@checkUsers
 def root():
     if len(config['users']) == 0 or config['installstep'] != -1:
         config['install'] = False
