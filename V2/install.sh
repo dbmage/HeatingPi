@@ -121,12 +121,14 @@ then
             continue
         fi
         echo -e "\tInstalling $module"
-        pip3 install $module &>> install.log && echo -e "\t\t${MAGENTA}pip$RESET\t$OK" || echo -e "\t\t${MAGENTA}pip$RESET\t$FAILED"
+        echo -e "\t\t${MAGENTA}pip$RESET"
+        pip3 install $module &>> install.log && echo -e "\t$OK" || echo -e "\t$FAILED"
         if [ $? == 0 ];
         then
             continue
         fi
-        apt-get install python3-$module &>> install.log && echo -e "\t\t${MAGENTA}apt$RESET\t$OK" || echo -e "\t\t${MAGENTA}apt$RESET\t$FAILED"
+        echo -e "\t\t${MAGENTA}apt$RESET"
+        apt-get install python3-$module &>> install.log && echo -e "\t$OK" || echo -e "\t$FAILED"
         if [ $? == 0 ];
         then
             continue
