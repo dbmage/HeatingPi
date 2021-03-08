@@ -41,7 +41,7 @@ do
     fi
     apt install -y $package &> install.log && continue || failedpackage="$failedpackage $package"
 done
-if [ $failedpackage -ne 0 ];
+if [ "$failedpackage" -ne "$failedpackage" ];
 then
     echo -e "\t\t\t$FAIL"
     echo -e "Package install $FAILED to install $failedpackage"
