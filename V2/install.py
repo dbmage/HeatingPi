@@ -137,6 +137,7 @@ def doInstall():
         copy_tree("%s" % (my_cwd), newlocation)
         for file in [ 'install.sh', 'install.py', 'install.log', 'update.sh', 'Package.list', 'config/heating.conf']:
             os.remove("%s%s" % (newlocation, file))
+            os.rmdir("%sbin/at" % (newlocation))
         shutil.rmtree("%sservice" % (newlocation))
         for root, dirs, files in os.walk(newlocation):
             for thing in dirs:
