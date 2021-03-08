@@ -32,7 +32,7 @@ else
 fi
 ## check for and install missing packages
 echo -en "${MAGENTA}Packages$RESET"
-failedpackage=0
+failedpackage=""
 for package in $(cat Package.list);
 do
     if dpkg --get-selections | grep -q "^$package[[:space:]]*install$" &> /dev/null;
@@ -41,7 +41,7 @@ do
     fi
     apt install -y $package &> install.log && continue || failedpackage="$failedpackage $package"
 done
-if [ "$failedpackage" -ne "$failedpackage" ];
+if [[ $( echo -n $failedpackage | wc -c) -gt 1 ]];
 then
     echo -e "\t\t\t$FAIL"
     echo -e "Package install $FAILED to install $failedpackage"
