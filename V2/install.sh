@@ -44,7 +44,7 @@ done
 if [[ $( echo -n $failedpackage | wc -c) -gt 1 ]];
 then
     echo -e "\t\t\t$FAIL"
-    echo -e "Package install $FAILED to install $failedpackage"
+    echo -e "Package install ${RED}failed$RESET to install ${YELLOW} $failedpackage$RESET"
     exit 1
 fi
 echo -e "\t\t\t$OK"
