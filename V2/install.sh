@@ -87,7 +87,7 @@ pythonexe=$(python3 -V | cut -d '.' -f1-2 | tr [:upper:] [:lower:])
 pythondir=$(which ${pythonexe//[[:blank:]]/} | sed 's/bin/lib/') # Need to find appropriate lib folder for at
 if [[ ! -d $pythondir/at/ || ! `diff -q ./bin/at/ $pythondir/at/` ]];
 then
-    git clone https://github.com/dbmage/at.git ./bin/at/. || git pull -C ./bin/at
+    git clone https://github.com/dbmage/at.git ./bin/at/. &>/dev/null || git pull -C ./bin/at &>/dev/null 
     cp -r ./bin/at $pythondir/
 fi
 reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq | grep -v '^\.'`
