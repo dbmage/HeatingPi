@@ -89,7 +89,7 @@ if [[ ! -d $pythondir/at/ || ! `diff -q ./bin/at/ $pythondir/at/` ]];
 then
     cp -r ./bin/at/ $pythondir/
 fi
-reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq | grep -v '\.'`
+reqmods=`egrep -rw '^(import|from)' | cut -d ' ' -f2 | sort | uniq | grep -v '^\.'`
 notinstalled=''
 for module in $reqmods;
 do
