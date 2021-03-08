@@ -32,6 +32,7 @@ else
 fi
 ## check for and install missing packages
 echo -en "${MAGENTA}Packages$RESET"
+apt update &> /dev/null || echo echo -e "\t\t\t$FAIL\nFailed to update apt"; exit 1
 failedpackage=""
 for package in $(cat Package.list);
 do
